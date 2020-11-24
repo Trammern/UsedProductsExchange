@@ -18,7 +18,7 @@ namespace UsedProductExchange.Core.Application
 
 
         // UPDATE
-        public Product UpdateUser(Product productToUpdate);
+        public Product UpdateProduct(Product productToUpdate);
 
 
         // DELETE

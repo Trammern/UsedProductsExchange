@@ -31,12 +31,20 @@ namespace UsedProductExchange.Core.Application.Implementation
 
         public Product GetProductById(int id)
         {
-            throw new NotImplementedException();
+            return _iProductRepository.GetProductById(id);
         }
 
-        public Product UpdateUser(Product productToUpdate)
+        public Product UpdateProduct(Product productToUpdate)
         {
-            throw new NotImplementedException();
+            var updatedProduct = _iProductRepository.UpdateProduct(productToUpdate);
+            if (updatedProduct == null)
+            {
+                throw new InvalidOperationException("Product Not Found");
+            }
+            else
+            {
+                return updatedProduct;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Application.Implementation;
 using UsedProductExchange.Core.Domain;
@@ -126,7 +127,7 @@ namespace UsedProductExchange.XUnitTestProject
         [InlineData(1)]
         [InlineData(2)]
 
-        public void TestIdGetAllProductsIsCalled(int productlist)
+        public void TestIdGetAllProductsReturnCorrectProduct(int productlist)
         {
             //ARRANGE
             var products = new List<Product>()
@@ -146,7 +147,71 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Verify(repo => repo.GetAllProducts(), Times.Once);
         }
 
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 2)]
+        [InlineData(77, 77)]
 
+        public void TestIfGetProductByIdReturnCorrectProduct(int searchId, int expected)
+        {
+            //ARRANGE
+            products = new List<Product>()
+            {
+                new Product()
+                {
+                    ProductId = 1
+                },
+                new Product()
+                {
+                    ProductId = 2
+                },
+                new Product()
+                {
+                    ProductId = 77
+                }
+            };
+            repoMock.Setup(repo => repo.GetProductById(searchId)).Returns(products.Where(p => p.ProductId == searchId).FirstOrDefault);
+            ProductService ps = new ProductService(repoMock.Object);
+
+            //ACT
+            var foundProduct = ps.GetProductById(searchId);
+
+            //ASSERT
+            Assert.Equal(searchId, expected);
+            
+        }
+
+        [Fact]
+        public void TestIfUpdateRepositoryMethodIsCalled()
+        {
+
+            // ARRANGE
+            ProductService ps = new ProductService(repoMock.Object);
+            Product product = new Product();
+
+            //ACT
+            var updatedProduct = ps.UpdateProduct(product);
+
+            //ASSERT
+            repoMock.Verify(repo => repo.UpdateProduct(product), Times.Once);
+        }
+        [Fact]
+        public void TestIfProductIsNotInRepositoryThrowsEntityNotFoundException()
+        {
+            //Arrange
+            Product product = new Product()
+            {
+                ProductId = 50
+            };
+            repoMock.Setup(repo => repo.GetProductById(It.Is<int>(z => z == product.ProductId))).Returns(() => null);
+            ProductService ps = new ProductService(repoMock.Object);
+
+            //ACT +ASSERT
+            var ex = Assert.Throws<InvalidOperationException>(()=> ps.UpdateProduct(product));
+
+            Assert.Equal("Product Not Found", ex.Message);
+            repoMock.Verify(repo => repo.UpdateProduct(It.Is<Product>(p => p == product)), Times.Never);
+        }
     }
 }
 
