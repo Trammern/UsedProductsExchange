@@ -1,16 +1,16 @@
 using System;
 using Xunit;
+using Moq;
+using UsedProductExchange.Core.Domain;
+using System.Collections.Generic;
+using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Application.Implementation;
 
 namespace UsedProductExchange.XUnitTestProject
 {
-    public class UnitTest1
+    public class UserServiceTest
     {
-<<<<<<< Updated upstream
-        [Fact]
-        public void Test1()
-        {
-
-=======
+        
         private List<User> users = null;
         private readonly Mock<IUserRepository> repoMock;
 
@@ -59,9 +59,7 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             repoMock.Setup(u => u.CreateUser(user)).Returns(user);
             repoMock.Verify(repo => repo.CreateUser(user), Times.Once);
->>>>>>> Stashed changes
         }
-
 
     }
 }
