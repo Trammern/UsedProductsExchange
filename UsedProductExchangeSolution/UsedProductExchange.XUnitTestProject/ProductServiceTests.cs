@@ -120,6 +120,33 @@ namespace UsedProductExchange.XUnitTestProject
             Assert.Equal(insertedProduct, deletedProduct);
             Assert.Empty(products);
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+
+        public void TestIdGetAllProductsIsCalled(int productlist)
+        {
+            //ARRANGE
+            var products = new List<Product>()
+            {
+                new Product() {ProductId = 1},
+                new Product() {ProductId = 2}
+            };
+
+            repoMock.Setup(x => x.GetAllProducts()).Returns(() => products.GetRange(0, productlist));
+            ProductService ps = new ProductService(repoMock.Object);
+
+            //ACT
+            var result = ps.GetAllProduct();
+
+            //ASSERT
+            Assert.Equal(products.GetRange(0, productlist), result);
+            repoMock.Verify(repo => repo.GetAllProducts(), Times.Once);
+        }
+
+
     }
 }
 

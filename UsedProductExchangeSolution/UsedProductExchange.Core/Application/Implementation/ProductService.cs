@@ -26,7 +26,7 @@ namespace UsedProductExchange.Core.Application.Implementation
 
         public IEnumerable<Product> GetAllProduct()
         {
-            throw new NotImplementedException();
+            return _iProductRepository.GetAllProducts();
         }
 
         public Product GetProductById(int id)
