@@ -9,7 +9,7 @@ using Xunit;
 
 namespace UsedProductExchange.XUnitTestProject
 {
-  public class ProductServiceTest
+    public class ProductServiceTest
     {
         private List<Product> products = null;
         private readonly Mock<IProductRepository> repoMock;
@@ -74,7 +74,6 @@ namespace UsedProductExchange.XUnitTestProject
         }
 
         [Fact]
-        
         public void TestIfDeleteProductIsCalled()
         {
             ProductService ps = new ProductService(repoMock.Object);
@@ -89,6 +88,37 @@ namespace UsedProductExchange.XUnitTestProject
 
             //ASSERT
             repoMock.Verify(repo => repo.DeleteProduct(product), Times.Once);
+        }
+
+
+        [Theory]
+        [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
+        public void TestIfDeletedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
+        {
+            //ARRANGE
+            var insertedProduct = new Product()
+            {
+                CategoryId = category,
+                ProductId = id,
+                Name = name,
+                Description = desc,
+                PictureURL = pic,
+                CurrentPrice = price,
+                Expiration = experation,
+                UserId = uid
+            };
+            ProductService ps = new ProductService(repoMock.Object);
+            products = new List<Product>();
+
+            ps.CreateProduct(insertedProduct);
+            repoMock.Setup(repo => repo.CreateProduct(insertedProduct)).Callback(() => products.Add(insertedProduct));
+            repoMock.Setup(repo => repo.DeleteProduct(insertedProduct)).Returns(() => insertedProduct);
+            //ACT
+            var deletedProduct = ps.DeleteProduct(insertedProduct);
+
+            //ASSERT
+            Assert.Equal(insertedProduct, deletedProduct);
+            Assert.Empty(products);
         }
     }
 }
