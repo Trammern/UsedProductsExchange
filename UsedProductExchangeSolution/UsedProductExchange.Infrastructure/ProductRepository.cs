@@ -13,7 +13,7 @@ namespace UsedProductExchange.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Product DeleteProduct(int id)
+        public Product DeleteProduct(Product product)
         {
             throw new NotImplementedException();
         }

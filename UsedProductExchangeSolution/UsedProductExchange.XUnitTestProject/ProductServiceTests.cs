@@ -23,7 +23,7 @@ namespace UsedProductExchange.XUnitTestProject
         [Theory]
         [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
 
-        public void TestIfNewProductIsCreated(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
+        public void TestIfNewProductCreatedIsCalled(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
         {
             // ARRANGE
             Product product = new Product()
@@ -73,6 +73,23 @@ namespace UsedProductExchange.XUnitTestProject
 
         }
 
+        [Fact]
+        
+        public void TestIfDeleteProductIsCalled()
+        {
+            ProductService ps = new ProductService(repoMock.Object);
+
+            // ARRANGE
+            Product product = new Product();
+
+            var newProduct = ps.CreateProduct(product);
+
+            //ACT
+            var deletedProduct = ps.DeleteProduct(product);
+
+            //ASSERT
+            repoMock.Verify(repo => repo.DeleteProduct(product), Times.Once);
+        }
     }
 }
 

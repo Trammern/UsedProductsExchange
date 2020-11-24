@@ -20,7 +20,7 @@ namespace UsedProductExchange.Core.Domain
 
 
         // DELETE
-        public Product DeleteProduct(int id);
+        public Product DeleteProduct(Product product);
 
     }
 }

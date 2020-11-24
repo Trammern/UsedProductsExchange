@@ -19,9 +19,9 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _iProductRepository.CreateProduct(product);
         }
 
-        public Product DeleteProduct(int id)
+        public Product DeleteProduct(Product product)
         {
-            throw new NotImplementedException();
+            return _iProductRepository.DeleteProduct(product);
         }
 
         public IEnumerable<Product> GetAllProduct()

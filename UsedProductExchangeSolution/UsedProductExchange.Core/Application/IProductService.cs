@@ -22,7 +22,7 @@ namespace UsedProductExchange.Core.Application
 
 
         // DELETE
-        public Product DeleteProduct(int id);
+        public Product DeleteProduct(Product product);
 
     }
 }
