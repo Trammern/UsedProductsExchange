@@ -10,6 +10,7 @@ namespace UsedProductExchange.XUnitTestProject
 {
     public class UserServiceTest
     {
+        
         private List<User> users = null;
         private readonly Mock<IUserRepository> repoMock;
 
@@ -18,6 +19,22 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock = new Mock<IUserRepository>();
             repoMock.Setup(repo => repo.GetAllUsers()).Returns(() => users);
         }
+
+
+        [Fact]
+        public void CreateUserServiceWithRepository()
+        {
+            // ARRANGE
+            var repo = repoMock.Object;
+
+            // ACT
+            var service = new UserService(repo);
+
+            // ASSERT
+            Assert.NotNull(service);
+        }
+
+
 
         [Theory]
         [InlineData(1, "Jimmy", "jimster", "qaz123", "Storegade 1", "jimster@hotmail.com", true)]
@@ -40,8 +57,9 @@ namespace UsedProductExchange.XUnitTestProject
             var newUser = us.CreateUser(user);
 
             // ASSERT
+            repoMock.Setup(u => u.CreateUser(user)).Returns(user);
             repoMock.Verify(repo => repo.CreateUser(user), Times.Once);
-
         }
+
     }
 }
