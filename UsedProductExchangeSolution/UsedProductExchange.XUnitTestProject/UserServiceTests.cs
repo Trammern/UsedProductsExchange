@@ -3,7 +3,7 @@ using Xunit;
 
 namespace UsedProductExchange.XUnitTestProject
 {
-    public class UnitTest1
+    public class UserServiceTest
     {
         [Fact]
         public void Test1()

@@ -6,5 +6,6 @@ namespace UsedProductExchange.Core.Domain
 {
     public interface IUserRepository
     {
+        object Users { get; }
     }
 }
