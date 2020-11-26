@@ -136,37 +136,6 @@ namespace UsedProductExchange.XUnitTestProject
             deletedProduct.Should().BeNull();
         }
 
-
-            [Theory]
-        [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
-        public void TestIfDeletedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
-        {
-            //ARRANGE
-            var insertedProduct = new Product()
-            {
-                CategoryId = category,
-                ProductId = id,
-                Name = name,
-                Description = desc,
-                PictureUrl = pic,
-                CurrentPrice = price,
-                Expiration = experation,
-                UserId = uid
-            };
-            ProductService ps = new ProductService(_repoMock.Object);
-            _products = new List<Product>();
-
-            ps.Add(insertedProduct);
-            _repoMock.Setup(repo => repo.Add(insertedProduct)).Callback(() => _products.Add(insertedProduct));
-            _repoMock.Setup(repo => repo.Remove(insertedProduct.ProductId)).Returns(() => insertedProduct);
-            //ACT
-            var deletedProduct = ps.Delete(insertedProduct.ProductId);
-
-            //ASSERT
-            Assert.Equal(insertedProduct, deletedProduct);
-            Assert.Empty(_products);
-        }
-
         [Theory]
         [InlineData(0)]
         [InlineData(1)]
