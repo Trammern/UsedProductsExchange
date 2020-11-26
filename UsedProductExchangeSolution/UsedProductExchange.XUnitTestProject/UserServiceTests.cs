@@ -75,7 +75,7 @@ namespace UsedProductExchange.XUnitTestProject
             var userList = new List<User>();
 
             // ACT
-            var newUser = us.CreateUser(user);
+            var newUser = us.Add(user);
             userList.Add(user);
             
 
@@ -113,7 +113,7 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<ArgumentException>(() => us.CreateUser(user));
+            var ex = Assert.Throws<ArgumentException>(() => us.Add(user));
 
             // ASSERT
             Assert.Equal($"Invalid user property: {errorField}", ex.Message);
@@ -140,7 +140,7 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<InvalidOperationException>(() => us.CreateUser(user));
+            var ex = Assert.Throws<InvalidOperationException>(() => us.Add(user));
 
             // ASSERT
             Assert.Equal("User already exists", ex.Message);
@@ -166,7 +166,7 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<ArgumentException>(() => us.CreateUser(user));
+            var ex = Assert.Throws<ArgumentException>(() => us.Add(user));
 
             // ASSERT
             Assert.Equal("Email is invalid", ex.Message);
@@ -200,7 +200,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(repo => repo.Get(It.Is<int>(u => u == user.UserId))).Returns(() => user);
 
             // ACT
-            var deletedUser = us.DeleteUser(user.UserId);
+            var deletedUser = us.Delete(user.UserId);
 
             // ASSERT
             repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == user.UserId)), Times.Once);
@@ -227,7 +227,7 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<InvalidOperationException>(() => us.DeleteUser(user.UserId));
+            var ex = Assert.Throws<InvalidOperationException>(() => us.Delete(user.UserId));
 
             // ASSERT
             Assert.Equal("User not found", ex.Message);
@@ -262,7 +262,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(repo => repo.Get(It.Is<int>(z => z == user.UserId))).Returns(() => user);
 
             // ACT
-            var updatedUser = us.UpdateUser(user);
+            var updatedUser = us.Update(user);
 
             // ASSERT
             repoMock.Verify(repo => repo.Edit(It.Is<User>(u => u == user)), Times.Once);
@@ -289,7 +289,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => null);
 
             // ACT
-            var ex = Assert.Throws<InvalidOperationException>(() => us.UpdateUser(user));
+            var ex = Assert.Throws<InvalidOperationException>(() => us.Update(user));
 
             // ASSERT
             Assert.Equal("User to update not found", ex.Message);
@@ -318,7 +318,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(u => u.Edit(user)).Returns(user);
 
             // ACT
-            var updatedAddress = us.UpdateUser(user);
+            var updatedAddress = us.Update(user);
 
             // ASSERT (Fluent)
             updatedAddress.Should().Be(user);
@@ -351,7 +351,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => user);
 
             // ACT
-            var userFound = us.GetUserById(1);
+            var userFound = us.Get(1);
 
             // ASSERT
             Assert.Equal(user, userFound);
@@ -365,7 +365,7 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // ACT
-            var result = us.GetUserById(1);
+            var result = us.Get(1);
 
             // ASSERT
             Assert.Null(result);
@@ -391,7 +391,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(x => x.GetAll()).Returns(() => listOfUsers.GetRange(0, listCount));
 
             // ACT
-            var usersFound = us.GetAllUsers();
+            var usersFound = us.GetAll();
 
             // ASSERT
             Assert.Equal(listOfUsers.GetRange(0, listCount), usersFound);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UsedProductExchange.Core.Domain;
@@ -7,7 +8,7 @@ using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class UserService : IUserService
+    public class UserService : IService<User>
     {
         private readonly IRepository<User> _iUserRepository;
         
@@ -45,7 +46,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             }
         }
 
-        public User CreateUser(User user)
+        public User Add(User user)
         {
             UserValidationCheck(user);
             
@@ -67,7 +68,7 @@ namespace UsedProductExchange.Core.Application.Implementation
 
 
 
-        public User DeleteUser(int id)
+        public User Delete(int id)
         {
             if (_iUserRepository.Get(id) == null)
             {
@@ -77,17 +78,17 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _iUserRepository.Remove(id);
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public List<User> GetAll()
         {
-            return _iUserRepository.GetAll();
+            return _iUserRepository.GetAll().ToList();
         }
 
-        public User GetUserById(int id)
+        public User Get(int id)
         {
             return _iUserRepository.Get(id);
         }
 
-        public User UpdateUser(User userToUpdate)
+        public User Update(User userToUpdate)
         {
             UserValidationCheck(userToUpdate);
 

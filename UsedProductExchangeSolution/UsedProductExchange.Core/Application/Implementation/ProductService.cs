@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class ProductService : IProductService
+    public class ProductService : IService<Product>
     {
         private readonly IRepository<Product> _iProductRepository;
 
@@ -40,7 +41,7 @@ namespace UsedProductExchange.Core.Application.Implementation
         }
 
 
-        public Product CreateProduct(Product product)
+        public Product Add(Product product)
         {
             ProductValidationCheck(product);
 
@@ -52,22 +53,22 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _iProductRepository.Add(product);
         }
 
-        public Product DeleteProduct(Product product)
+        public Product Delete(int i)
         {
-            return _iProductRepository.Remove(product.ProductId);
+            return _iProductRepository.Remove(i);
         }
 
-        public IEnumerable<Product> GetAllProduct()
+        public List<Product> GetAll()
         {
-            return _iProductRepository.GetAll();
+            return _iProductRepository.GetAll().ToList();
         }
 
-        public Product GetProductById(int id)
+        public Product Get(int id)
         {
             return _iProductRepository.Get(id);
         }
 
-        public Product UpdateProduct(Product productToUpdate)
+        public Product Update(Product productToUpdate)
         {
             
             if (productToUpdate.Name == null)
