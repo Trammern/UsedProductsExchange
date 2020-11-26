@@ -10,11 +10,7 @@ namespace UsedProductExchange.Infrastructure.Context
     {
 
         // Calling super class constructor
-        public UsedProductExchangeContext(DbContextOptions<UsedProductExchangeContext> opt) : base(opt)
-        {
-
-        }
-
+        public UsedProductExchangeContext(DbContextOptions<UsedProductExchangeContext> opt) : base(opt) { }
 
         public DbSet<User> Users { get; set; }
 
