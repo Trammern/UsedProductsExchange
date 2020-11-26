@@ -14,12 +14,12 @@ namespace UsedProductExchange.XUnitTestProject
     public class ProductServiceTest
     {
         private List<Product> products = null;
-        private readonly Mock<IProductRepository> repoMock;
+        private readonly Mock<IRepository<Product>> repoMock;
 
         public ProductServiceTest()
         {
-            repoMock = new Mock<IProductRepository>();
-            repoMock.Setup(repo => repo.GetAllProducts()).Returns(() => products);
+            repoMock = new Mock<IRepository<Product>>();
+            repoMock.Setup(repo => repo.GetAll()).Returns(() => products);
         }
 
         [Fact]
@@ -59,6 +59,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfNewProductCreatedIsCalled(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
         {
             // ARRANGE
+            products = new List<Product>();
             Product product = new Product()
             {
                 CategoryId = category,
@@ -77,7 +78,7 @@ namespace UsedProductExchange.XUnitTestProject
             var newProduct = ps.CreateProduct(product);
 
             //ASSERT
-            repoMock.Verify(repo => repo.CreateProduct(product), Times.Once);
+            repoMock.Verify(repo => repo.Add(product), Times.Once);
 
         }
         [Theory]
@@ -97,7 +98,7 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = uid
             };
             ProductService ps = new ProductService(repoMock.Object);
-            repoMock.Setup(repo => repo.CreateProduct(insertedProduct)).Returns(() => insertedProduct);
+            repoMock.Setup(repo => repo.Add(insertedProduct)).Returns(() => insertedProduct);
             //ACT
             var createdProduct = ps.CreateProduct(insertedProduct);
 
@@ -128,7 +129,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Setup(repo => repo.Get(It.Is<int>(p => p == product.ProductId))).Returns(() => product);
 
             // ACT
-            var deletedProduct = ps.DeleteProduct(product.ProductId);
+            var deletedProduct = ps.DeleteProduct(product);
 
             // ASSERT
             repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == product.ProductId)), Times.Once);
@@ -156,8 +157,8 @@ namespace UsedProductExchange.XUnitTestProject
             products = new List<Product>();
 
             ps.CreateProduct(insertedProduct);
-            repoMock.Setup(repo => repo.CreateProduct(insertedProduct)).Callback(() => products.Add(insertedProduct));
-            repoMock.Setup(repo => repo.DeleteProduct(insertedProduct)).Returns(() => insertedProduct);
+            repoMock.Setup(repo => repo.Add(insertedProduct)).Callback(() => products.Add(insertedProduct));
+            repoMock.Setup(repo => repo.Remove(insertedProduct.ProductId)).Returns(() => insertedProduct);
             //ACT
             var deletedProduct = ps.DeleteProduct(insertedProduct);
 
@@ -182,7 +183,7 @@ namespace UsedProductExchange.XUnitTestProject
                     Name = "Hest"}
             };
 
-            repoMock.Setup(x => x.GetAllProducts()).Returns(() => products.GetRange(0, productlist));
+            repoMock.Setup(x => x.GetAll()).Returns(() => products.GetRange(0, productlist));
             ProductService ps = new ProductService(repoMock.Object);
 
             //ACT
@@ -190,7 +191,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             //ASSERT
             Assert.Equal(products.GetRange(0, productlist), result);
-            repoMock.Verify(repo => repo.GetAllProducts(), Times.Once);
+            repoMock.Verify(repo => repo.GetAll(), Times.Once);
         }
 
         [Theory]
@@ -221,7 +222,7 @@ namespace UsedProductExchange.XUnitTestProject
 
                 }
             };
-            repoMock.Setup(repo => repo.GetProductById(searchId)).Returns(products.Where(p => p.ProductId == searchId).FirstOrDefault);
+            repoMock.Setup(repo => repo.Get(searchId)).Returns(products.Where(p => p.ProductId == searchId).FirstOrDefault);
             ProductService ps = new ProductService(repoMock.Object);
 
             //ACT
@@ -245,7 +246,7 @@ namespace UsedProductExchange.XUnitTestProject
             var updatedProduct = ps.UpdateProduct(product);
 
             //ASSERT
-            repoMock.Verify(repo => repo.UpdateProduct(product), Times.Once);
+            repoMock.Verify(repo => repo.Edit(product), Times.Once);
         }
         [Fact]
         public void TestIfProductIsNotValidThrowsInvalidOperationExeption()
@@ -255,14 +256,14 @@ namespace UsedProductExchange.XUnitTestProject
             {
                 ProductId = 50
             };
-            repoMock.Setup(repo => repo.GetProductById(It.Is<int>(z => z == product.ProductId))).Returns(() => null);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(z => z == product.ProductId))).Returns(() => null);
             ProductService ps = new ProductService(repoMock.Object);
 
             //ACT +ASSERT
             var ex = Assert.Throws<InvalidOperationException>(()=> ps.UpdateProduct(product));
 
             Assert.Equal("Product must have a name", ex.Message);
-            repoMock.Verify(repo => repo.UpdateProduct(It.Is<Product>(p => p == product)), Times.Never);
+            repoMock.Verify(repo => repo.Edit(It.Is<Product>(p => p == product)), Times.Never);
         }
 
         [Fact]
@@ -281,7 +282,7 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1
             };
 
-            repoMock.Setup(repo => repo.GetProductById(It.Is<int>(x => x == product.ProductId))).Returns(() => product);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == product.ProductId))).Returns(() => product);
 
             ProductService us = new ProductService(repoMock.Object);
 
@@ -290,7 +291,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal("Product already exists", ex.Message);
-            repoMock.Verify(repo => repo.CreateProduct(It.Is<Product>(p => p == product)), Times.Never);
+            repoMock.Verify(repo => repo.Add(It.Is<Product>(p => p == product)), Times.Never);
         }
 
         [Theory]
@@ -324,7 +325,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal($"Invalid product property: {errorField}", ex.Message);
-            repoMock.Verify(repo => repo.CreateProduct(It.Is<Product>(u => u == product)), Times.Never);
+            repoMock.Verify(repo => repo.Add(It.Is<Product>(u => u == product)), Times.Never);
         }
     }
 }
