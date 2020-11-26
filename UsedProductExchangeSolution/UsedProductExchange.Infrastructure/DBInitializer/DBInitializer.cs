@@ -28,8 +28,8 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
-       
-        public void InitData()
+
+        public void Initialize(UsedProductExchangeContext context)
         {
             var user = new User
             {
@@ -49,7 +49,7 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 ProductId = 1,
                 Name = "Blikspand",
                 Description = "Lavet af ler",
-                PictureURL = "URLISGONE.PNG",
+                PictureUrl = "URLISGONE.PNG",
                 CurrentPrice = 1000.00,
                 Expiration = DateTime.Now,
                 UserId = 1
