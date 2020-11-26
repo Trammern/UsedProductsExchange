@@ -13,7 +13,7 @@ namespace UsedProductExchange.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Category Get(long id)
+        public Category Get(int id)
         {
             throw new NotImplementedException();
         }
@@ -28,7 +28,7 @@ namespace UsedProductExchange.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Category Remove(long id)
+        public Category Remove(int id)
         {
             throw new NotImplementedException();
         }
