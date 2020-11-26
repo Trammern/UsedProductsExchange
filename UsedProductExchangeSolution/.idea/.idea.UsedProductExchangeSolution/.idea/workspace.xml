@@ -23,11 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Context/UsedProductExchangeContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Context/UsedProductExchangeContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/CategoryRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/CategoryRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +100,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606375718216</updated>
-      <workItem from="1606375724923" duration="7325000" />
+      <workItem from="1606375724923" duration="7406000" />
     </task>
     <servers />
   </component>

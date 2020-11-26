@@ -12,9 +12,9 @@ namespace UsedProductExchange.UI.Controllers
     {
         private readonly IService<Category> _service;
 
-        public CategoriesController(IService<Category> categoryService)
+        public CategoriesController(IService<Category> service)
         {
-            _service = categoryService; 
+            _service = service; 
         }
         
         [HttpGet]
