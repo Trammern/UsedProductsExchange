@@ -18,7 +18,7 @@ namespace UsedProductExchange.Infrastructure
             throw new NotImplementedException();
         }
 
-        public User Get(long id)
+        public User Get(int id)
         {
             throw new NotImplementedException();
         }
@@ -28,7 +28,7 @@ namespace UsedProductExchange.Infrastructure
             throw new NotImplementedException();
         }
 
-        public User Remove(long id)
+        public User Remove(int id)
         {
             throw new NotImplementedException();
         }

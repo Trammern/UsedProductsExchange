@@ -60,7 +60,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfNewUserIsCreated_ValidInput(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -99,7 +99,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void CreateNewUserWithInvalidInput_ExpectArgumentException(int id, string name, string username, string password, string address, string email, bool role, string errorField)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -124,7 +124,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void AddUserWhoExists_ExpectInvalidArgumentException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Tommy",
@@ -153,7 +153,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestInvalidEmail(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -183,7 +183,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void RemoveExistingUser()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Jack",
@@ -213,7 +213,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void DeleteUserNotFound_ExpectInvalidOperationException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Jack",
@@ -245,7 +245,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void UpdateValidUser(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -272,7 +272,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void UpdatingUserNotFound_ExpectInvalidOperationException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Tommy",
@@ -335,7 +335,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestGetExistingUserById()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "name",
