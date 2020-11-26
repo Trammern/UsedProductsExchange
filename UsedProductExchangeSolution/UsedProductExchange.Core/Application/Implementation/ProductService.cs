@@ -45,20 +45,11 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _productRepository.GetAll(filter);
         }
 
-        public Product Delete(int i)
-        {
-            return _iProductRepository.Remove(i);
-        }
-
-        public List<Product> GetAll()
-        {
-            return _iProductRepository.GetAll().ToList();
-        }
-
         public List<Product> GetAll()
         {
             return _productRepository.GetAll().ToList();
         }
+
         
         public Product Get(int id)
         {
