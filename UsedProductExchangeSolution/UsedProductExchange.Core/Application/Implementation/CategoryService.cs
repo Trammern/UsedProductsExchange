@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
@@ -27,6 +28,11 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid category property: name");
             }
+        }
+
+        public FilteredList<Category> GetAll(Filter.Filter filter)
+        {
+            return _categoryRepository.GetAll(filter);
         }
 
         public List<Category> GetAll()

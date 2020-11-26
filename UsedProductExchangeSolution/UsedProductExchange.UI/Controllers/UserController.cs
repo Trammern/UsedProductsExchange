@@ -12,6 +12,7 @@ namespace UsedProductExchange.UI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IService<User> _iService;
+
         public UserController(IService<User> userService)
         {
             _iService = userService;
@@ -21,6 +22,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<IEnumerable<User>> Get()
         {
             var userList = _iService.GetAll().ToList();
+
             if (userList.Count == 0)
             {
                 return NoContent();
@@ -32,6 +34,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<User> GetById(int id)
         {
             var result = _iService.Get(id);
+            
             if (result == null)
             {
                 return NotFound();
@@ -43,6 +46,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<User> Delete(int id)
         {
             var result = _iService.Delete(id);
+
             if (result == null)
             {
                 return NotFound();
@@ -55,6 +59,7 @@ namespace UsedProductExchange.UI.Controllers
             try
             {
                 var result = _iService.Add(obj);
+
                 return Ok(result);
             }
             catch (Exception e)

@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 using UsedProductExchange.Infrastructure.Context;
 
-namespace UsedProductExchange.Infrastructure
+namespace UsedProductExchange.Infrastructure.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository: IRepository<User>
     {
 
         private readonly UsedProductExchangeContext _ctx;
@@ -38,16 +38,39 @@ namespace UsedProductExchange.Infrastructure
             return _ctx.Users.FirstOrDefault(u => u.UserId == id);
         }
 
+        public FilteredList<User> GetAll(Filter filter)
+        {
+            var filteredList = new FilteredList<User>
+            {
+                TotalCount = _ctx.Users.Count(),
+                FilterUsed = filter,
+                List = _ctx.Users.Select(u => new User()
+                    {
+                        UserId = u.UserId, 
+                        Name = u.Name,
+                        Username = u.Username,
+                        Password = u.Password,
+                        Address = u.Address,
+                        Email = u.Email,
+                        Role = u.Role
+                    })
+                    .ToList()
+            };
+            return filteredList;
+        }
+        
         public IEnumerable<User> GetAll()
         {
-            return _ctx.Users.ToList();
+            return _ctx.Users;
         }
 
         public User Remove(int id)
         {
-            var deleteUser = _ctx.Users.Remove(Get(id));
+            var user = _ctx.Users.FirstOrDefault(x => x.UserId == id);
+            if(user == null) throw new ArgumentException("User does not exist");
+            var deletedUser = _ctx.Users.Remove(user);
             _ctx.SaveChanges();
-            return deleteUser.Entity;
+            return deletedUser.Entity;
         }
     }
 }

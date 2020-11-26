@@ -1,36 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
+using UsedProductExchange.Infrastructure.Context;
 
-namespace UsedProductExchange.Infrastructure
+namespace UsedProductExchange.Infrastructure.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository: IRepository<Product>
     {
-        public Product CreateProduct(Product product)
+        private readonly UsedProductExchangeContext _ctx;
+
+        public ProductRepository(UsedProductExchangeContext ctx)
         {
-            throw new NotImplementedException();
+            _ctx = ctx;
+        }
+        
+        public FilteredList<Product> GetAll(Filter filter)
+        {
+            var filteredList = new FilteredList<Product>
+            {
+                TotalCount = _ctx.Products.Count(),
+                FilterUsed = filter,
+                List = _ctx.Products.Select(p => new Product()
+                    {
+                        ProductId = p.ProductId, 
+                        UserId = p.UserId,
+                        Name = p.Name,
+                        Description = p.Description,
+                        PictureUrl = p.PictureUrl,
+                        CurrentPrice = p.CurrentPrice,
+                        Expiration = p.Expiration,
+                        CategoryId = p.CategoryId
+                    })
+                    .ToList()
+            };
+            return filteredList;
         }
 
-        public Product DeleteProduct(Product product)
+        public IEnumerable<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return _ctx.Products;
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public Product Get(int id)
         {
-            throw new NotImplementedException();
+            return _ctx.Products.FirstOrDefault(p => p.ProductId == id);
         }
 
-        public Product GetProductById(int id)
+        public Product Add(Product entity)
         {
-            throw new NotImplementedException();
+            var newProduct = _ctx.Products.Add(entity);
+            _ctx.SaveChanges();
+            return newProduct.Entity;
         }
 
-        public Product UpdateProduct(Product userToUpdate)
+        public Product Edit(Product entity)
         {
-            throw new NotImplementedException();
+            _ctx.Entry(entity).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return entity;
+        }
+
+        public Product Remove(int id)
+        {
+            var product = _ctx.Products.FirstOrDefault(x => x.ProductId == id);
+            if(product == null) throw new ArgumentException("Product does not exist");
+            var deletedProduct = _ctx.Products.Remove(product);
+            _ctx.SaveChanges();
+            return deletedProduct.Entity;
         }
     }
 }
