@@ -7,12 +7,12 @@ namespace UsedProductExchange.Core.Domain
         // Get all entities
         IEnumerable<T> GetAll();
         // Get entity
-        T Get(long id);
+        T Get(int id);
         // Add entity
         T Add(T entity);
         // Edit entity
         T Edit(T entity);
         // Remove Entity
-        T Remove(long id);
+        T Remove(int id);
     }
 }

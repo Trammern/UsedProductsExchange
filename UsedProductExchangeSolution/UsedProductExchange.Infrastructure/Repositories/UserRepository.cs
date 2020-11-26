@@ -6,29 +6,29 @@ using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Infrastructure
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IRepository<User>
     {
-        public User CreateUser(User user)
+        public User Add(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public User DeleteUser(int id)
+        public User Edit(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public User Get(long id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetUserById(int id)
+        public IEnumerable<User> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public User UpdateUser(User userToUpdate)
+        public User Remove(long id)
         {
             throw new NotImplementedException();
         }

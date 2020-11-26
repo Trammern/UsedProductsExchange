@@ -9,9 +9,9 @@ namespace UsedProductExchange.Core.Application.Implementation
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _iUserRepository;
+        private readonly IRepository<User> _iUserRepository;
         
-        public UserService(IUserRepository userRepository)
+        public UserService(IRepository<User> userRepository)
         {
             _iUserRepository = userRepository ?? throw new ArgumentException("Repository is missing");
         }
@@ -50,7 +50,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             UserValidationCheck(user);
             
             // Check if already existing
-            if (_iUserRepository.GetUserById(user.UserId) != null)
+            if (_iUserRepository.Get(user.UserId) != null)
             {
                 throw new InvalidOperationException("User already exists");
             }
@@ -62,40 +62,40 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Email is invalid");
             }
 
-            return _iUserRepository.CreateUser(user);
+            return _iUserRepository.Add(user);
         }
 
 
 
         public User DeleteUser(int id)
         {
-            if (_iUserRepository.GetUserById(id) == null)
+            if (_iUserRepository.Get(id) == null)
             {
                 throw new InvalidOperationException("User not found");
             }
 
-            return _iUserRepository.DeleteUser(id);
+            return _iUserRepository.Remove(id);
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _iUserRepository.GetAllUsers();
+            return _iUserRepository.GetAll();
         }
 
         public User GetUserById(int id)
         {
-            return _iUserRepository.GetUserById(id);
+            return _iUserRepository.Get(id);
         }
 
         public User UpdateUser(User userToUpdate)
         {
             UserValidationCheck(userToUpdate);
 
-            if (userToUpdate == null || _iUserRepository.GetUserById(userToUpdate.UserId) == null)
+            if (userToUpdate == null || _iUserRepository.Get(userToUpdate.UserId) == null)
             {
                 throw new InvalidOperationException("User to update not found");
             }
-            return _iUserRepository.UpdateUser(userToUpdate);
+            return _iUserRepository.Edit(userToUpdate);
         }
     }
 }
