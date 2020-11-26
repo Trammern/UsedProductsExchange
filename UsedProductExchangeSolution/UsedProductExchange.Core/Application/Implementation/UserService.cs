@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class UserService : IUserService
+    public class UserService: IService<User>
     {
-        private readonly IRepository<User> _iUserRepository;
+        private readonly IRepository<User> _userRepository;
         
         public UserService(IRepository<User> userRepository)
         {
-            _iUserRepository = userRepository ?? throw new ArgumentException("Repository is missing");
+            _userRepository = userRepository ?? throw new ArgumentException("Repository is missing");
         }
 
-        public void UserValidationCheck(User user)
+        private void UserValidationCheck(User user)
         {
             // Null or empty checks
             if (user == null)
@@ -44,58 +45,61 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Invalid user property: password");
             }
         }
-
-        public User CreateUser(User user)
+        
+        public FilteredList<User> GetAll(Filter.Filter filter)
         {
-            UserValidationCheck(user);
+            return _userRepository.GetAll(filter);
+        }
+        
+        public List<User> GetAll()
+        {
+            return _userRepository.GetAll().ToList();
+        }
+        
+        public User Get(int id)
+        {
+            return _userRepository.Get(id);
+        }
+
+        public User Add(User entity)
+        {
+            UserValidationCheck(entity);
             
             // Check if already existing
-            if (_iUserRepository.Get(user.UserId) != null)
+            if (_userRepository.Get(entity.UserId) != null)
             {
                 throw new InvalidOperationException("User already exists");
             }
 
             // Check if valid email
-            bool isEmail = Regex.IsMatch(user.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            var isEmail = Regex.IsMatch(entity.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
             if (!isEmail)
             {
                 throw new ArgumentException("Email is invalid");
             }
 
-            return _iUserRepository.Add(user);
+            return _userRepository.Add(entity);
+        }
+        
+        public User Update(User entity)
+        {
+            UserValidationCheck(entity);
+
+            if (entity == null || _userRepository.Get(entity.UserId) == null)
+            {
+                throw new InvalidOperationException("User to update not found");
+            }
+            return _userRepository.Edit(entity);
         }
 
-
-
-        public User DeleteUser(int id)
+        public User Delete(int id)
         {
-            if (_iUserRepository.Get(id) == null)
+            if (_userRepository.Get(id) == null)
             {
                 throw new InvalidOperationException("User not found");
             }
 
-            return _iUserRepository.Remove(id);
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return _iUserRepository.GetAll();
-        }
-
-        public User GetUserById(int id)
-        {
-            return _iUserRepository.Get(id);
-        }
-
-        public User UpdateUser(User userToUpdate)
-        {
-            UserValidationCheck(userToUpdate);
-
-            if (userToUpdate == null || _iUserRepository.Get(userToUpdate.UserId) == null)
-            {
-                throw new InvalidOperationException("User to update not found");
-            }
-            return _iUserRepository.Edit(userToUpdate);
+            return _userRepository.Remove(id);
         }
     }
 }

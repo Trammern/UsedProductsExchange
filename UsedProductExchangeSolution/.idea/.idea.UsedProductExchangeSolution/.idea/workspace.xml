@@ -23,7 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,23 +40,39 @@
       <list>
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/CategoryRepository.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/ICategoryService.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Context/UsedProductExchangeContext.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/IDbInitializer.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/Class1.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/Filter.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/FilteredList.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/IService.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/CategoryService.cs" />
-        <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core/Domain/IRepository.cs" />
-        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Context/UsedProductExchangeContext.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/CategoryRepository.cs" />
-        <option value="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core.Entities/Product.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/UserRepository.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/UserService.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/UserServiceTests.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.UI/Startup.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/ProductService.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/ProductServiceTests.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/ProductRepository.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" />
       </list>
     </option>
   </component>
   <component name="ProjectId" id="1konGa7AvkDNBBCzhCdBg5GqpPK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
@@ -121,20 +139,29 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="711" y="279" key="RiderGenerateDialog" timestamp="1606385982457">
+    <state x="496" y="310" key="Rider.ProjectTemplateDialog.Size" timestamp="1606392382307">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="711" y="279" key="RiderGenerateDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606385982457" />
+    <state x="496" y="310" key="Rider.ProjectTemplateDialog.Size/0.0.1792.1120@0.0.1792.1120" timestamp="1606392382307" />
+    <state x="711" y="279" key="RiderGenerateDialog" timestamp="1606395633594">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="711" y="279" key="RiderGenerateDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606395633594" />
     <state x="405" y="196" key="SettingsEditor" timestamp="1606375783429">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="405" y="196" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1606375783429" />
-    <state x="0" y="28" width="1792" height="1092" key="VCS.FileHistoryDialog" timestamp="1606375824915">
+    <state x="0" y="28" width="1792" height="1092" key="VCS.FileHistoryDialog" timestamp="1606398092369">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="0" y="28" width="1792" height="1092" key="VCS.FileHistoryDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606375824915" />
+    <state x="0" y="28" width="1792" height="1092" key="VCS.FileHistoryDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606398092369" />
+    <state x="697" y="492" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606397349164">
+      <screen x="0" y="25" width="1792" height="1010" />
+    </state>
+    <state x="697" y="492" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1792.1010@0.25.1792.1010" timestamp="1606397349164" />
   </component>
 </project>

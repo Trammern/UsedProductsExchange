@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Domain
 {
     public interface IRepository<T>
     {
         // Get all entities
+        FilteredList<T> GetAll(Filter.Filter filter);
         IEnumerable<T> GetAll();
         // Get entity
         T Get(int id);
