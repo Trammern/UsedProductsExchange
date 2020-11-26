@@ -6,29 +6,29 @@ using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Infrastructure
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IRepository<Product>
     {
-        public Product CreateProduct(Product product)
+        public Product Add(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        public Product DeleteProduct(Product product)
+        public Product Edit(Product entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public Product Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Product GetProductById(int id)
+        public IEnumerable<Product> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Product UpdateProduct(Product userToUpdate)
+        public Product Remove(int id)
         {
             throw new NotImplementedException();
         }
