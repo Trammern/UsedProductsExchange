@@ -1,36 +1,53 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Infrastructure.Context;
 
 namespace UsedProductExchange.Infrastructure
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IRepository<Product>
     {
-        public Product CreateProduct(Product product)
+
+        private readonly UsedProductExchangeContext _ctx;
+
+        public ProductRepository(UsedProductExchangeContext ctx)
         {
-            throw new NotImplementedException();
+            _ctx = ctx;
         }
 
-        public Product DeleteProduct(Product product)
+        public Product Add(Product entity)
         {
-            throw new NotImplementedException();
+            _ctx.Attach(entity).State = EntityState.Added;
+            _ctx.SaveChanges();
+            return entity;
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public Product Edit(Product entity)
         {
-            throw new NotImplementedException();
+            var productToUpdate = _ctx.Products.Update(entity);
+            _ctx.SaveChanges();
+            return productToUpdate.Entity;
         }
 
-        public Product GetProductById(int id)
+        public Product Get(int id)
         {
-            throw new NotImplementedException();
+            return _ctx.Products.FirstOrDefault(p => p.ProductId == id);
         }
 
-        public Product UpdateProduct(Product userToUpdate)
+        public IEnumerable<Product> GetAll()
         {
-            throw new NotImplementedException();
+            return _ctx.Products.ToList();
+        }
+
+        public Product Remove(int id)
+        {
+            var productToDelete = Get(id);
+            _ctx.Products.Remove(productToDelete);
+            return productToDelete;
         }
     }
 }
