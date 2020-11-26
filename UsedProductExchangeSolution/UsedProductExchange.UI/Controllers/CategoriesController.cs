@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.UI.Controllers
 {
@@ -18,9 +19,20 @@ namespace UsedProductExchange.UI.Controllers
         }
         
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public ActionResult<FilteredList<Category>> Get([FromQuery] Filter filter)
         {
-            return _service.GetAll();
+            try
+            {
+                return Ok(_service.GetAll(filter));
+            }
+            catch (NullReferenceException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
         
         // GET api/categories/5 -- READ By Id

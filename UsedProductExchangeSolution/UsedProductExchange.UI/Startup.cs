@@ -15,6 +15,7 @@ using UsedProductExchange.Core.Application.Implementation;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
 using UsedProductExchange.Infrastructure;
+using UsedProductExchange.Infrastructure.Repositories;
 
 namespace UsedProductExchange.UI
 {
@@ -32,7 +33,7 @@ namespace UsedProductExchange.UI
         {
             services.AddControllers();
             services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IService<User>, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

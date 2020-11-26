@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UsedProductExchange.Core.Entities\UsedProductExchange.Core.Entities.csproj" />
+    <ProjectReference Include="..\UsedProductExchange.Core.Filter\UsedProductExchange.Core.Filter.csproj" />
   </ItemGroup>
 
 </Project>
