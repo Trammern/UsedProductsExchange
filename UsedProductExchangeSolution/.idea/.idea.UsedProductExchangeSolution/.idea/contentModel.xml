@@ -13,7 +13,6 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="UsedProductExchange.Core" t="IncludeRecursive">
         <e p="Application" t="Include">
-          <e p="ICategoryService.cs" t="Include" />
           <e p="Implementation" t="Include">
             <e p="CategoryService.cs" t="Include" />
             <e p="ProductService.cs" t="Include" />

@@ -252,6 +252,7 @@ namespace UsedProductExchange.XUnitTestProject
                 CategoryId = 1,
                 Name = "name",
             };
+            
             CategoryService cs = new CategoryService(_repoMock.Object);
 
             // check if existing
