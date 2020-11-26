@@ -13,12 +13,12 @@ namespace UsedProductExchange.XUnitTestProject
     {
         
         private List<User> users = null;
-        private readonly Mock<IUserRepository> repoMock;
+        private readonly Mock<IRepository<User>> repoMock;
 
         public UserServiceTest()
         {
-            repoMock = new Mock<IUserRepository>();
-            repoMock.Setup(repo => repo.GetAllUsers()).Returns(() => users);
+            repoMock = new Mock<IRepository<User>>();
+            repoMock.Setup(repo => repo.GetAll()).Returns(() => users);
         }
 
         #region ServiceTest
@@ -60,7 +60,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfNewUserIsCreated_ValidInput(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -80,8 +80,8 @@ namespace UsedProductExchange.XUnitTestProject
             
 
             // ASSERT
-            repoMock.Setup(u => u.CreateUser(user)).Returns(newUser);
-            repoMock.Verify(repo => repo.CreateUser(user), Times.Once);
+            repoMock.Setup(u => u.Add(user)).Returns(newUser);
+            repoMock.Verify(repo => repo.Add(user), Times.Once);
             userList.Should().Contain(user);
         }
 
@@ -99,7 +99,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void CreateNewUserWithInvalidInput_ExpectArgumentException(int id, string name, string username, string password, string address, string email, bool role, string errorField)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -117,14 +117,14 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal($"Invalid user property: {errorField}", ex.Message);
-            repoMock.Verify(repo => repo.CreateUser(It.Is<User>(u => u == user)), Times.Never);
+            repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user)), Times.Never);
         }
 
         [Fact]
         public void AddUserWhoExists_ExpectInvalidArgumentException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Tommy",
@@ -135,7 +135,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Role = false
             };
 
-            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == user.UserId))).Returns(() => user);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => user);
 
             UserService us = new UserService(repoMock.Object);
 
@@ -144,7 +144,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal("User already exists", ex.Message);
-            repoMock.Verify(repo => repo.CreateUser(It.Is<User>(u => u == user)), Times.Never);
+            repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user)), Times.Never);
         }
 
 
@@ -153,7 +153,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestInvalidEmail(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -170,7 +170,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal("Email is invalid", ex.Message);
-            repoMock.Verify(repo => repo.CreateUser(It.Is<User>(u => u == user)), Times.Never);
+            repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user)), Times.Never);
 
         }
 
@@ -183,7 +183,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void RemoveExistingUser()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Jack",
@@ -197,13 +197,13 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // check if existing
-            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(u => u == user.UserId))).Returns(() => user);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(u => u == user.UserId))).Returns(() => user);
 
             // ACT
             var deletedUser = us.DeleteUser(user.UserId);
 
             // ASSERT
-            repoMock.Verify(repo => repo.DeleteUser(It.Is<int>(u => u == user.UserId)), Times.Once);
+            repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == user.UserId)), Times.Once);
             deletedUser.Should().BeNull();
 
 
@@ -213,7 +213,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void DeleteUserNotFound_ExpectInvalidOperationException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Jack",
@@ -231,7 +231,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Equal("User not found", ex.Message);
-            repoMock.Verify(repo => repo.DeleteUser(It.Is<int>(u => u == user.UserId)), Times.Never);
+            repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == user.UserId)), Times.Never);
         }
 
         #endregion
@@ -245,7 +245,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void UpdateValidUser(int id, string name, string username, string password, string address, string email, bool role)
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = id,
                 Name = name,
@@ -259,20 +259,20 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // check if existing
-            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(z => z == user.UserId))).Returns(() => user);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(z => z == user.UserId))).Returns(() => user);
 
             // ACT
             var updatedUser = us.UpdateUser(user);
 
             // ASSERT
-            repoMock.Verify(repo => repo.UpdateUser(It.Is<User>(u => u == user)), Times.Once);
+            repoMock.Verify(repo => repo.Edit(It.Is<User>(u => u == user)), Times.Once);
         }
 
         [Fact]
         public void UpdatingUserNotFound_ExpectInvalidOperationException()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "Tommy",
@@ -286,14 +286,14 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // check if not existing
-            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == user.UserId))).Returns(() => null);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => null);
 
             // ACT
             var ex = Assert.Throws<InvalidOperationException>(() => us.UpdateUser(user));
 
             // ASSERT
             Assert.Equal("User to update not found", ex.Message);
-            repoMock.Verify(repo => repo.UpdateUser(It.Is<User>(u => u == user)), Times.Never);
+            repoMock.Verify(repo => repo.Edit(It.Is<User>(u => u == user)), Times.Never);
 
         }
 
@@ -314,15 +314,15 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // check if user or id is not null
-            repoMock.Setup(u => u.GetUserById(It.Is<int>(id => id == user.UserId))).Returns(() => user);
-            repoMock.Setup(u => u.UpdateUser(user)).Returns(user);
+            repoMock.Setup(u => u.Get(It.Is<int>(id => id == user.UserId))).Returns(() => user);
+            repoMock.Setup(u => u.Edit(user)).Returns(user);
 
             // ACT
             var updatedAddress = us.UpdateUser(user);
 
             // ASSERT (Fluent)
             updatedAddress.Should().Be(user);
-            repoMock.Verify(repo => repo.UpdateUser(It.Is<User>(u => u == user)), Times.Once);
+            repoMock.Verify(repo => repo.Edit(It.Is<User>(u => u == user)), Times.Once);
         }
 
 
@@ -335,7 +335,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestGetExistingUserById()
         {
             // ARRANGE
-            User user = new User()
+            var user = new User()
             {
                 UserId = 1,
                 Name = "name",
@@ -348,14 +348,14 @@ namespace UsedProductExchange.XUnitTestProject
             UserService us = new UserService(repoMock.Object);
 
             // check if existing
-            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == user.UserId))).Returns(() => user);
+            repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => user);
 
             // ACT
             var userFound = us.GetUserById(1);
 
             // ASSERT
             Assert.Equal(user, userFound);
-            repoMock.Verify(repo => repo.GetUserById(It.Is<int>(x => x == 1)), Times.Once);
+            repoMock.Verify(repo => repo.Get(It.Is<int>(x => x == 1)), Times.Once);
         }
 
         [Fact]
@@ -369,7 +369,7 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ASSERT
             Assert.Null(result);
-            repoMock.Verify(repo => repo.GetUserById(It.Is<int>(x => x == 1)), Times.Once);
+            repoMock.Verify(repo => repo.Get(It.Is<int>(x => x == 1)), Times.Once);
 
         }
 
@@ -388,14 +388,14 @@ namespace UsedProductExchange.XUnitTestProject
 
             UserService us = new UserService(repoMock.Object);
 
-            repoMock.Setup(x => x.GetAllUsers()).Returns(() => listOfUsers.GetRange(0, listCount));
+            repoMock.Setup(x => x.GetAll()).Returns(() => listOfUsers.GetRange(0, listCount));
 
             // ACT
             var usersFound = us.GetAllUsers();
 
             // ASSERT
             Assert.Equal(listOfUsers.GetRange(0, listCount), usersFound);
-            repoMock.Verify(repo => repo.GetAllUsers(), Times.Once);
+            repoMock.Verify(repo => repo.GetAll(), Times.Once);
         }
 
 
