@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UsedProductExchange.Core.Entities\UsedProductExchange.Core.Entities.csproj" />
     <ProjectReference Include="..\UsedProductExchange.Core\UsedProductExchange.Core.csproj" />
   </ItemGroup>

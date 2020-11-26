@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UsedProductExchange.Core.Application;
+using UsedProductExchange.Core.Application.Implementation;
+using UsedProductExchange.Core.Domain;
+using UsedProductExchange.Infrastructure;
 
 namespace UsedProductExchange.UI
 {
@@ -26,6 +30,8 @@ namespace UsedProductExchange.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

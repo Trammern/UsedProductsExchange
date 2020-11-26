@@ -20,7 +20,20 @@ namespace UsedProductExchange.Infrastructure
 
         public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return new List<User>()
+            {
+                new User()
+                {
+                    Name="Halfdan",
+                    Address="Mjølners Alle 4",
+                    Email="H@gmail.com",
+                    Password="HR123",
+                    Role=false,
+                    UserId=1,
+                    Username="HRname"
+                    
+                }
+            };
         }
 
         public User GetUserById(int id)
