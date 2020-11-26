@@ -25,7 +25,11 @@
     <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Core/Application/IProductService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Core/Application/IUserService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/ProductsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/ProductsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/UserController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +64,8 @@
         <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/ProductServiceTests.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Repositories/ProductRepository.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/UserController.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/ProductsController.cs" />
       </list>
     </option>
   </component>

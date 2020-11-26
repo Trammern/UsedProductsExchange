@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,21 +13,38 @@ namespace UsedProductExchange.UI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController: ControllerBase
     {
 
-        private readonly IProductService _productService;
+        private readonly IService<Product> _productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IService<Product> productService)
         {
             _productService = productService;
         }
+        
+        [HttpGet]
+        public ActionResult<FilteredList<Category>> Get([FromQuery] Filter filter)
+        {
+            try
+            {
+                return Ok(_productService.GetAll(filter));
+            }
+            catch (NullReferenceException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
 
-        // GET: api/<ProductsController>
+        // GET: api/products
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var productList = _productService.GetAllProduct().ToList();
+            var productList = _productService.GetAll().ToList();
             if (productList.Count == 0)
             {
                 return NoContent();
@@ -34,11 +52,11 @@ namespace UsedProductExchange.UI.Controllers
             return Ok(productList);
         }
 
-        // GET api/<ProductsController>/5
+        // GET api/products/5
         [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
-            var result = _productService.GetProductById(id);
+            var result = _productService.Get(id);
             if (result == null)
             {
                 return NotFound();
@@ -46,13 +64,13 @@ namespace UsedProductExchange.UI.Controllers
             return Ok(result);
         }
 
-        // POST api/<ProductsController>
+        // POST api/products
         [HttpPost]
         public ActionResult<Product> Post([FromBody] Product product)
         {
             try
             {
-                var result = _productService.CreateProduct(product);
+                var result = _productService.Add(product);
                 return Ok(result);
             }
             catch (Exception e)
@@ -63,13 +81,13 @@ namespace UsedProductExchange.UI.Controllers
 
         }
 
-        // PUT api/<ProductsController>/5
+        // PUT api/products/5
         [HttpPut("{id}")]
         public ActionResult<Product> Put(int id, [FromBody] Product product)
         {
             try
             {
-                var result = _productService.UpdateProduct(product);
+                var result = _productService.Update(product);
                 return Ok(result);
             }
             catch (Exception e)
@@ -78,19 +96,16 @@ namespace UsedProductExchange.UI.Controllers
             }
         }
 
-        // DELETE api/<ProductsController>/5
+        // DELETE api/products/5
         [HttpDelete("{id}")]
         public ActionResult<Product> Delete(int id)
         {
-            var productToDelete = _productService.GetProductById(id);
-            var result = _productService.DeleteProduct(productToDelete);
+            var result = _productService.Delete(id);
             if (result == null)
             {
                 return NotFound();
             }
             return result;
-
-
         }
     }
 }

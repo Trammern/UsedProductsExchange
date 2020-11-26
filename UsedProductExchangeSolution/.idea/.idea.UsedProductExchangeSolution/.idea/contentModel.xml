@@ -18,9 +18,7 @@
             <e p="ProductService.cs" t="Include" />
             <e p="UserService.cs" t="Include" />
           </e>
-          <e p="IProductService.cs" t="Include" />
           <e p="IService.cs" t="Include" />
-          <e p="IUserService.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Domain" t="Include">
