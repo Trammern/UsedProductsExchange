@@ -23,8 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/UsedProductExchange.Core/Domain/IRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/CategoryRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/CategoryRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/UsedProductExchange.Core/Application/IService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Core/Application/ICategoryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Core/Application/ICategoryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/CategoryService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/CategoryService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/UsedProductExchange.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/UsedProductExchange.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +44,9 @@
       <list>
         <option value="$PROJECT_DIR$/UsedProductExchange.Core/Domain/IRepository.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/CategoryRepository.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/ICategoryService.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/IService.cs" />
+        <option value="$PROJECT_DIR$/UsedProductExchange.Core/Application/Implementation/CategoryService.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" />
       </list>
     </option>
@@ -96,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1606375718216</updated>
-      <workItem from="1606375724923" duration="675000" />
+      <workItem from="1606375724923" duration="1820000" />
     </task>
     <servers />
   </component>
@@ -120,10 +127,10 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="711" y="279" key="RiderGenerateDialog" timestamp="1606376337651">
+    <state x="711" y="279" key="RiderGenerateDialog" timestamp="1606376728047">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="711" y="279" key="RiderGenerateDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606376337651" />
+    <state x="711" y="279" key="RiderGenerateDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1606376728047" />
     <state x="405" y="196" key="SettingsEditor" timestamp="1606375783429">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>

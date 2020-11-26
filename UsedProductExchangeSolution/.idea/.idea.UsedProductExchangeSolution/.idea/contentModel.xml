@@ -20,6 +20,7 @@
             <e p="UserService.cs" t="Include" />
           </e>
           <e p="IProductService.cs" t="Include" />
+          <e p="IService.cs" t="Include" />
           <e p="IUserService.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
@@ -54,7 +55,9 @@
       </e>
       <e p="UsedProductExchange.Infrastructure" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="CategoryRepository.cs" t="Include" />
+        <e p="Context" t="Include">
+          <e p="UsedProductExchangeContext.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -62,9 +65,12 @@
             </e>
           </e>
         </e>
-        <e p="ProductRepository.cs" t="Include" />
+        <e p="Repositories" t="Include">
+          <e p="CategoryRepository.cs" t="Include" />
+          <e p="ProductRepository.cs" t="Include" />
+          <e p="UserRepository.cs" t="Include" />
+        </e>
         <e p="UsedProductExchange.Infrastructure.csproj" t="IncludeRecursive" />
-        <e p="UserRepository.cs" t="Include" />
       </e>
       <e p="UsedProductExchange.UI" t="IncludeRecursive">
         <e p="appsettings.Development.json" t="Include" />

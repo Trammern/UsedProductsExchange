@@ -6,5 +6,6 @@ namespace UsedProductExchange.Core.Application
 {
     public interface ICategoryService
     {
+        
     }
 }
