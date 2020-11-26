@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Application.Implementation;
 using UsedProductExchange.Core.Domain;
+using UsedProductExchange.Core.Entities;
 using UsedProductExchange.Infrastructure;
 
 namespace UsedProductExchange.UI
@@ -30,7 +31,7 @@ namespace UsedProductExchange.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IUserService, UserService>();
         }
 
