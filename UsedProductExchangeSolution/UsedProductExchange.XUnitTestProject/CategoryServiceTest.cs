@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using FluentAssertions;
 using Moq;
 using UsedProductExchange.Core.Application.Implementation;
@@ -36,7 +35,7 @@ namespace UsedProductExchange.XUnitTestProject
         }
         
         [Fact]
-        public void CreateUserService_InvalidRepository()
+        public void CreateCategoryService_InvalidRepository()
         {
             // ARRANGE
             CategoryService service = null;
@@ -64,12 +63,12 @@ namespace UsedProductExchange.XUnitTestProject
                 CategoryId = id,
                 Name = name,
             };
-            CategoryService us = new CategoryService(_repoMock.Object);
+            CategoryService cs = new CategoryService(_repoMock.Object);
 
             var categoryList = new List<Category>();
 
             // ACT
-            var newCategory = us.Add(category);
+            var newCategory = cs.Add(category);
             categoryList.Add(category);
             
 
@@ -91,10 +90,10 @@ namespace UsedProductExchange.XUnitTestProject
                 Name = name,
             };
 
-            CategoryService us = new CategoryService(_repoMock.Object);
+            CategoryService cs = new CategoryService(_repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<ArgumentException>(() => us.Add(category));
+            var ex = Assert.Throws<ArgumentException>(() => cs.Add(category));
 
             // ASSERT
             Assert.Equal($"Invalid category property: {errorField}", ex.Message);
@@ -113,10 +112,10 @@ namespace UsedProductExchange.XUnitTestProject
 
             _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == category.CategoryId))).Returns(() => category);
 
-            CategoryService us = new CategoryService(_repoMock.Object);
+            CategoryService cs = new CategoryService(_repoMock.Object);
 
             // ACT
-            var ex = Assert.Throws<InvalidOperationException>(() => us.Add(category));
+            var ex = Assert.Throws<InvalidOperationException>(() => cs.Add(category));
 
             // ASSERT
             Assert.Equal("Category already exists", ex.Message);
@@ -125,7 +124,186 @@ namespace UsedProductExchange.XUnitTestProject
         #endregion
         
         #region DeleteCategoryTest
+        [Fact]
+        public void RemoveExistingCategory()
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = 1,
+                Name = "Technology",
+            };
+
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // check if existing
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(c => c == category.CategoryId))).Returns(() => category);
+
+            // ACT
+            var deletedCategory = cs.Delete(category.CategoryId);
+
+            // ASSERT
+            _repoMock.Verify(repo => repo.Remove(It.Is<int>(c => c == category.CategoryId)), Times.Once);
+            deletedCategory.Should().BeNull();
+        }
         
+        [Fact]
+        public void DeleteCategoryNotFound_ExpectInvalidOperationException()
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = 1,
+                Name = "Technology",
+            };
+
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // ACT
+            var ex = Assert.Throws<InvalidOperationException>(() => cs.Delete(category.CategoryId));
+
+            // ASSERT
+            Assert.Equal("Category not found", ex.Message);
+            _repoMock.Verify(repo => repo.Remove(It.Is<int>(c => c == category.CategoryId)), Times.Never);
+        }
+        #endregion
+        
+        #region UpdateCategoryTest
+        [Theory]
+        [InlineData(1, "some name")]
+        [InlineData(1, "another name")]
+        public void UpdateValidCategory(int id, string name)
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = id,
+                Name = name,
+            };
+
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // check if existing
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(z => z == category.CategoryId))).Returns(() => category);
+
+            // ACT
+            var updatedCategory = cs.Update(category);
+
+            // ASSERT
+            _repoMock.Verify(repo => repo.Edit(It.Is<Category>(c => c == category)), Times.Once);
+        }
+
+        [Fact]
+        public void UpdatingCategoryNotFound_ExpectInvalidOperationException()
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = 1,
+                Name = "Technology",
+            };
+
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // check if not existing
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == category.CategoryId))).Returns(() => null);
+
+            // ACT
+            var ex = Assert.Throws<InvalidOperationException>(() => cs.Update(category));
+
+            // ASSERT
+            Assert.Equal("Category to update not found", ex.Message);
+            _repoMock.Verify(repo => repo.Edit(It.Is<Category>(c => c == category)), Times.Never);
+
+        }
+
+        [Fact]
+        public void UpdatedCategoryShouldReplaceOldCategory()
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = 1,
+                Name = "Technology"
+            };
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // check if category or id is not null
+            _repoMock.Setup(c => c.Get(It.Is<int>(id => id == category.CategoryId))).Returns(() => category);
+            _repoMock.Setup(c => c.Edit(category)).Returns(category);
+
+            // ACT
+            var updatedCategory = cs.Update(category);
+
+            // ASSERT (Fluent)
+            updatedCategory.Should().Be(category);
+            _repoMock.Verify(repo => repo.Edit(It.Is<Category>(c => c == category)), Times.Once);
+        }
+        #endregion
+
+        #region ReadCategoryTest
+
+        [Fact]
+        public void TestGetExistingCategoryById()
+        {
+            // ARRANGE
+            Category category = new Category()
+            {
+                CategoryId = 1,
+                Name = "name",
+            };
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // check if existing
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == category.CategoryId))).Returns(() => category);
+
+            // ACT
+            var categoryFound = cs.Get(1);
+
+            // ASSERT
+            Assert.Equal(category, categoryFound);
+            _repoMock.Verify(repo => repo.Get(It.Is<int>(x => x == 1)), Times.Once);
+        }
+        
+        [Fact]
+        public void TestGetInvalidCategoryById_ExpectNull()
+        {
+            // ARRANGE
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            // ACT
+            var result = cs.Get(1);
+
+            // ASSERT
+            Assert.Null(result);
+            _repoMock.Verify(repo => repo.Get(It.Is<int>(x => x == 1)), Times.Once);
+        }
+        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetAllCategories(int listCount)
+        {
+            // ARRANGE
+            var listOfCategories = new List<Category>()
+            {
+                new Category() {CategoryId = 1},
+                new Category() {CategoryId = 1}
+            };
+
+            CategoryService cs = new CategoryService(_repoMock.Object);
+
+            _repoMock.Setup(x => x.GetAll()).Returns(() => listOfCategories.GetRange(0, listCount));
+
+            // ACT
+            var categoriesFound = cs.GetAll();
+
+            // ASSERT
+            Assert.Equal(listOfCategories.GetRange(0, listCount), categoriesFound);
+            _repoMock.Verify(repo => repo.GetAll(), Times.Once);
+        }
+
         #endregion
     }
 }
