@@ -8,11 +8,11 @@ namespace UsedProductExchange.Core.Application.Implementation
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _iProductRepository;
+        private readonly IRepository<Product> _iProductRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IRepository<Product> productRepository)
         {
-            _iProductRepository = productRepository; throw new ArgumentException("Repository is missing");
+            _iProductRepository = productRepository ?? throw new ArgumentException("Repository is missing");
         }
       
 
@@ -45,26 +45,26 @@ namespace UsedProductExchange.Core.Application.Implementation
             ProductValidationCheck(product);
 
             // Check if already existing
-            if (_iProductRepository.GetProductById(product.ProductId) != null)
+            if (_iProductRepository.Get(product.ProductId) != null)
             {
                 throw new InvalidOperationException("Product already exists");
             }
-            return _iProductRepository.CreateProduct(product);
+            return _iProductRepository.Add(product);
         }
 
         public Product DeleteProduct(Product product)
         {
-            return _iProductRepository.DeleteProduct(product);
+            return _iProductRepository.Remove(product.ProductId);
         }
 
         public IEnumerable<Product> GetAllProduct()
         {
-            return _iProductRepository.GetAllProducts();
+            return _iProductRepository.GetAll();
         }
 
         public Product GetProductById(int id)
         {
-            return _iProductRepository.GetProductById(id);
+            return _iProductRepository.Get(id);
         }
 
         public Product UpdateProduct(Product productToUpdate)
@@ -76,7 +76,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             }
             else
             {
-                var updatedProduct = _iProductRepository.UpdateProduct(productToUpdate);
+                var updatedProduct = _iProductRepository.Edit(productToUpdate);
                 return updatedProduct;
             }
         }
