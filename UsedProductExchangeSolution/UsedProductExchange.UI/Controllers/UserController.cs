@@ -11,16 +11,18 @@ namespace UsedProductExchange.UI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IService<User> _iUserService;
+        private readonly IService<User> _iService;
+
         public UserController(IService<User> userService)
         {
-            _iUserService = userService;
+            _iService = userService;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            var userList = _iUserService.GetAll().ToList();
+            var userList = _iService.GetAll().ToList();
+
             if (userList.Count == 0)
             {
                 return NoContent();
@@ -31,7 +33,8 @@ namespace UsedProductExchange.UI.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> GetById(int id)
         {
-            var result = _iUserService.Get(id);
+            var result = _iService.Get(id);
+            
             if (result == null)
             {
                 return NotFound();
@@ -42,7 +45,8 @@ namespace UsedProductExchange.UI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<User> Delete(int id)
         {
-            var result = _iUserService.Delete(id);
+            var result = _iService.Delete(id);
+
             if (result == null)
             {
                 return NotFound();
@@ -54,7 +58,8 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _iUserService.Add(obj);
+                var result = _iService.Add(obj);
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -68,7 +73,7 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _iUserService.Update(obj);
+                var result = _iService.Update(obj);
                 return Ok(result);
             }
             catch (Exception e)

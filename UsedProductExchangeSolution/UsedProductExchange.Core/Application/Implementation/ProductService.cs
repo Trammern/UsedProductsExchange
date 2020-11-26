@@ -8,7 +8,8 @@ using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class ProductService: IService<Product>
+    public class ProductService : IService<Product>
+
     {
         private readonly IRepository<Product> _productRepository;
 
@@ -37,10 +38,21 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Invalid product property: Picture");
             }
         }
+
         
         public FilteredList<Product> GetAll(Filter.Filter filter)
         {
             return _productRepository.GetAll(filter);
+        }
+
+        public Product Delete(int i)
+        {
+            return _iProductRepository.Remove(i);
+        }
+
+        public List<Product> GetAll()
+        {
+            return _iProductRepository.GetAll().ToList();
         }
 
         public List<Product> GetAll()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
@@ -8,7 +9,8 @@ using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class UserService: IService<User>
+    public class UserService : IService<User>
+
     {
         private readonly IRepository<User> _userRepository;
         
@@ -61,6 +63,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _userRepository.Get(id);
         }
 
+
         public User Add(User entity)
         {
             UserValidationCheck(entity);
@@ -80,7 +83,6 @@ namespace UsedProductExchange.Core.Application.Implementation
 
             return _userRepository.Add(entity);
         }
-        
         public User Update(User entity)
         {
             UserValidationCheck(entity);
@@ -91,7 +93,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             }
             return _userRepository.Edit(entity);
         }
-
+        
         public User Delete(int id)
         {
             if (_userRepository.Get(id) == null)
