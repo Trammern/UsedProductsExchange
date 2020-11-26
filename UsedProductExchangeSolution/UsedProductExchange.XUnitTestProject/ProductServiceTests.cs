@@ -132,8 +132,10 @@ namespace UsedProductExchange.XUnitTestProject
             //ARRANGE
             var products = new List<Product>()
             {
-                new Product() {ProductId = 1},
-                new Product() {ProductId = 2}
+                new Product() {ProductId = 1,
+                    Name = "Hest"},
+                new Product() {ProductId = 2,
+                    Name = "Hest"}
             };
 
             repoMock.Setup(x => x.GetAllProducts()).Returns(() => products.GetRange(0, productlist));
@@ -159,15 +161,20 @@ namespace UsedProductExchange.XUnitTestProject
             {
                 new Product()
                 {
-                    ProductId = 1
+                    ProductId = 1,
+                    Name = "Hest"
+                    
                 },
                 new Product()
                 {
-                    ProductId = 2
+                    ProductId = 2,
+                    Name = "Blikspand"
                 },
                 new Product()
                 {
-                    ProductId = 77
+                    ProductId = 77,
+                    Name = "Staldør"
+
                 }
             };
             repoMock.Setup(repo => repo.GetProductById(searchId)).Returns(products.Where(p => p.ProductId == searchId).FirstOrDefault);
@@ -187,7 +194,8 @@ namespace UsedProductExchange.XUnitTestProject
 
             // ARRANGE
             ProductService ps = new ProductService(repoMock.Object);
-            Product product = new Product();
+            Product product = new Product(){
+                Name = "Hest"};
 
             //ACT
             var updatedProduct = ps.UpdateProduct(product);
@@ -196,7 +204,7 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock.Verify(repo => repo.UpdateProduct(product), Times.Once);
         }
         [Fact]
-        public void TestIfProductIsNotInRepositoryThrowsEntityNotFoundException()
+        public void TestIfProductIsNotValidThrowsInvalidOperationExeption()
         {
             //Arrange
             Product product = new Product()
@@ -209,7 +217,7 @@ namespace UsedProductExchange.XUnitTestProject
             //ACT +ASSERT
             var ex = Assert.Throws<InvalidOperationException>(()=> ps.UpdateProduct(product));
 
-            Assert.Equal("Product Not Found", ex.Message);
+            Assert.Equal("Product must have a name", ex.Message);
             repoMock.Verify(repo => repo.UpdateProduct(It.Is<Product>(p => p == product)), Times.Never);
         }
     }

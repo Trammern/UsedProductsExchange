@@ -36,13 +36,14 @@ namespace UsedProductExchange.Core.Application.Implementation
 
         public Product UpdateProduct(Product productToUpdate)
         {
-            var updatedProduct = _iProductRepository.UpdateProduct(productToUpdate);
-            if (updatedProduct == null)
+            
+            if (productToUpdate.Name == null)
             {
-                throw new InvalidOperationException("Product Not Found");
+                throw new InvalidOperationException("Product must have a name");
             }
             else
             {
+                var updatedProduct = _iProductRepository.UpdateProduct(productToUpdate);
                 return updatedProduct;
             }
         }
