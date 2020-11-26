@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UsedProductExchange.Core.Application.Implementation;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
 using Xunit;
+using FluentAssertions;
+
 
 namespace UsedProductExchange.XUnitTestProject
 {
@@ -20,6 +21,37 @@ namespace UsedProductExchange.XUnitTestProject
             repoMock = new Mock<IProductRepository>();
             repoMock.Setup(repo => repo.GetAllProducts()).Returns(() => products);
         }
+
+        [Fact]
+        public void CreateProductServiceWithRepository()
+        {
+            // ARRANGE
+            var repo = repoMock.Object;
+
+            // ACT
+            var service = new ProductService(repo);
+
+            // ASSERT
+            Assert.NotNull(service);
+        }
+
+        [Fact]
+        public void CreateProductService_InvalidRepository()
+        {
+            // ARRANGE
+            ProductService service = null;
+
+            // ACT
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                service = new ProductService(null);
+            });
+
+            // ASSERT
+            Assert.Equal("Repository is missing", ex.Message);
+            Assert.Null(service);
+        }
+
 
         [Theory]
         [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
@@ -75,24 +107,36 @@ namespace UsedProductExchange.XUnitTestProject
         }
 
         [Fact]
-        public void TestIfDeleteProductIsCalled()
+        public void RemoveExistingProduct()
         {
+            // ARRANGE
+            var product = new Product()
+            {
+                CategoryId = 1,
+                ProductId = 1,
+                Name = "Blikspand",
+                Description = "Lavet af ler",
+                PictureURL = "URLISGONE.PNG",
+                CurrentPrice = 1000.00,
+                Expiration = DateTime.Now,
+                UserId = 1
+            };
+
             ProductService ps = new ProductService(repoMock.Object);
 
-            // ARRANGE
-            Product product = new Product();
+            // check if existing
+            repoMock.Setup(repo => repo.Get(It.Is<int>(p => p == product.ProductId))).Returns(() => product);
 
-            var newProduct = ps.CreateProduct(product);
+            // ACT
+            var deletedProduct = ps.DeleteProduct(product.ProductId);
 
-            //ACT
-            var deletedProduct = ps.DeleteProduct(product);
-
-            //ASSERT
-            repoMock.Verify(repo => repo.DeleteProduct(product), Times.Once);
+            // ASSERT
+            repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == product.ProductId)), Times.Once);
+            deletedProduct.Should().BeNull();
         }
 
 
-        [Theory]
+            [Theory]
         [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
         public void TestIfDeletedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
         {
@@ -219,6 +263,68 @@ namespace UsedProductExchange.XUnitTestProject
 
             Assert.Equal("Product must have a name", ex.Message);
             repoMock.Verify(repo => repo.UpdateProduct(It.Is<Product>(p => p == product)), Times.Never);
+        }
+
+        [Fact]
+        public void AddProductWhoExists_ExpectInvalidArgumentException()
+        {
+            // ARRANGE
+            Product product = new Product()
+            {
+                CategoryId = 1,
+                ProductId = 1,
+                Name = "Blikspand",
+                Description = "Lavet af ler",
+                PictureURL = "URLISGONE.PNG",
+                CurrentPrice = 1000.00,
+                Expiration = DateTime.Now,
+                UserId = 1
+            };
+
+            repoMock.Setup(repo => repo.GetProductById(It.Is<int>(x => x == product.ProductId))).Returns(() => product);
+
+            ProductService us = new ProductService(repoMock.Object);
+
+            // ACT
+            var ex = Assert.Throws<InvalidOperationException>(() => us.CreateProduct(product));
+
+            // ASSERT
+            Assert.Equal("Product already exists", ex.Message);
+            repoMock.Verify(repo => repo.CreateProduct(It.Is<Product>(p => p == product)), Times.Never);
+        }
+
+        [Theory]
+        [InlineData(1, 1, "", "desc", "pic", 1000.00, null, 1, "name")] // Name is empty
+        [InlineData(1, 1, null, "desc", "pic", 1000.00, null, 1, "name")] // Name is null
+        [InlineData(1, 1, "name", "", "pic", 1000.00, null, 1, "description")] // desc is empty
+        [InlineData(1, 1, "name", null, "pic", 1000.00, null, 1, "description")] // desc is null
+        [InlineData(1, 1, "name", "desc", "", 1000.00, null, 1, "Picture")] // Pic is empty
+        [InlineData(1, 1, "name", "desc", null, 1000.00, null, 1, "Picture")] // Address is null
+      
+
+        public void CreateNewProductWithInvalidInput_ExpectArgumentException(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category, string errorField)
+        {
+            // ARRANGE
+            Product product = new Product()
+            {
+                CategoryId = category,
+                ProductId = id,
+                Name = name,
+                Description = desc,
+                PictureURL = pic,
+                CurrentPrice = price,
+                Expiration = experation,
+                UserId = uid
+            };
+
+            ProductService ps = new ProductService(repoMock.Object);
+
+            // ACT
+            var ex = Assert.Throws<ArgumentException>(() => ps.CreateProduct(product));
+
+            // ASSERT
+            Assert.Equal($"Invalid product property: {errorField}", ex.Message);
+            repoMock.Verify(repo => repo.CreateProduct(It.Is<Product>(u => u == product)), Times.Never);
         }
     }
 }

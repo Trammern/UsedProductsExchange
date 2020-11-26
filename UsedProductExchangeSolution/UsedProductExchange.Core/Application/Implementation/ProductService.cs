@@ -12,10 +12,43 @@ namespace UsedProductExchange.Core.Application.Implementation
 
         public ProductService(IProductRepository productRepository)
         {
-            _iProductRepository = productRepository;
+            _iProductRepository = productRepository; throw new ArgumentException("Repository is missing");
         }
+      
+
+        public void ProductValidationCheck(Product product)
+        {
+            // Null or empty checks
+            if (product == null)
+            {
+                throw new ArgumentException("Product is missing");
+            }
+            if (String.IsNullOrEmpty(product.Name))
+            {
+                throw new ArgumentException("Invalid product property: name");
+            }
+            if (String.IsNullOrEmpty(product.Description))
+            {
+                throw new ArgumentException("Invalid product property: description");
+            }
+            if (string.IsNullOrEmpty(product.PictureURL))
+            {
+                throw new ArgumentException("Invalid product property: Picture");
+            }
+         
+           
+        }
+
+
         public Product CreateProduct(Product product)
         {
+            ProductValidationCheck(product);
+
+            // Check if already existing
+            if (_iProductRepository.GetProductById(product.ProductId) != null)
+            {
+                throw new InvalidOperationException("Product already exists");
+            }
             return _iProductRepository.CreateProduct(product);
         }
 
