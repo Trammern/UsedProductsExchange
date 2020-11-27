@@ -22,7 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="" />
+    <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.UI/UsedProductExchange.UI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.UI/UsedProductExchange.UI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/UserServiceTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/UserServiceTests.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +36,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/UsedProductExchange.Infrastructure.Helpers/AuthenticationHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/UsedProductExchange.Infrastructure.Helpers/IAuthenticationHelper.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -39,7 +49,6 @@
         <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/CategoryServiceTest.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/Context/UsedProductExchangeContext.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/IDbInitializer.cs" />
-        <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/Class1.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/Filter.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Core.Filter/FilteredList.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.UI/Controllers/CategoriesController.cs" />
@@ -58,7 +67,6 @@
         <option value="$PROJECT_DIR$/UsedProductExchange.UI/Startup.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.XUnitTestProject/UserServiceTests.cs" />
         <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/DBInitializer/DBInitializer.cs" />
-        <option value="$PROJECT_DIR$/UsedProductExchange.Infrastructure/UsedProductExchange.Infrastructure.csproj" />
       </list>
     </option>
   </component>
@@ -74,7 +82,6 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -144,22 +151,22 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="309" key="GridCell.Tab.0.bottom" timestamp="1606468580987">
+    <state width="1750" height="309" key="GridCell.Tab.0.bottom" timestamp="1606467656717">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580987" />
-    <state width="1750" height="309" key="GridCell.Tab.0.center" timestamp="1606468580984">
+    <state width="1750" height="309" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606467656717" />
+    <state width="1750" height="309" key="GridCell.Tab.0.center" timestamp="1606467656716">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580984" />
-    <state width="1750" height="309" key="GridCell.Tab.0.left" timestamp="1606468580983">
+    <state width="1750" height="309" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606467656716" />
+    <state width="1750" height="309" key="GridCell.Tab.0.left" timestamp="1606467656715">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580983" />
-    <state width="1750" height="309" key="GridCell.Tab.0.right" timestamp="1606468580985">
+    <state width="1750" height="309" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606467656715" />
+    <state width="1750" height="309" key="GridCell.Tab.0.right" timestamp="1606467656717">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580985" />
+    <state width="1750" height="309" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606467656717" />
     <state x="496" y="310" key="Rider.ProjectTemplateDialog.Size" timestamp="1606392382307">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
