@@ -72,6 +72,7 @@
         </e>
         <e p="DBInitializer" t="Include">
           <e p="DBInitializer.cs" t="Include" />
+          <e p="IDbInitializer.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -97,6 +98,7 @@
           <e p="TokenController.cs" t="Include" />
           <e p="UserController.cs" t="Include" />
         </e>
+        <e p="GameShop.db" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">

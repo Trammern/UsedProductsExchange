@@ -49,7 +49,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
                         UserId = u.UserId, 
                         Name = u.Name,
                         Username = u.Username,
-                        Password = u.Password,
                         Address = u.Address,
                         Email = u.Email,
                         Role = u.Role
