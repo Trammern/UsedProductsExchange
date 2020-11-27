@@ -461,3 +461,4 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,webstorm
 *.db
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml

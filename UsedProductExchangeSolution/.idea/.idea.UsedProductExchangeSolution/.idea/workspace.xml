@@ -22,9 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/UsedProductExchange.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/UsedProductExchange.Infrastructure/UsedProductExchange.Infrastructure.csproj" afterDir="false" />
-    </list>
+    <list default="true" id="cbed8181-79ae-4ba1-b77f-ab881e31ecd7" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,6 +74,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -145,22 +144,22 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1750" height="309" key="GridCell.Tab.0.bottom" timestamp="1606468197288">
+    <state width="1750" height="309" key="GridCell.Tab.0.bottom" timestamp="1606468580987">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606468197288" />
-    <state width="1750" height="309" key="GridCell.Tab.0.center" timestamp="1606468197287">
+    <state width="1750" height="309" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580987" />
+    <state width="1750" height="309" key="GridCell.Tab.0.center" timestamp="1606468580984">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606468197287" />
-    <state width="1750" height="309" key="GridCell.Tab.0.left" timestamp="1606468197287">
+    <state width="1750" height="309" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580984" />
+    <state width="1750" height="309" key="GridCell.Tab.0.left" timestamp="1606468580983">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606468197287" />
-    <state width="1750" height="309" key="GridCell.Tab.0.right" timestamp="1606468197288">
+    <state width="1750" height="309" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580983" />
+    <state width="1750" height="309" key="GridCell.Tab.0.right" timestamp="1606468580985">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1750" height="309" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606468197288" />
+    <state width="1750" height="309" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606468580985" />
     <state x="496" y="310" key="Rider.ProjectTemplateDialog.Size" timestamp="1606392382307">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
