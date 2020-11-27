@@ -65,7 +65,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = id,
                 Name = name,
                 Username = username,
-                Password = password,
                 Address = address,
                 Email = email,
                 Role = role
@@ -104,7 +103,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = id,
                 Name = name,
                 Username = username,
-                Password = password,
                 Address = address,
                 Email = email,
                 Role = role
@@ -129,7 +127,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 Name = "Tommy",
                 Username = "tommy",
-                Password = "qwe123",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
                 Role = false
@@ -158,7 +155,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = id,
                 Name = name,
                 Username = username,
-                Password = password,
                 Address = address,
                 Email = email,
                 Role = role
@@ -190,7 +186,6 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "Somestreet 1",
                 Email = "jack@hotmail.com",
                 Username = "jackster",
-                Password = "qaz123",
                 Role = true
             };
 
@@ -205,8 +200,6 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             _repoMock.Verify(repo => repo.Remove(It.Is<int>(u => u == user.UserId)), Times.Once);
             deletedUser.Should().BeNull();
-
-
         }
 
         [Fact]
@@ -220,7 +213,6 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "Somestreet 1",
                 Email = "jack@hotmail.com",
                 Username = "jackster",
-                Password = "qaz123",
                 Role = true
             };
 
@@ -250,7 +242,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = id,
                 Name = name,
                 Username = username,
-                Password = password,
                 Address = address,
                 Email = email,
                 Role = role
@@ -277,7 +268,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 Name = "Tommy",
                 Username = "tommy",
-                Password = "qwe123",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
                 Role = false
@@ -306,7 +296,6 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 Name = "Tommy",
                 Username = "tommy",
-                Password = "qwe123",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
                 Role = false
@@ -342,7 +331,6 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "address",
                 Email = "email",
                 Username = "username",
-                Password = "password",
                 Role = true
             };
             UserService us = new UserService(_repoMock.Object);

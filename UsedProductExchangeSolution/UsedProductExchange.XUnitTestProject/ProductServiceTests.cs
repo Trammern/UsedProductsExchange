@@ -8,7 +8,6 @@ using UsedProductExchange.Core.Entities;
 using Xunit;
 using FluentAssertions;
 
-
 namespace UsedProductExchange.XUnitTestProject
 {
     public class ProductServiceTest
@@ -137,10 +136,39 @@ namespace UsedProductExchange.XUnitTestProject
         }
 
         [Theory]
+        [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
+        public void TestIfDeletedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
+        {
+            //ARRANGE
+            var insertedProduct = new Product()
+            {
+                CategoryId = category,
+                ProductId = id,
+                Name = name,
+                Description = desc,
+                PictureURL = pic,
+                CurrentPrice = price,
+                Expiration = experation,
+                UserId = uid
+            };
+            ProductService ps = new ProductService(repoMock.Object);
+            products = new List<Product>();
+
+            ps.Add(insertedProduct);
+            repoMock.Setup(repo => repo.Add(insertedProduct)).Callback(() => products.Add(insertedProduct));
+            repoMock.Setup(repo => repo.Remove(insertedProduct.ProductId)).Returns(() => insertedProduct);
+            //ACT
+            var deletedProduct = ps.Delete(insertedProduct.ProductId);
+
+            //ASSERT
+            Assert.Equal(insertedProduct, deletedProduct);
+            Assert.Empty(products);
+        }
+      
+        [Theory]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]
-
         public void TestIdGetAllProductsReturnCorrectProduct(int productlist)
         {
             //ARRANGE

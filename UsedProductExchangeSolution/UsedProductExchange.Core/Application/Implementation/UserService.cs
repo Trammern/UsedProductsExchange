@@ -10,7 +10,6 @@ using UsedProductExchange.Core.Filter;
 namespace UsedProductExchange.Core.Application.Implementation
 {
     public class UserService : IService<User>
-
     {
         private readonly IRepository<User> _userRepository;
         
@@ -42,10 +41,6 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid user property: username");
             }
-            if (string.IsNullOrEmpty(user.Password))
-            {
-                throw new ArgumentException("Invalid user property: password");
-            }
         }
         
         public FilteredList<User> GetAll(Filter.Filter filter)
@@ -62,8 +57,6 @@ namespace UsedProductExchange.Core.Application.Implementation
         {
             return _userRepository.Get(id);
         }
-
-
         public User Add(User entity)
         {
             UserValidationCheck(entity);
@@ -80,9 +73,10 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Email is invalid");
             }
-
+            
             return _userRepository.Add(entity);
         }
+        
         public User Update(User entity)
         {
             UserValidationCheck(entity);
@@ -91,6 +85,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new InvalidOperationException("User to update not found");
             }
+
             return _userRepository.Edit(entity);
         }
         
@@ -100,7 +95,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new InvalidOperationException("User not found");
             }
-
+            
             return _userRepository.Remove(id);
         }
     }

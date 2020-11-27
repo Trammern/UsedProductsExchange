@@ -11,18 +11,17 @@ namespace UsedProductExchange.UI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IService<User> _iService;
-
+        private readonly IService<User> _userService;
         public UserController(IService<User> userService)
         {
-            _iService = userService;
+            _userService = userService;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            var userList = _iService.GetAll().ToList();
-
+            var userList = _userService.GetAll().ToList();
+            
             if (userList.Count == 0)
             {
                 return NoContent();
@@ -33,7 +32,7 @@ namespace UsedProductExchange.UI.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> GetById(int id)
         {
-            var result = _iService.Get(id);
+            var result = _userService.Get(id);
             
             if (result == null)
             {
@@ -45,8 +44,8 @@ namespace UsedProductExchange.UI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<User> Delete(int id)
         {
-            var result = _iService.Delete(id);
-
+            var result = _userService.Delete(id);
+            
             if (result == null)
             {
                 return NotFound();
@@ -54,12 +53,11 @@ namespace UsedProductExchange.UI.Controllers
             return result;
         }
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User obj)
+        public ActionResult<User> Post([FromBody] User user)
         {
             try
             {
-                var result = _iService.Add(obj);
-
+                var result = _userService.Add(user);
                 return Ok(result);
             }
             catch (Exception e)
@@ -69,11 +67,11 @@ namespace UsedProductExchange.UI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User obj)
+        public IActionResult Put(int id, [FromBody] User user)
         {
             try
             {
-                var result = _iService.Update(obj);
+                var result = _userService.Update(user);
                 return Ok(result);
             }
             catch (Exception e)

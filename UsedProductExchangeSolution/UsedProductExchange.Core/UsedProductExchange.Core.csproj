@@ -9,4 +9,8 @@
     <ProjectReference Include="..\UsedProductExchange.Core.Filter\UsedProductExchange.Core.Filter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+  </ItemGroup>
+
 </Project>

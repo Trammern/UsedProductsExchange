@@ -101,6 +101,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<Product> Delete(int id)
         {
             var result = _productService.Delete(id);
+            
             if (result == null)
             {
                 return NotFound();

@@ -34,7 +34,7 @@ namespace UsedProductExchange.UI
 
             services.AddScoped<IService<User>, UserService>();
             services.AddScoped<IRepository<User>, UserRepository>();
-
+          
             services.AddControllers();
         }
 

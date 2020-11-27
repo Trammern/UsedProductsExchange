@@ -13,8 +13,10 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="UsedProductExchange.Core" t="IncludeRecursive">
         <e p="Application" t="Include">
+          <e p="ILoginService.cs" t="Include" />
           <e p="Implementation" t="Include">
             <e p="CategoryService.cs" t="Include" />
+            <e p="LoginService.cs" t="Include" />
             <e p="ProductService.cs" t="Include" />
             <e p="UserService.cs" t="Include" />
           </e>
@@ -38,6 +40,7 @@
       <e p="UsedProductExchange.Core.Entities" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Category.cs" t="Include" />
+        <e p="LoginInputModel.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -69,7 +72,6 @@
         </e>
         <e p="DBInitializer" t="Include">
           <e p="DBInitializer.cs" t="Include" />
-          <e p="IDbInitializer.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -92,6 +94,7 @@
         <e p="Controllers" t="Include">
           <e p="CategoriesController.cs" t="Include" />
           <e p="ProductsController.cs" t="Include" />
+          <e p="TokenController.cs" t="Include" />
           <e p="UserController.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
@@ -111,6 +114,7 @@
       <e p="UsedProductExchange.XUnitTestProject" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="CategoryServiceTest.cs" t="Include" />
+        <e p="LoginServiceTest.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">

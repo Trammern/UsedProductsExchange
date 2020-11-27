@@ -9,7 +9,6 @@ using UsedProductExchange.Core.Filter;
 namespace UsedProductExchange.Core.Application.Implementation
 {
     public class ProductService : IService<Product>
-
     {
         private readonly IRepository<Product> _productRepository;
 
@@ -18,7 +17,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             _productRepository = productRepository ?? throw new ArgumentException("Repository is missing");
         }
         
-        public void ProductValidationCheck(Product product)
+        private void ProductValidationCheck(Product product)
         {
             // Null or empty checks
             if (product == null)
@@ -38,7 +37,6 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Invalid product property: Picture");
             }
         }
-
         
         public FilteredList<Product> GetAll(Filter.Filter filter)
         {
@@ -70,7 +68,6 @@ namespace UsedProductExchange.Core.Application.Implementation
         
         public Product Update(Product entity)
         {
-            
             if (entity.Name == null)
             {
                 throw new InvalidOperationException("Product must have a name");
