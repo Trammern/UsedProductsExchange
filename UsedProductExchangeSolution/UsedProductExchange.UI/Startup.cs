@@ -122,8 +122,11 @@ namespace UsedProductExchange.UI
                     dbInitializer.Initialize(context);
 
                 }
+
                 app.UseDeveloperExceptionPage();
             }
+
+            
 
             app.UseHttpsRedirection();
 
