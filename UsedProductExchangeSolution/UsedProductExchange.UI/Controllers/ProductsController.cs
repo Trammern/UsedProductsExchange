@@ -15,9 +15,9 @@ namespace UsedProductExchange.UI.Controllers
     public class ProductsController : ControllerBase
     {
 
-        private readonly IProductService _productService;
+        private readonly IService<Product> _productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IService<Product> productService)
         {
             _productService = productService;
         }
@@ -26,7 +26,7 @@ namespace UsedProductExchange.UI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var productList = _productService.GetAllProduct().ToList();
+            var productList = _productService.GetAll().ToList();
             if (productList.Count == 0)
             {
                 return NoContent();
@@ -38,7 +38,7 @@ namespace UsedProductExchange.UI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Product> Get(int id)
         {
-            var result = _productService.GetProductById(id);
+            var result = _productService.Get(id);
             if (result == null)
             {
                 return NotFound();
@@ -52,7 +52,7 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _productService.CreateProduct(product);
+                var result = _productService.Add(product);
                 return Ok(result);
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _productService.UpdateProduct(product);
+                var result = _productService.Update(product);
                 return Ok(result);
             }
             catch (Exception e)
@@ -82,8 +82,8 @@ namespace UsedProductExchange.UI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Product> Delete(int id)
         {
-            var productToDelete = _productService.GetProductById(id);
-            var result = _productService.DeleteProduct(productToDelete);
+            var productToDelete = _productService.Get(id);
+            var result = _productService.Delete(productToDelete.ProductId);
             if (result == null)
             {
                 return NotFound();

@@ -11,16 +11,16 @@ namespace UsedProductExchange.UI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _iUserService;
-        public UserController(IUserService userService)
+        private readonly IService<User> _userService;
+        public UserController(IService<User> userService)
         {
-            _iUserService = userService;
+            _userService = userService;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            var userList = _iUserService.GetAllUsers().ToList();
+            var userList = _userService.GetAll().ToList();
             if (userList.Count == 0)
             {
                 return NoContent();
@@ -31,7 +31,7 @@ namespace UsedProductExchange.UI.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> GetById(int id)
         {
-            var result = _iUserService.GetUserById(id);
+            var result = _userService.Get(id);
             if (result == null)
             {
                 return NotFound();
@@ -42,7 +42,7 @@ namespace UsedProductExchange.UI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<User> Delete(int id)
         {
-            var result = _iUserService.DeleteUser(id);
+            var result = _userService.Delete(id);
             if (result == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _iUserService.CreateUser(obj);
+                var result = _userService.Add(obj);
                 return Ok(result);
             }
             catch (Exception e)
@@ -68,7 +68,7 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
-                var result = _iUserService.UpdateUser(obj);
+                var result = _userService.Update(obj);
                 return Ok(result);
             }
             catch (Exception e)

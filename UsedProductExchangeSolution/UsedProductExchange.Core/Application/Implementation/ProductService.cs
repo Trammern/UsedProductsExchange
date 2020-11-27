@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class ProductService : IProductService
+    public class ProductService : IService<Product>
     {
-        private readonly IRepository<Product> _iProductRepository;
+        private readonly IRepository<Product> _productRepository;
 
         public ProductService(IRepository<Product> productRepository)
         {
-            _iProductRepository = productRepository ?? throw new ArgumentException("Repository is missing");
+            _productRepository = productRepository ?? throw new ArgumentException("Repository is missing");
         }
-      
 
-        public void ProductValidationCheck(Product product)
+        private void ProductValidationCheck(Product product)
         {
             // Null or empty checks
             if (product == null)
@@ -35,48 +35,44 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid product property: Picture");
             }
-         
-           
         }
 
-
-        public Product CreateProduct(Product product)
+        public Product Add(Product entity)
         {
-            ProductValidationCheck(product);
+            ProductValidationCheck(entity);
 
             // Check if already existing
-            if (_iProductRepository.Get(product.ProductId) != null)
+            if (_productRepository.Get(entity.ProductId) != null)
             {
                 throw new InvalidOperationException("Product already exists");
             }
-            return _iProductRepository.Add(product);
+            return _productRepository.Add(entity);
         }
 
-        public Product DeleteProduct(Product product)
+        public Product Delete(int id)
         {
-            return _iProductRepository.Remove(product.ProductId);
+            return _productRepository.Remove(id);
         }
 
-        public IEnumerable<Product> GetAllProduct()
+        public List<Product> GetAll()
         {
-            return _iProductRepository.GetAll();
+            return _productRepository.GetAll().ToList();
         }
 
-        public Product GetProductById(int id)
+        public Product Get(int id)
         {
-            return _iProductRepository.Get(id);
+            return _productRepository.Get(id);
         }
 
-        public Product UpdateProduct(Product productToUpdate)
+        public Product Update(Product entity)
         {
-            
-            if (productToUpdate.Name == null)
+            if (entity.Name == null)
             {
                 throw new InvalidOperationException("Product must have a name");
             }
             else
             {
-                var updatedProduct = _iProductRepository.Edit(productToUpdate);
+                var updatedProduct = _productRepository.Edit(entity);
                 return updatedProduct;
             }
         }

@@ -13,21 +13,20 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="UsedProductExchange.Core" t="IncludeRecursive">
         <e p="Application" t="Include">
+          <e p="ILoginService.cs" t="Include" />
           <e p="Implementation" t="Include">
             <e p="CategoryService.cs" t="Include" />
+            <e p="LoginService.cs" t="Include" />
             <e p="ProductService.cs" t="Include" />
             <e p="UserService.cs" t="Include" />
           </e>
-          <e p="IProductService.cs" t="Include" />
           <e p="IService.cs" t="Include" />
-          <e p="IUserService.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Domain" t="Include">
           <e p="ICategoryRepository.cs" t="Include" />
           <e p="IProductRepository.cs" t="Include" />
           <e p="IRepository.cs" t="Include" />
-          <e p="IUserRepository.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -41,6 +40,7 @@
       <e p="UsedProductExchange.Core.Entities" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Category.cs" t="Include" />
+        <e p="LoginInputModel.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -56,6 +56,9 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Context" t="Include">
           <e p="UsedProductExchangeContext.cs" t="Include" />
+        </e>
+        <e p="DBInitializer" t="Include">
+          <e p="DBInitializer.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -77,7 +80,9 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
           <e p="CategoriesController.cs" t="Include" />
-          <e p="WeatherForecastController.cs" t="Include" />
+          <e p="ProductsController.cs" t="Include" />
+          <e p="TokenController.cs" t="Include" />
+          <e p="UserController.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -92,11 +97,11 @@
         </e>
         <e p="Startup.cs" t="Include" />
         <e p="UsedProductExchange.UI.csproj" t="IncludeRecursive" />
-        <e p="WeatherForecast.cs" t="Include" />
       </e>
       <e p="UsedProductExchange.XUnitTestProject" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="CategoryServiceTest.cs" t="Include" />
+        <e p="LoginServiceTest.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
@@ -104,7 +109,7 @@
             </e>
           </e>
         </e>
-        <e p="ProductService.cs" t="Include" />
+        <e p="ProductServiceTests.cs" t="Include" />
         <e p="UsedProductExchange.XUnitTestProject.csproj" t="IncludeRecursive" />
         <e p="UserServiceTests.cs" t="Include" />
       </e>

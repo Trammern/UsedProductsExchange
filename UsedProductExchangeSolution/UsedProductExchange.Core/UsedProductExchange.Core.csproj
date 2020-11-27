@@ -8,4 +8,8 @@
     <ProjectReference Include="..\UsedProductExchange.Core.Entities\UsedProductExchange.Core.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+  </ItemGroup>
+
 </Project>

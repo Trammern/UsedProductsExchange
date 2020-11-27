@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using UsedProductExchange.Core.Domain;
@@ -7,13 +8,13 @@ using UsedProductExchange.Core.Entities;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
-    public class UserService : IUserService
+    public class UserService : IService<User>
     {
-        private readonly IRepository<User> _iUserRepository;
+        private readonly IRepository<User> _userRepository;
         
         public UserService(IRepository<User> userRepository)
         {
-            _iUserRepository = userRepository ?? throw new ArgumentException("Repository is missing");
+            _userRepository = userRepository ?? throw new ArgumentException("Repository is missing");
         }
 
         public void UserValidationCheck(User user)
@@ -39,18 +40,14 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid user property: username");
             }
-            if (string.IsNullOrEmpty(user.Password))
-            {
-                throw new ArgumentException("Invalid user property: password");
-            }
         }
 
-        public User CreateUser(User user)
+        public User Add(User user)
         {
             UserValidationCheck(user);
             
             // Check if already existing
-            if (_iUserRepository.Get(user.UserId) != null)
+            if (_userRepository.Get(user.UserId) != null)
             {
                 throw new InvalidOperationException("User already exists");
             }
@@ -62,40 +59,38 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Email is invalid");
             }
 
-            return _iUserRepository.Add(user);
+            return _userRepository.Add(user);
         }
 
-
-
-        public User DeleteUser(int id)
+        public User Delete(int id)
         {
-            if (_iUserRepository.Get(id) == null)
+            if (_userRepository.Get(id) == null)
             {
                 throw new InvalidOperationException("User not found");
             }
 
-            return _iUserRepository.Remove(id);
+            return _userRepository.Remove(id);
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public List<User> GetAll()
         {
-            return _iUserRepository.GetAll();
+            return _userRepository.GetAll().ToList();
         }
 
-        public User GetUserById(int id)
+        public User Get(int id)
         {
-            return _iUserRepository.Get(id);
+            return _userRepository.Get(id);
         }
 
-        public User UpdateUser(User userToUpdate)
+        public User Update(User entity)
         {
-            UserValidationCheck(userToUpdate);
+            UserValidationCheck(entity);
 
-            if (userToUpdate == null || _iUserRepository.Get(userToUpdate.UserId) == null)
+            if (entity == null || _userRepository.Get(entity.UserId) == null)
             {
                 throw new InvalidOperationException("User to update not found");
             }
-            return _iUserRepository.Edit(userToUpdate);
+            return _userRepository.Edit(entity);
         }
     }
 }
