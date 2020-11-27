@@ -57,7 +57,7 @@ namespace UsedProductExchange.XUnitTestProject
         #region AddUserTest
         [Theory]
         [InlineData(1, "Jimmy", "jimster", "qaz123", "Storegade 1", "jimster@hotmail.com", true)]
-        public void TestIfNewUserIsCreated_ValidInput(int id, string name, string username, string password, string address, string email, bool role)
+        public void TestIfNewUserIsCreated_ValidInput(int id, string name, string username, string password, string address, string email, bool isAdmin)
         {
             // ARRANGE
             var user = new User()
@@ -67,7 +67,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = username,
                 Address = address,
                 Email = email,
-                Role = role
+                IsAdmin = isAdmin
             };
             UserService us = new UserService(_repoMock.Object);
 
@@ -93,7 +93,7 @@ namespace UsedProductExchange.XUnitTestProject
         [InlineData(6, "Joey", "joey", "qaz123", null, "joey@hotmail.com", true, "address")] // Address is null
         [InlineData(7, "Joey", "", "qaz123", "Somestreet 3", "joey@hotmail.com", true, "username")] // Username is empty
         [InlineData(8, "Joey", null, "qaz123", "Somestreet 3", "joey@hotmail.com", true, "username")] // Username is null
-        public void CreateNewUserWithInvalidInput_ExpectArgumentException(int id, string name, string username, string password, string address, string email, bool role, string errorField)
+        public void CreateNewUserWithInvalidInput_ExpectArgumentException(int id, string name, string username, string password, string address, string email, bool isAdmin, string errorField)
         {
             // ARRANGE
             var user = new User()
@@ -103,7 +103,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = username,
                 Address = address,
                 Email = email,
-                Role = role
+                IsAdmin = isAdmin
             };
 
             UserService us = new UserService(_repoMock.Object);
@@ -127,7 +127,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = "tommy",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
-                Role = false
+                IsAdmin = false
             };
 
             _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => user);
@@ -145,7 +145,7 @@ namespace UsedProductExchange.XUnitTestProject
 
         [Theory]
         [InlineData(1, "Jimmy", "jimster", "qaz123", "Storegade 1", "jimmys mail", true)]
-        public void TestInvalidEmail(int id, string name, string username, string password, string address, string email, bool role)
+        public void TestInvalidEmail(int id, string name, string username, string password, string address, string email, bool isAdmin)
         {
             // ARRANGE
             var user = new User()
@@ -155,7 +155,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = username,
                 Address = address,
                 Email = email,
-                Role = role
+                IsAdmin = isAdmin
             };
             UserService us = new UserService(_repoMock.Object);
 
@@ -184,7 +184,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "Somestreet 1",
                 Email = "jack@hotmail.com",
                 Username = "jackster",
-                Role = true
+                IsAdmin = true
             };
 
             UserService us = new UserService(_repoMock.Object);
@@ -211,7 +211,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "Somestreet 1",
                 Email = "jack@hotmail.com",
                 Username = "jackster",
-                Role = true
+                IsAdmin = true
             };
 
             UserService us = new UserService(_repoMock.Object);
@@ -232,7 +232,7 @@ namespace UsedProductExchange.XUnitTestProject
         [Theory]
         [InlineData(1, "some name", "some username", "some password", "some address", "some email", false)]
         [InlineData(1, "some name", "some username", "some password", "some address", "updated email", false)]
-        public void UpdateValidUser(int id, string name, string username, string password, string address, string email, bool role)
+        public void UpdateValidUser(int id, string name, string username, string password, string address, string email, bool isAdmin)
         {
             // ARRANGE
             var user = new User()
@@ -242,7 +242,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = username,
                 Address = address,
                 Email = email,
-                Role = role
+                IsAdmin = isAdmin
             };
 
             UserService us = new UserService(_repoMock.Object);
@@ -268,7 +268,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = "tommy",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
-                Role = false
+                IsAdmin = false
             };
 
             UserService us = new UserService(_repoMock.Object);
@@ -296,7 +296,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Username = "tommy",
                 Address = "Anotherstreet1",
                 Email = "tommy@hotmail.com",
-                Role = false
+                IsAdmin = false
             };
             UserService us = new UserService(_repoMock.Object);
 
@@ -329,7 +329,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Address = "address",
                 Email = "email",
                 Username = "username",
-                Role = true
+                IsAdmin = true
             };
             UserService us = new UserService(_repoMock.Object);
 
@@ -383,8 +383,7 @@ namespace UsedProductExchange.XUnitTestProject
             Assert.Equal(listOfUsers.GetRange(0, listCount), usersFound);
             _repoMock.Verify(repo => repo.GetAll(), Times.Once);
         }
-
-
+        
         #endregion
 
 

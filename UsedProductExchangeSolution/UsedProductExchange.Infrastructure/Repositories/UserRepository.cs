@@ -51,7 +51,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
                         Username = u.Username,
                         Address = u.Address,
                         Email = u.Email,
-                        Role = u.Role
+                        IsAdmin = u.IsAdmin
                     })
                     .ToList()
             };

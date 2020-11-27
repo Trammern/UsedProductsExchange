@@ -44,7 +44,6 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                     IsAdmin = true,
                     Address = "Anotherstreet1",
                     Email = "tommy@hotmail.com",
-                    Role = false
                 },
                 new User
                 {
@@ -56,7 +55,6 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                     IsAdmin = false,
                     Address = "Anotherstreet1",
                     Email = "tommy@hotmail.com",
-                    Role = false
                 },
             };
             

@@ -56,7 +56,7 @@ namespace UsedProductExchange.UI
             {
                 // SqLite database:
                 services.AddDbContext<UsedProductExchangeContext>(opt =>
-                    opt.UseSqlite("Data Source=PetShop.db"));
+                    opt.UseSqlite("Data Source=UsedProductExchange.db"));
                 // Register SqLite database initializer for dependency injection.
                 services.AddTransient<IDbInitializer, DbInitializer>();
             }
@@ -125,8 +125,6 @@ namespace UsedProductExchange.UI
 
                 app.UseDeveloperExceptionPage();
             }
-
-            
 
             app.UseHttpsRedirection();
 
