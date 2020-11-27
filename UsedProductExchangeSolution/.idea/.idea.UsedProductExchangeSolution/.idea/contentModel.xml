@@ -106,6 +106,7 @@
             </e>
           </e>
         </e>
+        <e p="PetShop.db" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />

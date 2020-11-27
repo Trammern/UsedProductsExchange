@@ -1,44 +1,105 @@
+using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Application.Implementation;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
 using UsedProductExchange.Infrastructure.Context;
+using UsedProductExchange.Infrastructure.DBInitializer;
 using UsedProductExchange.Infrastructure.Repositories;
 
 namespace UsedProductExchange.UI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Create a byte array with random values. This byte array is used
+            // to generate a key for signing JWT tokens.
+            byte[] secretBytes = new byte[40];
+            var rand = new Random();
+            rand.NextBytes(secretBytes);
             
-            services.AddDbContext<UsedProductExchangeContext>(opt => opt.UseSqlite("Data Source=UsedProductsExchange.db"),
-            ServiceLifetime.Transient);
+            // Add JWT based authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(secretBytes),
+                    ValidateLifetime = true, // validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) // 5 minute tolerance for the expiration date
+                };
+            });
+            
+            if (Environment.IsDevelopment())
+            {
+                // SqLite database:
+                services.AddDbContext<UsedProductExchangeContext>(opt =>
+                    opt.UseSqlite("Data Source=PetShop.db"));
+                // Register SqLite database initializer for dependency injection.
+                services.AddTransient<IDbInitializer, DbInitializer>();
+            }
+            else
+            {
+                // Azure SQL database:
+                services.AddDbContext<UsedProductExchangeContext>(opt =>
+                    opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                // Register SQL Server database initializer for dependency injection.
+                //services.AddTransient<IDbInitializer, DbInitializer>();
+            }
 
             services.AddScoped<IService<Category>, CategoryService>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
 
             services.AddScoped<IService<User>, UserService>();
             services.AddScoped<IRepository<User>, UserRepository>();
-
+            
             services.AddScoped<IService<Product>, ProductService>();
             services.AddScoped<IRepository<Product>, ProductRepository>();
-
+            
+            services.AddSingleton<ILoginService>(new LoginService(secretBytes));
+          
             services.AddControllers();
+            
+            // Configure the default CORS policy.
+            services.AddCors(options =>
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    })
+            );
+
+            // Ignore JSON model relations loop
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //o.SerializerSettings.MaxDepth = 5;
+            });
+            
+            services.AddDbContext<UsedProductExchangeContext>(opt => 
+                    opt.UseSqlite("Data Source=UsedProductExchange.db"),ServiceLifetime.Transient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,13 +111,15 @@ namespace UsedProductExchange.UI
                 {
                     var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
 
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    if (context != null)
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    }
 
-                    var userRepository = scope.ServiceProvider.GetService<IRepository<User>>();
-                    var categoryRepository = scope.ServiceProvider.GetService<IRepository<Category>>();
-                    var productRepositry = scope.ServiceProvider.GetService<IRepository<Product>>();
-
+                    var services = scope.ServiceProvider;
+                    var dbInitializer = services.GetService<IDbInitializer>();
+                    dbInitializer.Initialize(context);
 
                 }
                 app.UseDeveloperExceptionPage();
@@ -65,6 +128,10 @@ namespace UsedProductExchange.UI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors();
+            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
