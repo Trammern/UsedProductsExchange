@@ -93,8 +93,6 @@ namespace UsedProductExchange.XUnitTestProject
         [InlineData(6, "Joey", "joey", "qaz123", null, "joey@hotmail.com", true, "address")] // Address is null
         [InlineData(7, "Joey", "", "qaz123", "Somestreet 3", "joey@hotmail.com", true, "username")] // Username is empty
         [InlineData(8, "Joey", null, "qaz123", "Somestreet 3", "joey@hotmail.com", true, "username")] // Username is null
-        [InlineData(9, "Joey", "joey", "", "Somestreet 3", "joey@hotmail.com", true, "password")] // Password is empty
-        [InlineData(10, "Joey", "joey", null, "Somestreet 3", "joey@hotmail.com", true, "password")] // Password is null
         public void CreateNewUserWithInvalidInput_ExpectArgumentException(int id, string name, string username, string password, string address, string email, bool role, string errorField)
         {
             // ARRANGE

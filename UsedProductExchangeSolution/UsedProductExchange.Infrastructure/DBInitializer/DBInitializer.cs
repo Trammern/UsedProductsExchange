@@ -8,11 +8,11 @@ using UsedProductExchange.Infrastructure.Repositories;
 
 namespace UsedProductExchange.Infrastructure.DBInitializer
 {
-    public class DBInitializer
+    public class DbInitializer: IDbInitializer
     {
         private readonly ILoginService _loginService;
 
-        public DBInitializer(ILoginService loginService)
+        public DbInitializer(ILoginService loginService)
         {
             _loginService = loginService;
         }
@@ -48,8 +48,8 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
                 new User
                 {
-                    UserId = 1,
-                    Name = "Tommy",
+                    UserId = 2,
+                    Name = "Carl",
                     Username = "User",
                     PasswordHash = userPassHash,
                     PasswordSalt = userPassSalt,
