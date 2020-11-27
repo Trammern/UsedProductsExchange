@@ -26,7 +26,7 @@ namespace UsedProductExchange.UI
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<UsedProductExchangeContext>(opt => opt.UseSqlite("Data Source=GameShop.db"),
+            services.AddDbContext<UsedProductExchangeContext>(opt => opt.UseSqlite("Data Source=UsedProductsExchange.db"),
             ServiceLifetime.Transient);
 
             services.AddScoped<IService<Category>, CategoryService>();
@@ -34,7 +34,10 @@ namespace UsedProductExchange.UI
 
             services.AddScoped<IService<User>, UserService>();
             services.AddScoped<IRepository<User>, UserRepository>();
-          
+
+            services.AddScoped<IService<Product>, ProductService>();
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+
             services.AddControllers();
         }
 
@@ -52,6 +55,8 @@ namespace UsedProductExchange.UI
 
                     var userRepository = scope.ServiceProvider.GetService<IRepository<User>>();
                     var categoryRepository = scope.ServiceProvider.GetService<IRepository<Category>>();
+                    var productRepositry = scope.ServiceProvider.GetService<IRepository<Product>>();
+
 
                 }
                 app.UseDeveloperExceptionPage();
