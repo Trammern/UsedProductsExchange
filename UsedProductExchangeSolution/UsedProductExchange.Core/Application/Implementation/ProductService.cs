@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
@@ -15,7 +16,7 @@ namespace UsedProductExchange.Core.Application.Implementation
         {
             _productRepository = productRepository ?? throw new ArgumentException("Repository is missing");
         }
-
+        
         private void ProductValidationCheck(Product product)
         {
             // Null or empty checks
@@ -31,10 +32,26 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid product property: description");
             }
-            if (string.IsNullOrEmpty(product.PictureURL))
+            if (string.IsNullOrEmpty(product.PictureUrl))
             {
                 throw new ArgumentException("Invalid product property: Picture");
             }
+        }
+        
+        public FilteredList<Product> GetAll(Filter.Filter filter)
+        {
+            return _productRepository.GetAll(filter);
+        }
+
+        public List<Product> GetAll()
+        {
+            return _productRepository.GetAll().ToList();
+        }
+
+        
+        public Product Get(int id)
+        {
+            return _productRepository.Get(id);
         }
 
         public Product Add(Product entity)
@@ -48,22 +65,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             }
             return _productRepository.Add(entity);
         }
-
-        public Product Delete(int id)
-        {
-            return _productRepository.Remove(id);
-        }
-
-        public List<Product> GetAll()
-        {
-            return _productRepository.GetAll().ToList();
-        }
-
-        public Product Get(int id)
-        {
-            return _productRepository.Get(id);
-        }
-
+        
         public Product Update(Product entity)
         {
             if (entity.Name == null)
@@ -75,6 +77,16 @@ namespace UsedProductExchange.Core.Application.Implementation
                 var updatedProduct = _productRepository.Edit(entity);
                 return updatedProduct;
             }
+        }
+
+        public Product Delete(int id)
+        {
+            if (_productRepository.Get(id) == null)
+            {
+                throw new InvalidOperationException("Product not found");
+            }
+
+            return _productRepository.Remove(id);
         }
     }
 }

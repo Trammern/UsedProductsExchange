@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 using UsedProductExchange.Infrastructure.Context;
 
 namespace UsedProductExchange.Infrastructure.Repositories
@@ -17,9 +18,25 @@ namespace UsedProductExchange.Infrastructure.Repositories
             _ctx = ctx;
         }
         
+        public FilteredList<Category> GetAll(Filter filter)
+        {
+            var filteredList = new FilteredList<Category>
+            {
+                TotalCount = _ctx.Categories.Count(),
+                FilterUsed = filter,
+                List = _ctx.Categories.Select(c => new Category()
+                    {
+                        CategoryId = c.CategoryId, 
+                        Name = c.Name,
+                    })
+                    .ToList()
+            };
+            return filteredList;
+        }
+
         public IEnumerable<Category> GetAll()
         {
-            return _ctx.Categories.ToList();
+            return _ctx.Categories;
         }
 
         public Category Get(int id)
@@ -44,10 +61,10 @@ namespace UsedProductExchange.Infrastructure.Repositories
         public Category Remove(int id)
         {
             var category = _ctx.Categories.FirstOrDefault(x => x.CategoryId == id);
-            if(category == null) throw new ArgumentException("Category is missing");
-            _ctx.Categories.Remove(category);
+            if(category == null) throw new ArgumentException("Category does not exist");
+            var deletedCategory = _ctx.Categories.Remove(category);
             _ctx.SaveChanges();
-            return category;
+            return deletedCategory.Entity;
         }
     }
 }

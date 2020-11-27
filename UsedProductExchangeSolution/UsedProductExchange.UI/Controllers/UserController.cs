@@ -21,6 +21,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<IEnumerable<User>> Get()
         {
             var userList = _userService.GetAll().ToList();
+            
             if (userList.Count == 0)
             {
                 return NoContent();
@@ -32,6 +33,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<User> GetById(int id)
         {
             var result = _userService.Get(id);
+            
             if (result == null)
             {
                 return NotFound();
@@ -43,6 +45,7 @@ namespace UsedProductExchange.UI.Controllers
         public ActionResult<User> Delete(int id)
         {
             var result = _userService.Delete(id);
+            
             if (result == null)
             {
                 return NotFound();
@@ -50,11 +53,11 @@ namespace UsedProductExchange.UI.Controllers
             return result;
         }
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User obj)
+        public ActionResult<User> Post([FromBody] User user)
         {
             try
             {
-                var result = _userService.Add(obj);
+                var result = _userService.Add(user);
                 return Ok(result);
             }
             catch (Exception e)
@@ -64,11 +67,11 @@ namespace UsedProductExchange.UI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User obj)
+        public IActionResult Put(int id, [FromBody] User user)
         {
             try
             {
-                var result = _userService.Update(obj);
+                var result = _userService.Update(user);
                 return Ok(result);
             }
             catch (Exception e)

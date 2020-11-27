@@ -1,36 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 using UsedProductExchange.Infrastructure.Context;
 
-namespace UsedProductExchange.Infrastructure
+namespace UsedProductExchange.Infrastructure.Repositories
 {
-    public class ProductRepository : IRepository<Product>
+    public class ProductRepository: IRepository<Product>
     {
-
         private readonly UsedProductExchangeContext _ctx;
 
         public ProductRepository(UsedProductExchangeContext ctx)
         {
             _ctx = ctx;
         }
-
-        public Product Add(Product entity)
+        
+        public FilteredList<Product> GetAll(Filter filter)
         {
-            _ctx.Attach(entity).State = EntityState.Added;
-            _ctx.SaveChanges();
-            return entity;
+            var filteredList = new FilteredList<Product>
+            {
+                TotalCount = _ctx.Products.Count(),
+                FilterUsed = filter,
+                List = _ctx.Products.Select(p => new Product()
+                    {
+                        ProductId = p.ProductId, 
+                        UserId = p.UserId,
+                        Name = p.Name,
+                        Description = p.Description,
+                        PictureUrl = p.PictureUrl,
+                        CurrentPrice = p.CurrentPrice,
+                        Expiration = p.Expiration,
+                        CategoryId = p.CategoryId
+                    })
+                    .ToList()
+            };
+            return filteredList;
         }
 
-        public Product Edit(Product entity)
+        public IEnumerable<Product> GetAll()
         {
-            var productToUpdate = _ctx.Products.Update(entity);
-            _ctx.SaveChanges();
-            return productToUpdate.Entity;
+            return _ctx.Products;
         }
 
         public Product Get(int id)
@@ -38,16 +50,27 @@ namespace UsedProductExchange.Infrastructure
             return _ctx.Products.FirstOrDefault(p => p.ProductId == id);
         }
 
-        public IEnumerable<Product> GetAll()
+        public Product Add(Product entity)
         {
-            return _ctx.Products.ToList();
+            var newProduct = _ctx.Products.Add(entity);
+            _ctx.SaveChanges();
+            return newProduct.Entity;
+        }
+
+        public Product Edit(Product entity)
+        {
+            _ctx.Entry(entity).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return entity;
         }
 
         public Product Remove(int id)
         {
-            var productToDelete = Get(id);
-            _ctx.Products.Remove(productToDelete);
-            return productToDelete;
+            var product = _ctx.Products.FirstOrDefault(x => x.ProductId == id);
+            if(product == null) throw new ArgumentException("Product does not exist");
+            var deletedProduct = _ctx.Products.Remove(product);
+            _ctx.SaveChanges();
+            return deletedProduct.Entity;
         }
     }
 }

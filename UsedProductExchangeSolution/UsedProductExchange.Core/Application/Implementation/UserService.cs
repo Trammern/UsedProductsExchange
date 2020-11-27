@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UsedProductExchange.Core.Domain;
 using UsedProductExchange.Core.Entities;
+using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.Core.Application.Implementation
 {
@@ -17,7 +18,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             _userRepository = userRepository ?? throw new ArgumentException("Repository is missing");
         }
 
-        public void UserValidationCheck(User user)
+        private void UserValidationCheck(User user)
         {
             // Null or empty checks
             if (user == null)
@@ -41,47 +42,41 @@ namespace UsedProductExchange.Core.Application.Implementation
                 throw new ArgumentException("Invalid user property: username");
             }
         }
-
-        public User Add(User user)
+        
+        public FilteredList<User> GetAll(Filter.Filter filter)
         {
-            UserValidationCheck(user);
+            return _userRepository.GetAll(filter);
+        }
+        
+        public List<User> GetAll()
+        {
+            return _userRepository.GetAll().ToList();
+        }
+        
+        public User Get(int id)
+        {
+            return _userRepository.Get(id);
+        }
+        public User Add(User entity)
+        {
+            UserValidationCheck(entity);
             
             // Check if already existing
-            if (_userRepository.Get(user.UserId) != null)
+            if (_userRepository.Get(entity.UserId) != null)
             {
                 throw new InvalidOperationException("User already exists");
             }
 
             // Check if valid email
-            bool isEmail = Regex.IsMatch(user.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            var isEmail = Regex.IsMatch(entity.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
             if (!isEmail)
             {
                 throw new ArgumentException("Email is invalid");
             }
-
-            return _userRepository.Add(user);
+            
+            return _userRepository.Add(entity);
         }
-
-        public User Delete(int id)
-        {
-            if (_userRepository.Get(id) == null)
-            {
-                throw new InvalidOperationException("User not found");
-            }
-
-            return _userRepository.Remove(id);
-        }
-
-        public List<User> GetAll()
-        {
-            return _userRepository.GetAll().ToList();
-        }
-
-        public User Get(int id)
-        {
-            return _userRepository.Get(id);
-        }
-
+        
         public User Update(User entity)
         {
             UserValidationCheck(entity);
@@ -90,7 +85,18 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new InvalidOperationException("User to update not found");
             }
+
             return _userRepository.Edit(entity);
+        }
+        
+        public User Delete(int id)
+        {
+            if (_userRepository.Get(id) == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+            
+            return _userRepository.Remove(id);
         }
     }
 }
