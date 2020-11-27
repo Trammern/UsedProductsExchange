@@ -11,7 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\UsedProductExchange.Core.Entities\UsedProductExchange.Core.Entities.csproj" />
     <ProjectReference Include="..\UsedProductExchange.Core\UsedProductExchange.Core.csproj" />
-    <ProjectReference Include="..\UsedProductExchange.Infrastructure.Helpers\UsedProductExchange.Infrastructure.Helpers.csproj" />
     <ProjectReference Include="..\UsedProductExchange.Infrastructure\UsedProductExchange.Infrastructure.csproj" />
   </ItemGroup>
 
