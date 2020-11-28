@@ -34,7 +34,15 @@ namespace UsedProductExchange.UI.Controllers
             
             return Ok(new
             {
-                username = user.Username,
+                //username = user.Username,
+                account = new {
+                    user.UserId,
+                    user.Name,
+                    user.Username,
+                    user.IsAdmin,
+                    user.Address,
+                    user.Email
+                },
                 token = _loginService.GenerateToken(user)
             });
         }
