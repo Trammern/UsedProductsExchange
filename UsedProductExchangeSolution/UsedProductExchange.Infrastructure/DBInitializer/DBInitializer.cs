@@ -74,14 +74,16 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
             };
 
-            var categories = new List<Category>
+            var categories = new List<Category>();
+
+            for (int i = 0; i < 100; i++)
             {
-                new Category
+                categories.Add(new Category
                 {
-                    CategoryId = 1,
-                    Name = "Rester"
-                },
-            };
+                    CategoryId = i,
+                    Name = "Category " + i,
+                });
+            }
             
             context.Users.AddRange(users);
             context.Products.AddRange(products);
