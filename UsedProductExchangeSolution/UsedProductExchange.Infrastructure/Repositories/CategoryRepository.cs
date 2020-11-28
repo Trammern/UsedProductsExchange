@@ -36,12 +36,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public IEnumerable<Category> GetAll()
         {
-            return _ctx.Categories;
+            return _ctx.Categories.AsNoTracking();
         }
 
         public Category Get(int id)
         {
-            return _ctx.Categories.FirstOrDefault(x => x.CategoryId == id);
+            return _ctx.Categories.AsNoTracking().FirstOrDefault(x => x.CategoryId == id);
         }
 
         public Category Add(Category entity)

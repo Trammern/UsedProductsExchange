@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Entities;
@@ -49,6 +50,7 @@ namespace UsedProductExchange.UI.Controllers
         }
         
         // POST api/categories -- CREATE
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult<Category> Post([FromBody] Category entity)
         {
@@ -64,6 +66,7 @@ namespace UsedProductExchange.UI.Controllers
         }
         
         // PUT api/categories/5 -- Update
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public ActionResult<Category> Put(int id, [FromBody] Category entity)
         {
@@ -71,7 +74,7 @@ namespace UsedProductExchange.UI.Controllers
             
             if (id != entity.CategoryId)
             {
-                return BadRequest("Parameter Id and pet ID must be the same");
+                return BadRequest("Parameter Id and category ID must be the same");
             }
             
             if (_service.Get(id) == null) return NotFound();
@@ -80,6 +83,7 @@ namespace UsedProductExchange.UI.Controllers
         }
         
         // DELETE api/categories/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public ActionResult<Category> Delete(int id)
         {
@@ -87,8 +91,15 @@ namespace UsedProductExchange.UI.Controllers
             
             if (_service.Get(id) == null) return NotFound();
             
-            _service.Delete(id);
-            return Accepted($"Object with Id: {id} is Deleted");
+            var category = _service.Delete(id);
+            
+            return Accepted(
+                new
+                {
+                    message = "Object has been deleted",
+                    category
+                }
+            );
         }
     }
 }
