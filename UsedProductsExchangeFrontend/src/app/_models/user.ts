@@ -1,9 +1,9 @@
 export class User {
-  id: number;
+  id?: number;
   name: string;
   username: string;
   password: string;
   isAdmin: boolean;
-  address: string;
+  address?: string;
   email: string;
 }

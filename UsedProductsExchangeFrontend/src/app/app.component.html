@@ -308,7 +308,15 @@
   />
   <span>{{ title }}</span>
   <div class="spacer"></div>
-  <span style="margin-right: 15px;"><a style="color: white" routerLink="/login" routerLinkActive="active">Login</a></span>
+  <div *ngIf="!userIsLoggedIn()">
+    <span style="margin-right: 15px;"><a style="color: white" routerLink="/login" routerLinkActive="active">Login</a></span>
+    <span style="margin-left: 15px; margin-right: 15px;"><a style="color: white" routerLink="/register" routerLinkActive="active">Register</a></span>
+  </div>
+  <div *ngIf="userIsLoggedIn()">
+    <span style="margin-right: 15px;"><a style="color: white">Hi, {{ user.name }}</a></span>
+    <span style="margin-left: 15px; margin-right: 15px;"><a style="color: white" (click)="logout()">Logout</a></span>
+  </div>
+
 </div>
 
 <div class="content" role="main">
