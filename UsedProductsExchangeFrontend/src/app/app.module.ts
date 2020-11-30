@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import {CategoriesService} from './_services/categories.service';
 import { AdBannerComponent } from './ad-banner/ad-banner.component';
+import { ProductListingComponent } from './product-listing/product-listing.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AdBannerComponent } from './ad-banner/ad-banner.component';
     HomeComponent,
     RegisterComponent,
     AdBannerComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    ProductListingComponent
   ],
   imports: [
     BrowserModule,
