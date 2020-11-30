@@ -1,6 +1,7 @@
 .topnav {
   background-color: cornflowerblue;
   overflow: hidden;
+
 }
 
 .topnav a{
@@ -9,16 +10,19 @@
   text-align: right;
   padding: 14px 16px;
   font-size: 17px;
+
 }
 
 .topnav a:hover{
   background-color: aquamarine;
   color: black;
+  cursor:pointer;
 }
 
 .topnav a.topnav {
   background-color: #4CAF50;
   color: white;
+
 }
 
 .topnav b{

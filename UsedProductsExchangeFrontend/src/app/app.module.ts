@@ -16,18 +16,20 @@ import { CategoryEditComponent } from './categories/category-edit/category-edit.
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import {CategoriesService} from './_services/categories.service';
+import { AdBannerComponent } from './ad-banner/ad-banner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavigationBarComponent,
-    SearchbarComponent
     CategoriesComponent,
     CategoryAddComponent,
     CategoryEditComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdBannerComponent,
+    SearchbarComponent
   ],
   imports: [
     BrowserModule,
