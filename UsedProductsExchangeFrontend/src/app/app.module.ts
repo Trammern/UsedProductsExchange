@@ -10,6 +10,12 @@ import {AuthenticationService} from './_services/authentication.service';
 import {HttpClientModule} from '@angular/common/http';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { CategoryAddComponent } from './categories/category-add/category-add.component';
+import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import {CategoriesService} from './_services/categories.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +23,11 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
     LoginComponent,
     NavigationBarComponent,
     SearchbarComponent
+    CategoriesComponent,
+    CategoryAddComponent,
+    CategoryEditComponent,
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +38,7 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
   providers: [
     AuthGuard,
     AuthenticationService,
+    CategoriesService,
   ],
   bootstrap: [AppComponent]
 })
