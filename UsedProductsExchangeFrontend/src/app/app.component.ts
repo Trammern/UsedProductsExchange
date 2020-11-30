@@ -8,9 +8,9 @@ import {User} from './_models/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'UsedProductsExchangeFrontend';
+  title = 'Used Products Exchange';
   user: User = null;
-
+  
   constructor(private authenticationService: AuthenticationService) {
     authenticationService.user.subscribe(user => this.setUser(user));
   }

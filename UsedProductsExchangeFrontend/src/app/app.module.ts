@@ -8,6 +8,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AuthGuard} from './_guard/auth.guard';
 import {AuthenticationService} from './_services/authentication.service';
 import {HttpClientModule} from '@angular/common/http';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { SearchbarComponent } from './searchbar/searchbar.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryAddComponent } from './categories/category-add/category-add.component';
 import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
@@ -19,6 +21,8 @@ import {CategoriesService} from './_services/categories.service';
   declarations: [
     AppComponent,
     LoginComponent,
+    NavigationBarComponent,
+    SearchbarComponent
     CategoriesComponent,
     CategoryAddComponent,
     CategoryEditComponent,

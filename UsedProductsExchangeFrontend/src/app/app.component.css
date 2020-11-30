@@ -1,0 +1,11 @@
+body{
+  background-color: lightskyblue;
+  height: 1080px;
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+  font-family: "Century Gothic";
+  text-decoration: underline;
+}
