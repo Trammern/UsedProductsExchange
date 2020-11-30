@@ -58,12 +58,12 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
             };
             
-            // Add some users
+            // Add some products
             var products = new List<Product>
             {
                 new Product
                 {
-                    CategoryId = 1,
+                    Category = new Category{Name = "Test Category"},
                     ProductId = 1,
                     Name = "Blikspand",
                     Description = "Lavet af ler",

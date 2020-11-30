@@ -58,37 +58,32 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfNewCategoryIsCreated_ValidInput(int id, string name)
         {
             // ARRANGE
-            var products = new List<Product>();
-            
-            products.Add(new Product
-            {
-                ProductId = 1,
-                CategoryId = id,
-                CurrentPrice = 1000,
-                Description = "Hello",
-                Expiration = DateTime.Now,
-                Name = "Test Product",
-                PictureUrl = "pic.jpg",
-                UserId = 1,
-            });
-            
-            products.Add(new Product
-            {
-                ProductId = 2,
-                CategoryId = id,
-                CurrentPrice = 100,
-                Description = "Hello 2",
-                Expiration = DateTime.Now,
-                Name = "Test 2 Product",
-                PictureUrl = "pic2.jpg",
-                UserId = 1,
-            });
-            
             Category category = new Category()
             {
                 CategoryId = id,
                 Name = name,
-                Products = products,
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductId = 1,
+                        CurrentPrice = 1000,
+                        Description = "Hello",
+                        Expiration = DateTime.Now,
+                        Name = "Test Product",
+                        PictureUrl = "pic.jpg",
+                        UserId = 1,
+                    },
+                    new Product() {
+                        ProductId = 2,
+                        CurrentPrice = 100,
+                        Description = "Hello 2",
+                        Expiration = DateTime.Now,
+                        Name = "Test 2 Product",
+                        PictureUrl = "pic2.jpg",
+                        UserId = 1,
+                    }
+                }
             };
             
             CategoryService cs = new CategoryService(_repoMock.Object);
