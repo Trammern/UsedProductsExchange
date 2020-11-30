@@ -1,0 +1,65 @@
+<div *ngIf="!err">
+  <div [formGroup]="filterForm">
+    <label>
+      Search in Name:
+      <input formControlName="searchText" >
+    </label>
+    <div *ngIf="listData$ | async else loading">
+      <div *ngIf="categories && categories.length > 0">
+        <h4 *ngFor="let category of categories">
+          {{category.name}} - {{category.id}}
+          <!--<button routerLink="{{category.id}}">Details</button>
+          <button routerLink="update/{{category.id}}">Update</button>-->
+          <button (click)="delete(category)">Delete</button>
+        </h4>
+        <div class="one-liner">
+          <div *ngIf="1 < currentPage">
+            <button (click)="getCategories(1)">{{1}}</button>
+          </div>
+          <div *ngIf="2 < currentPage">
+            <button (click)="getCategories(2)">{{2}}</button>
+          </div>
+          <div *ngIf="3 < currentPage">
+            <button (click)="getCategories(3)">{{3}}</button>
+          </div>
+          <div *ngIf="currentPage > 1">
+            <button (click)="getCategories(currentPage - 1)">Previous</button>
+          </div>
+          <div style="font-weight: bold; margin-left: 10px; margin-right: 10px">{{currentPage}}</div>
+          <div *ngIf="currentPage < maxPages">
+            <button (click)="getCategories(currentPage + 1)">Next</button>
+          </div>
+          <div *ngIf="maxPages - 2> currentPage">
+            <button (click)="getCategories(maxPages - 2)">{{maxPages - 2}}</button>
+          </div>
+          <div *ngIf="maxPages - 1 > currentPage">
+            <button (click)="getCategories(maxPages - 1)">{{maxPages - 1}}</button>
+          </div>
+          <div *ngIf="maxPages > currentPage">
+            <button (click)="getCategories(maxPages)">{{maxPages}}</button>
+          </div>
+        </div>
+        <div>Showing page {{currentPage}} of {{maxPages}}</div>
+        <label>
+          ItemsPrPage:
+          <select formControlName="itemsPrPage" id="itemsPrPage" >
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+          </select>
+        </label>
+      </div>
+      <h1 *ngIf="!categories || categories.length < 1">
+        No Categories Found
+      </h1>
+    </div>
+  </div>
+</div>
+<div *ngIf="err">
+  {{err.error != undefined ? err.error : err.message}}
+</div>
+
+<ng-template #loading>
+  <p>Loading data...</p>
+</ng-template>

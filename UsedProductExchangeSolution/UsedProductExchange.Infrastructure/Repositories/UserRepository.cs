@@ -11,7 +11,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
 {
     public class UserRepository: IRepository<User>
     {
-
         private readonly UsedProductExchangeContext _ctx;
 
         public UserRepository(UsedProductExchangeContext ctx)
