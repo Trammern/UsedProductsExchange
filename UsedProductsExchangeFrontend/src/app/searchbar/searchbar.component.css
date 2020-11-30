@@ -13,11 +13,14 @@ text-align: center;
 }
 
 input-group-btn {
-  max-width:38px;
+  max-width:40px;
+
 }
 
 #search {
-  border: 1px;
+  border: 0;
+
+  vertical-align: middle;
 }
 
 .search-btn {
@@ -26,7 +29,8 @@ input-group-btn {
   background-color:#fff;
   color:#669;
   width: 55px;
-  height: 40px;
+  height: 45px;
+  vertical-align: middle;
 
 }
 
