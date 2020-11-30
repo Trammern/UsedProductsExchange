@@ -62,7 +62,30 @@ namespace UsedProductExchange.XUnitTestProject
             {
                 CategoryId = id,
                 Name = name,
+                Products = new List<Product>()
+                {
+                    new Product()
+                    {
+                        ProductId = 1,
+                        CurrentPrice = 1000,
+                        Description = "Hello",
+                        Expiration = DateTime.Now,
+                        Name = "Test Product",
+                        PictureUrl = "pic.jpg",
+                        UserId = 1,
+                    },
+                    new Product() {
+                        ProductId = 2,
+                        CurrentPrice = 100,
+                        Description = "Hello 2",
+                        Expiration = DateTime.Now,
+                        Name = "Test 2 Product",
+                        PictureUrl = "pic2.jpg",
+                        UserId = 1,
+                    }
+                }
             };
+            
             CategoryService cs = new CategoryService(_repoMock.Object);
 
             var categoryList = new List<Category>();

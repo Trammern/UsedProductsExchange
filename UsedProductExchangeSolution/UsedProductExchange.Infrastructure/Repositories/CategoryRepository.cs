@@ -24,7 +24,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
             {
                 TotalCount = _ctx.Categories.Count(),
                 FilterUsed = filter,
-                List = _ctx.Categories.Select(c => new Category()
+                List = _ctx.Categories.Include(p => p.Products).Select(c => new Category()
                     {
                         CategoryId = c.CategoryId, 
                         Name = c.Name,
@@ -36,12 +36,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public IEnumerable<Category> GetAll()
         {
-            return _ctx.Categories.AsNoTracking();
+            return _ctx.Categories.Include(p => p.Products).AsNoTracking();
         }
 
         public Category Get(int id)
         {
-            return _ctx.Categories.AsNoTracking().FirstOrDefault(x => x.CategoryId == id);
+            return _ctx.Categories.Include(p => p.Products).AsNoTracking().FirstOrDefault(x => x.CategoryId == id);
         }
 
         public Category Add(Category entity)

@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UsedProductExchange.Core.Application.Implementation;
@@ -53,15 +54,15 @@ namespace UsedProductExchange.XUnitTestProject
 
 
         [Theory]
-        [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
-
-        public void TestIfNewProductCreatedIsCalled(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
+        [ClassData(typeof(ProductClassData))]
+        //[InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
+        public void TestIfNewProductCreatedIsCalled(int id, int uid, string name, string desc, string pic, double price, DateTime experation, Category category)
         {
             // ARRANGE
             _products = new List<Product>();
             Product product = new Product()
             {
-                CategoryId = category,
+                Category = category,
                 ProductId = id,
                 Name = name,
                 Description = desc,
@@ -81,13 +82,13 @@ namespace UsedProductExchange.XUnitTestProject
 
         }
         [Theory]
-        [InlineData(1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, 1)]
-        public void TestIfCreatedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, int category)
+        [ClassData(typeof(ProductClassData))]
+        public void TestIfCreatedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, Category category)
         {
             //ARRANGE
             var insertedProduct = new Product()
             {
-                CategoryId = category,
+                Category = category,
                 ProductId = id,
                 Name = name,
                 Description = desc,
@@ -112,7 +113,7 @@ namespace UsedProductExchange.XUnitTestProject
             // ARRANGE
             var product = new Product()
             {
-                CategoryId = 1,
+                Category = new Category(){Name = "Test Category"},
                 ProductId = 1,
                 Name = "Blikspand",
                 Description = "Lavet af ler",
@@ -239,7 +240,7 @@ namespace UsedProductExchange.XUnitTestProject
             // ARRANGE
             Product product = new Product()
             {
-                CategoryId = 1,
+                Category = new Category() { Name = "Test Category "},
                 ProductId = 1,
                 Name = "Blikspand",
                 Description = "Lavet af ler",
@@ -262,20 +263,13 @@ namespace UsedProductExchange.XUnitTestProject
         }
 
         [Theory]
-        [InlineData(1, 1, "", "desc", "pic", 1000.00, null, 1, "name")] // Name is empty
-        [InlineData(1, 1, null, "desc", "pic", 1000.00, null, 1, "name")] // Name is null
-        [InlineData(1, 1, "name", "", "pic", 1000.00, null, 1, "description")] // desc is empty
-        [InlineData(1, 1, "name", null, "pic", 1000.00, null, 1, "description")] // desc is null
-        [InlineData(1, 1, "name", "desc", "", 1000.00, null, 1, "Picture")] // Pic is empty
-        [InlineData(1, 1, "name", "desc", null, 1000.00, null, 1, "Picture")] // Address is null
-      
-
-        public void CreateNewProductWithInvalidInput_ExpectArgumentException(int id, int uid, string name, string desc, string pic, double price, DateTime expiration, int category, string errorField)
+        [ClassData(typeof(ProductClassInvalidData))]
+        public void CreateNewProductWithInvalidInput_ExpectArgumentException(int id, int uid, string name, string desc, string pic, double price, DateTime expiration, Category category, string errorField)
         {
             // ARRANGE
             Product product = new Product()
             {
-                CategoryId = category,
+                Category = category,
                 ProductId = id,
                 Name = name,
                 Description = desc,
@@ -295,4 +289,36 @@ namespace UsedProductExchange.XUnitTestProject
             _repoMock.Verify(repo => repo.Add(It.Is<Product>(u => u == product)), Times.Never);
         }
     }
+    
+    public class ProductClassInvalidData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { 1, 1, "", "desc", "pic", 1000.00, null, new Category() { Name = "Test Category "}, "name" }; // Name is empty
+            yield return new object[] { 1, 1, null, "desc", "pic", 1000.00, null, new Category() { Name = "Test Category "}, "name" }; // Name is null
+            yield return new object[] { 1, 1, "name", "", "pic", 1000.00, null, new Category() { Name = "Test Category "}, "description" }; // desc is empty
+            yield return new object[] { 1, 1, "name", null, "pic", 1000.00, null, new Category() { Name = "Test Category "}, "description" }; // desc is null
+            yield return new object[] { 1, 1, "name", "desc", "", 1000.00, null, new Category() { Name = "Test Category "}, "Picture" }; // Pic is empty
+            yield return new object[] { 1, 1, "name", "desc", null, 1000.00, null, new Category() { Name = "Test Category "}, "Picture" }; // Pic is empty
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+    
+    public class ProductClassData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { 1, 1, "Blikspand", "Fyldt med Huller", "DestinationError.png", 1000.00, null, new Category() { Name = "Test Category "} };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
 }
