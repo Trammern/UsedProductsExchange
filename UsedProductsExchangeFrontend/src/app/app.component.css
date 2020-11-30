@@ -1,10 +1,12 @@
-body{
+body
+{
   background-color: lightskyblue;
   height: 1200px;
   width: 100%;
 }
 
-h1{
+h1
+{
   text-align: center;
   font-family: "Century Gothic";
   text-decoration: underline;

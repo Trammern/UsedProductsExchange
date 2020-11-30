@@ -1,11 +1,6 @@
-#Banner
+.center
 {
-
-
   display: block;
   margin-left: auto;
   width: 10%;
-  position: absolute;
-  top:25%;
-  left:85%;
 }
