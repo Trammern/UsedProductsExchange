@@ -8,11 +8,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AuthGuard} from './_guard/auth.guard';
 import {AuthenticationService} from './_services/authentication.service';
 import {HttpClientModule} from '@angular/common/http';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    NavigationBarComponent,
+    SearchbarComponent
   ],
   imports: [
     BrowserModule,
