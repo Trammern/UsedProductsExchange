@@ -40,17 +40,6 @@ namespace UsedProductExchange.UI.Controllers
             }
         }
 
-        // GET: api/products
-        [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
-        {
-            var productList = _productService.GetAll().ToList();
-            if (productList.Count == 0)
-            {
-                return NoContent();
-            }
-            return Ok(productList);
-        }
 
         // GET api/products/5
         [HttpGet("{id}")]
