@@ -20,23 +20,38 @@ namespace UsedProductExchange.Infrastructure.Repositories
         
         public FilteredList<Product> GetAll(Filter filter)
         {
-            var filteredList = new FilteredList<Product>
+            var filteredList = new FilteredList<Product>();
+
+            filteredList.TotalCount = _ctx.Products.Count();
+            filteredList.FilterUsed = filter;
+
+            IEnumerable<Product> filtering = _ctx.Products;
+
+            
+            if (!string.IsNullOrEmpty(filter.SearchText))
             {
-                TotalCount = _ctx.Products.Count(),
-                FilterUsed = filter,
-                List = _ctx.Products.Select(p => new Product()
-                    {
-                        ProductId = p.ProductId, 
-                        UserId = p.UserId,
-                        Name = p.Name,
-                        Description = p.Description,
-                        PictureUrl = p.PictureUrl,
-                        CurrentPrice = p.CurrentPrice,
-                        Expiration = p.Expiration,
-                        Category = p.Category
-                    })
-                    .ToList()
-            };
+                switch (filter.SearchField)
+                {
+                    case "name":
+                        filtering = filtering.Where(p => p.Name.ToLower().Contains(filter.SearchText.ToLower()));
+                        break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(filter.OrderDirection) && !string.IsNullOrEmpty(filter.OrderProperty))
+            {
+           
+                var prop = typeof(Product).GetProperty(filter.OrderProperty);
+                filtering = "ASC".Equals(filter.OrderDirection) ?
+                    filtering.OrderBy(o => prop.GetValue(o, null)) :
+                    filtering.OrderByDescending(o => prop.GetValue(o, null));
+
+            }
+
+            
+            filteredList.List = filtering.ToList();
+            filteredList.ResultsFound = filtering.Count();
+            
             return filteredList;
         }
 

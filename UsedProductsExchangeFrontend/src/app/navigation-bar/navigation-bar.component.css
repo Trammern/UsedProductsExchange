@@ -1,0 +1,26 @@
+.topnav {
+  background-color: cornflowerblue;
+  overflow: hidden;
+}
+
+.topnav a{
+  float: right;
+  color: chartreuse;
+  text-align: right;
+  padding: 14px 16px;
+  font-size: 17px;
+}
+
+.topnav a:hover{
+  background-color: aquamarine;
+  color: black;
+}
+
+.topnav a.topnav {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav b{
+  float: left;
+}
