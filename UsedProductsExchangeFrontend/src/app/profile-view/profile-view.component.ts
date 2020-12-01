@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ProductsService} from '../_services/products.service';
+import {Product} from '../_models/product';
 
 @Component({
   selector: 'app-profile-view',
@@ -7,12 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileViewComponent implements OnInit {
 
-  constructor() { }
+ submitProduct: Product;
+
+  constructor(private productsService: ProductsService) { }
 
   ngOnInit(): void {
   }
 
-  Submit() {
-
+  Submit(): void
+  {
+   this.submitProduct.name = document.getElementById('prodnamefld').innerHTML;
+   this.submitProduct.currentPrice = 200.00;
+   this.submitProduct.expiration = document.getElementById('expdate').innerHTML;
+   this.productsService.createProduct(this.submitProduct);
   }
+
+
 }

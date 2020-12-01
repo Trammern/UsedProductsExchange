@@ -64,8 +64,10 @@ export class ProductsService {
     return this.deletedProduct;
   }
 
-  //POST
-  Post(product: Product): Observable<Product>{
+  // POST
+  createProduct(product: Product): Observable<Product>{
+    httpOptions.headers =
+      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
     return this.http.post<Product>(environment.apiUrl, product, httpOptions);
   }
 

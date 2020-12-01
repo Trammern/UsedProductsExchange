@@ -80,3 +80,4 @@ export class ProductListingComponent implements OnInit {
   get currentPage(): number { return (this.filterForm.value as Filter).currentPage; }
   get maxPages(): number { return Math.ceil(this.count / this.itemsPrPage); }
 }
+
