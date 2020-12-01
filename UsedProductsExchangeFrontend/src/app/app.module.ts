@@ -22,7 +22,7 @@ import {CategoriesService} from './_services/categories.service';
     AppComponent,
     LoginComponent,
     NavigationBarComponent,
-    SearchbarComponent
+    SearchbarComponent,
     CategoriesComponent,
     CategoryAddComponent,
     CategoryEditComponent,

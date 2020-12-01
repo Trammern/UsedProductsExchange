@@ -62,7 +62,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public Product Get(int id)
         {
-            return _ctx.Products.Include(c => c.Category).FirstOrDefault(p => p.ProductId == id);
+            var product = _ctx.Products
+                .Include(c => c.Category)
+                .Include(b => b.Bids)
+                .FirstOrDefault(p => p.ProductId == id);
+
+            return product;
         }
 
         public Product Add(Product entity)
