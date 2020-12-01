@@ -15,12 +15,15 @@ const httpOptions = {
   })
 };
 
-@Injectable()
-export class CategoriesService {
-  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductsService {
 
-  getItems(filter: Filter): Observable<FilteredList<Category>> {
-    let url = environment.apiUrl + '/categories' + '?';
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+  //GET
+  getItems(filter: Filter): Observable<FilteredList<Product>> {
+    let url = environment.apiUrl + '/products' + '?';
     if (filter && filter.itemsPrPage > 0 && filter.currentPage > 0) {
       url = url
         + 'itemsPrPage=' + filter.itemsPrPage
@@ -31,35 +34,33 @@ export class CategoriesService {
         + 'searchField=' + filter.searchField
         + '&searchText=' + filter.searchText;
     }
-    return this.http.get<FilteredList<Category>>(url);
+    return this.http.get<FilteredList<Product>>(url);
   }
-
-  getItem(id: number): Observable<Category> {
+  //GET
+  getItem(id: number): Observable<Product> {
     // add authorization header with jwt token
     httpOptions.headers =
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
 
-    // get categories from api
-    return this.http.get<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+    // get product from api
+    return this.http.get<Product>(environment.apiUrl + '/products/' + id, httpOptions);
+  }
+  //PUT
+  updateProduct(productUpdated: Product): Observable<Product> {
+    return this.http.put<Product>(environment.apiUrl + '/Products/' + productUpdated.productId, productUpdated);
   }
 
-  updateCategory(categoryUpdated: Category): Observable<Category> {
-    return this.http.put<Category>(environment.apiUrl + '/categories/' + categoryUpdated.id, categoryUpdated);
-  }
-
-  Remove(id: number): Observable<Category> {
+  //DELETE
+  Remove(id: number): Observable<Product> {
     // add authorization header with jwt token
     httpOptions.headers =
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
 
-    // get categories from api
-    return this.http.delete<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+    // get Products from api
+    return this.http.delete<Product>(environment.apiUrl + '/Products/' + id, httpOptions);
   }
   //POST
-  Post(category: Category): Observable<Category>{
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer' + this.authenticationService.getToken());
-
-    return this.http.post<Category>(environment.apiUrl, category, httpOptions);
+  Post(product: Product): Observable<Product>{
+    return this.http.post<Product>(environment.apiUrl, product, httpOptions);
   }
 }
