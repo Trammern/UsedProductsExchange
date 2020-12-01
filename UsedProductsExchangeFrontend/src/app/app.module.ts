@@ -18,6 +18,8 @@ import { RegisterComponent } from './components/register/register.component';
 import {CategoriesService} from './_services/categories.service';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { ProductListingComponent } from './components/product-listing/product-listing.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { ProductListingComponent } from './components/product-listing/product-li
     RegisterComponent,
     AdBannerComponent,
     SearchbarComponent,
-    ProductListingComponent
+    ProductListingComponent,
+    ProductDetailsComponent,
+    ProfileViewComponent
   ],
   imports: [
     BrowserModule,

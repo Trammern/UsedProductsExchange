@@ -7,6 +7,7 @@ import { AuthGuard } from './_guard/auth.guard';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryAddComponent } from './components/categories/category-add/category-add.component';
 import { CategoryEditComponent } from './components/categories/category-edit/category-edit.component';
+import {ProductDetailsComponent} from "./product-details/product-details.component";
 
 const routes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'categories/add', component: CategoryAddComponent },
   { path: 'categories/edit/:id', component: CategoryEditComponent },
+  { path: 'products-details', component: ProductDetailsComponent},
 
   { path: '**', redirectTo: '' }
 ];

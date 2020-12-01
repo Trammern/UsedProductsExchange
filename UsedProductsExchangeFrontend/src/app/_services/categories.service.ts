@@ -6,6 +6,7 @@ import { Category } from '../_models/category';
 import { AuthenticationService } from './authentication.service';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
+import {Product} from '../_models/product';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -53,5 +54,12 @@ export class CategoriesService {
 
     // get categories from api
     return this.http.delete<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+  }
+  //POST
+  Post(category: Category): Observable<Category>{
+    httpOptions.headers =
+      httpOptions.headers.set('Authorization', 'Bearer' + this.authenticationService.getToken());
+
+    return this.http.post<Category>(environment.apiUrl, category, httpOptions);
   }
 }
