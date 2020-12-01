@@ -37,8 +37,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
                     case "name":
                         filtering = filtering.Where(p => p.Name.ToLower().Contains(filter.SearchText.ToLower()));
                         break;
+                    case "category":
+                        filtering = filtering.Where(p => p.Category.Name.ToLower().Contains(filter.SearchText.ToLower()));
+                        break;
                 }
             }
+
 
             if (!string.IsNullOrEmpty(filter.OrderDirection) && !string.IsNullOrEmpty(filter.OrderProperty))
             {
