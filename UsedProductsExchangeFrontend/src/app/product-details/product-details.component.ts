@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProductsService} from "../_services/products.service";
 import {Product} from "../_models/product";
 import {ProductListingComponent} from "../components/product-listing/product-listing.component";
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -9,15 +10,20 @@ import {ProductListingComponent} from "../components/product-listing/product-lis
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
+
   selectedProduct: Product;
-  constructor(private productsService: ProductsService) { }
+
+  constructor(private productsService: ProductsService)
+  {
+    this.selectedProduct = this.productsService.GetCurrentProduct();
+  }
 
   ngOnInit(): void
   {
   }
 
-  deleteProduct(number: number)
+  deleteProduct():Observable<Product>
   {
-this.productsService.Remove(this.selectedProduct.productId);
+      return this.productsService.Remove(this.selectedProduct.productId);
   }
 }

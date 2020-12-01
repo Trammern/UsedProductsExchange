@@ -2,10 +2,8 @@
   <div [formGroup]="filterForm">
     <div *ngIf="listData$ | async else loading">
       <div *ngIf="products && products.length > 0">
-        <h4 *ngFor="let product of products"
-            [class.selected]="product === selectedProduct"
-            (click)="onSelect(product)" >
-          <a routerLink="/products-details">
+        <h4 *ngFor="let product of products" >
+          <a routerLink="/products-details" (click)="onSelect(product)">
            {{product.name}} - {{product.currentPrice}} - {{product.expiration}}
           </a>
 

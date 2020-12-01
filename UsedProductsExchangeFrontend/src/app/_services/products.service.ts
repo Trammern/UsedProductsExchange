@@ -20,6 +20,9 @@ const httpOptions = {
 })
 export class ProductsService {
 
+  currentProduct: Product;
+  private deletedProduct: Observable<Product>;
+
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
   //GET
   getItems(filter: Filter): Observable<FilteredList<Product>> {
@@ -57,10 +60,21 @@ export class ProductsService {
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
 
     // get Products from api
-    return this.http.delete<Product>(environment.apiUrl + '/Products/' + id, httpOptions);
+    this.deletedProduct = this.http.delete<Product>(environment.apiUrl + '/Products/' + id, httpOptions);
+    return this.deletedProduct;
   }
+
   //POST
   Post(product: Product): Observable<Product>{
     return this.http.post<Product>(environment.apiUrl, product, httpOptions);
+  }
+
+  setCurrentProduct(product: Product){
+    this.currentProduct = product;
+  }
+
+  GetCurrentProduct(): Product
+  {
+    return this.currentProduct;
   }
 }

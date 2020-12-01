@@ -64,7 +64,7 @@ export class ProductListingComponent implements OnInit {
   }
   onSelect(product: Product): void
   {
-    this.selectedProduct = product;
+    this.productsService.setCurrentProduct(product);
   }
 
   delete(category: Category): void {
