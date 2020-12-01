@@ -14,6 +14,7 @@ import {catchError, tap} from 'rxjs/operators';
   styleUrls: ['./product-listing.component.css']
 })
 export class ProductListingComponent implements OnInit {
+  selectedProduct: Product;
   filterForm: FormGroup;
   listData$: Observable<FilteredList<Product>>;
   products: Product[];
@@ -56,6 +57,14 @@ export class ProductListingComponent implements OnInit {
       }),
       catchError(this.err)
     );
+  }
+  getSelectedProduct(): Product
+  {
+    return this.selectedProduct;
+  }
+  onSelect(product: Product): void
+  {
+    this.selectedProduct = product;
   }
 
   delete(category: Category): void {
