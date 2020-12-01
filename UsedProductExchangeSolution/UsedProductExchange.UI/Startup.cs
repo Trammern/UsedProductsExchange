@@ -1,10 +1,14 @@
 using System;
+using System.IO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -68,6 +72,12 @@ namespace UsedProductExchange.UI
                 // Register SQL Server database initializer for dependency injection.
                 //services.AddTransient<IDbInitializer, DbInitializer>();
             }
+            
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
 
             services.AddScoped<IService<Category>, CategoryService>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
@@ -127,10 +137,18 @@ namespace UsedProductExchange.UI
             }
 
             app.UseHttpsRedirection();
-
-            app.UseRouting();
             
             app.UseCors();
+            
+            app.UseStaticFiles();
+            
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
+            
+            app.UseRouting();
             
             app.UseAuthentication();
 
