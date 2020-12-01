@@ -1,12 +1,17 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-<ul>
-  <li><a href="#">Blikspand</a></li>
-  <li><a href="#">Hest</a></li>
-  <li><a href="#">Brystpumpe</a></li>
-  <li><a href="#">Vintage Tuborg sticker</a></li>
-  <li><a href="#">Brugte præservativer</a></li>
-</ul>
+<div *ngIf="!err">
+  <div [formGroup]="filterForm">
+    <div *ngIf="listData$ | async else loading">
+      <div *ngIf="products && products.length > 0">
+        <h4 *ngFor="let product of products">
+          {{product.name}} - {{product.currentPrice}} - {{product.expiration}}
+        </h4>
+    </div>
+  </div>
+</div>
+<div *ngIf="err">
+  {{err.error != undefined ? err.error : err.message}}
+</div>
+
+<ng-template #loading>
+  <p>Loading data...</p>
+</ng-template>
