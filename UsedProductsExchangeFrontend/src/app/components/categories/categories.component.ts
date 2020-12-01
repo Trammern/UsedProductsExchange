@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Category} from '../_models/category';
+import {Category} from '../../_models/category';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {CategoriesService} from '../_services/categories.service';
+import {CategoriesService} from '../../_services/categories.service';
 import {catchError, tap} from 'rxjs/operators';
-import {Filter} from '../_models/filter';
-import {FilteredList} from '../_models/filtered-list';
+import {Filter} from '../../_models/filter';
+import {FilteredList} from '../../_models/filtered-list';
 
 @Component({
   selector: 'app-categories',

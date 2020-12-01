@@ -1,9 +1,11 @@
-.topnav {
+.topnav
+{
   background-color: cornflowerblue;
   overflow: hidden;
 }
 
-.topnav a{
+.topnav a
+{
   float: right;
   color: chartreuse;
   text-align: right;
@@ -11,16 +13,20 @@
   font-size: 17px;
 }
 
-.topnav a:hover{
+.topnav a:hover
+{
   background-color: aquamarine;
   color: black;
+  cursor:pointer;
 }
 
-.topnav a.topnav {
+.topnav a.topnav
+{
   background-color: #4CAF50;
   color: white;
 }
 
-.topnav b{
+.topnav b
+{
   float: left;
 }

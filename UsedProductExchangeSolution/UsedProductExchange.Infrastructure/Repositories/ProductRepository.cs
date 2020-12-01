@@ -25,7 +25,9 @@ namespace UsedProductExchange.Infrastructure.Repositories
             filteredList.TotalCount = _ctx.Products.Count();
             filteredList.FilterUsed = filter;
 
-            IEnumerable<Product> filtering = _ctx.Products;
+            IEnumerable<Product> filtering = _ctx.Products
+                .Include(c => c.Category)
+                .Include(b => b.Bids);
 
             
             if (!string.IsNullOrEmpty(filter.SearchText))
@@ -57,12 +59,19 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public IEnumerable<Product> GetAll()
         {
-            return _ctx.Products;
+            return _ctx.Products
+                .Include(c => c.Category)
+                .Include(b => b.Bids);
         }
 
         public Product Get(int id)
         {
-            return _ctx.Products.Include(c => c.Category).FirstOrDefault(p => p.ProductId == id);
+            var product = _ctx.Products
+                .Include(c => c.Category)
+                .Include(b => b.Bids)
+                .FirstOrDefault(p => p.ProductId == id);
+
+            return product;
         }
 
         public Product Add(Product entity)

@@ -15,5 +15,8 @@ namespace UsedProductExchange.Core.Entities
         public DateTime Expiration { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public bool IsSold { get; set; }
+        
+        public virtual ICollection<Bid> Bids { get; set; }
     }
 }
