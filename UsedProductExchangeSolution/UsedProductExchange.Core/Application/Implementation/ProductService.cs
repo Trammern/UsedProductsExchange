@@ -40,6 +40,10 @@ namespace UsedProductExchange.Core.Application.Implementation
         
         public FilteredList<Product> GetAll(Filter.Filter filter)
         {
+            if (!string.IsNullOrEmpty(filter.SearchText) && string.IsNullOrEmpty(filter.SearchField))
+            {
+                filter.SearchField = "name";
+            }
             return _productRepository.GetAll(filter);
         }
 

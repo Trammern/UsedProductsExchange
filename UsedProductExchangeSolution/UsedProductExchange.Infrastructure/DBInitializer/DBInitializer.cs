@@ -58,12 +58,12 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
             };
             
-            // Add some users
+            // Add some products
             var products = new List<Product>
             {
                 new Product
                 {
-                    CategoryId = 1,
+                    Category = new Category{Name = "Test Category"},
                     ProductId = 1,
                     Name = "Blikspand",
                     Description = "Lavet af ler",
@@ -72,6 +72,27 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                     Expiration = DateTime.Now,
                     UserId = 1
                 },
+            };
+            
+            // Add some bids
+            var bids = new List<Bid>
+            {
+                new Bid()
+                {
+                    BidId = 1,
+                    UserId = 1,
+                    ProductId = 1,
+                    Price = 100,
+                    CreatedAt = DateTime.Now
+                },
+                new Bid()
+                {
+                    BidId = 2,
+                    UserId = 2,
+                    ProductId = 1,
+                    Price = 200,
+                    CreatedAt = DateTime.Now.AddMinutes(5)
+                }
             };
 
             var categories = new List<Category>();
@@ -84,10 +105,11 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                     Name = "Category " + i,
                 });
             }
-            
+
             context.Users.AddRange(users);
             context.Products.AddRange(products);
             context.Categories.AddRange(categories);
+            context.Bids.AddRange(bids);
             context.SaveChanges();
         }
     }

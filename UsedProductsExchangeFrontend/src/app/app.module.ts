@@ -24,6 +24,7 @@ import { ProductListingComponent } from './components/product-listing/product-li
     AppComponent,
     LoginComponent,
     NavigationBarComponent,
+    SearchbarComponent,
     CategoriesComponent,
     CategoryAddComponent,
     CategoryEditComponent,
