@@ -1,64 +1,53 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductsService} from "../../_services/products.service";
-import {Product} from "../../_models/product";
-import {ProductListingComponent} from "../product-listing/product-listing.component";
-import {Observable} from 'rxjs';
-import {Category} from '../../_models/category';
-import {catchError, tap} from 'rxjs/operators';
-import {Filter} from '../../_models/filter';
-import {FormGroup} from '@angular/forms';
-import {FilteredList} from '../../_models/filtered-list';
+import {ProductsService} from '../../_services/products.service';
+import {Product} from '../../_models/product';
+import {FormControl} from '@angular/forms';
+import {catchError} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-product-details',
+  selector: 'app-profile-view',
   templateUrl: './createProduct.component.html',
   styleUrls: ['./createProduct.component.css']
 })
-export class CreateProductComponent implements OnInit {
+export class createProductComponent implements OnInit {
 
-  filterForm: FormGroup;
-  selectedProduct: Product;
-  listData$: Observable<FilteredList<Product>>;
-  products: Product[];
-  count: number;
-  err: any;
+ submitProduct: any;
+  name= new FormControl('');
+  description= new FormControl('');
+  price= new FormControl('');
+  expirationDate= new FormControl('');
 
-  constructor(private productsService: ProductsService)
-  {
-    this.selectedProduct = this.productsService.GetCurrentProduct();
+  errorMessage: string = "";
+
+  constructor(private productsService: ProductsService) { }
+
+  ngOnInit(): void {
   }
 
-  ngOnInit(): void
+  Submit(): void
   {
-  }
+    let productName = this.name.value
+    let productDescription = this.description.value
+    let productPrice = this.price.value
+    let productExpirationDate = this.expirationDate.value
 
-  delete(): void {
-    this.productsService.Remove(this.selectedProduct.productId)
-      .pipe(
-        tap(() => this.getProducts()),
-        catchError(err => {
-          return err;
-        })
+    let product: Product = {
+      name: productName,
+      description: productDescription,
+      currentPrice: productPrice,
+      expiration: productExpirationDate,
+      pictureURL: "something",
+      categoryId: 1,
+      userId: 1
+    }
+
+    this.productsService.createProduct(product)
+      .pipe(catchError(err =>{
+        this.errorMessage = err.error;
+        return err;
+      })
       ).subscribe();
   }
 
-  getProducts(currentPage: number = 0): void {
-    if (currentPage > 0) {
-      this.filterForm.patchValue({ currentPage });
-    }
-    const filter = this.filterForm.value as Filter;
-    if (filter.currentPage <= 0) {
-      filter.currentPage = 1;
-    }
-    if (filter.searchText) {
-      filter.searchField = 'Name';
-    }
-    this.listData$ = this.productsService.getItems(filter).pipe(
-      tap(filteredList => {
-        this.count = filteredList.totalCount;
-        this.products = filteredList.list;
-      }),
-      catchError(this.err)
-    );
-  }
+
 }
