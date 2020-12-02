@@ -1,10 +1,10 @@
 export class Product{
   productId?: number;
-  userId: number;
+  userId?: number;
   name: string;
   description: string;
   pictureURL: string;
-  currentPrice: number;
-  expiration: any;
-  categoryId: number;
+  currentPrice?: number;
+  expiration?: any;
+  categoryId?: number;
 }

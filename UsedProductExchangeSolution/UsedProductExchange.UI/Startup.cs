@@ -117,23 +117,24 @@ namespace UsedProductExchange.UI
         {
             if (env.IsDevelopment())
             {
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
-
-                    if (context != null)
-                    {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
-                    }
-
-                    var services = scope.ServiceProvider;
-                    var dbInitializer = services.GetService<IDbInitializer>();
-                    dbInitializer.Initialize(context);
-
-                }
+                
 
                 app.UseDeveloperExceptionPage();
+            }
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
+
+                if (context != null)
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
+                }
+
+                var services = scope.ServiceProvider;
+                var dbInitializer = services.GetService<IDbInitializer>();
+                dbInitializer.Initialize(context);
+
             }
 
             app.UseHttpsRedirection();
