@@ -68,7 +68,7 @@ export class ProductsService {
   createProduct(product: Product): Observable<Product>{
     httpOptions.headers =
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-    return this.http.post<Product>(environment.apiUrl, product, httpOptions);
+    return this.http.post<Product>(environment.apiUrl + '/products', product, httpOptions);
   }
 
   setCurrentProduct(product: Product){

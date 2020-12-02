@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -19,7 +18,8 @@ import {CategoriesService} from './_services/categories.service';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { ProductListingComponent } from './components/product-listing/product-listing.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
-import { ProfileViewComponent } from './profile-view/profile-view.component';
+import { createProductComponent } from './components/createProduct/createProduct.component'
+import {ProductsService} from './_services/products.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
     SearchbarComponent,
     ProductListingComponent,
     ProductDetailsComponent,
-    ProfileViewComponent
+    createProductComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +48,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
     AuthGuard,
     AuthenticationService,
     CategoriesService,
+    ProductsService
   ],
   bootstrap: [AppComponent]
 })
