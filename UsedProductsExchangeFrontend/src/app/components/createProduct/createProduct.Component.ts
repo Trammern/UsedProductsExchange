@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductsService} from "../_services/products.service";
-import {Product} from "../_models/product";
-import {ProductListingComponent} from "../components/product-listing/product-listing.component";
+import {ProductsService} from "../../_services/products.service";
+import {Product} from "../../_models/product";
+import {ProductListingComponent} from "../product-listing/product-listing.component";
 import {Observable} from 'rxjs';
-import {Category} from '../_models/category';
+import {Category} from '../../_models/category';
 import {catchError, tap} from 'rxjs/operators';
-import {Filter} from '../_models/filter';
+import {Filter} from '../../_models/filter';
 import {FormGroup} from '@angular/forms';
-import {FilteredList} from '../_models/filtered-list';
+import {FilteredList} from '../../_models/filtered-list';
 
 @Component({
   selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  templateUrl: './createProduct.component.html',
+  styleUrls: ['./createProduct.component.css']
 })
-export class ProductDetailsComponent implements OnInit {
+export class CreateProductComponent implements OnInit {
 
   filterForm: FormGroup;
   selectedProduct: Product;
