@@ -17,9 +17,10 @@ import { RegisterComponent } from './components/register/register.component';
 import {CategoriesService} from './_services/categories.service';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { ProductListingComponent } from './components/product-listing/product-listing.component';
-import { createProductComponent } from './components/createProduct/createProduct.component'
+import { CreateProductComponent } from './components/createProduct/createProduct.component'
 import {ProductsService} from './_services/products.service';
 import { DeleteProductComponent } from './components/deleteProduct/delete-product.component';
+import {UpdateProductComponent} from './components/updateProduct/update-product.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +36,9 @@ import { DeleteProductComponent } from './components/deleteProduct/delete-produc
     AdBannerComponent,
     SearchbarComponent,
     ProductListingComponent,
-    createProductComponent,
-    DeleteProductComponent
+    CreateProductComponent,
+    DeleteProductComponent,
+    UpdateProductComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@ import {catchError} from 'rxjs/operators';
   templateUrl: './createProduct.component.html',
   styleUrls: ['./createProduct.component.css']
 })
-export class createProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit {
 
  submitProduct: any;
   name= new FormControl('');
