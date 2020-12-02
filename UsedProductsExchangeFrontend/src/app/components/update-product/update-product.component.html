@@ -1,0 +1,25 @@
+<body>
+  <div>
+    <label>
+      Name.<br>
+      <input type="text" [formControl]="name">
+    </label><br>
+    <label>
+      Description.<br>
+      <textarea type="text" [formControl]="description"></textarea>
+    </label><br>
+    <label>
+      What starting price would you like for your product?<br>
+      <input type="text" [formControl]="price">
+    </label><br>
+    <label>
+      When would you like to close the auction?<br>
+      <input type="date" [formControl]="expirationDate">
+    </label>
+  </div>
+  <div>
+    <button (click)="Submit()">
+      Submit
+    </button>
+  </div>
+</body>
