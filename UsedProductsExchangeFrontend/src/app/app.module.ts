@@ -17,9 +17,9 @@ import { RegisterComponent } from './components/register/register.component';
 import {CategoriesService} from './_services/categories.service';
 import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
 import { ProductListingComponent } from './components/product-listing/product-listing.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
 import { createProductComponent } from './components/createProduct/createProduct.component'
 import {ProductsService} from './_services/products.service';
+import { DeleteProductComponent } from './components/deleteProduct/delete-product.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +35,8 @@ import {ProductsService} from './_services/products.service';
     AdBannerComponent,
     SearchbarComponent,
     ProductListingComponent,
-    ProductDetailsComponent,
-    createProductComponent
+    createProductComponent,
+    DeleteProductComponent
   ],
   imports: [
     BrowserModule,
