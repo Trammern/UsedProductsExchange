@@ -7,7 +7,7 @@ import { AuthGuard } from './_guard/auth.guard';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryAddComponent } from './components/categories/category-add/category-add.component';
 import { CategoryEditComponent } from './components/categories/category-edit/category-edit.component';
-import {CreateProductComponent} from "./components/createProduct/createProduct.Component";
+import {CreateProductComponent} from "./components/createProduct/createProduct.component";
 
 const routes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
