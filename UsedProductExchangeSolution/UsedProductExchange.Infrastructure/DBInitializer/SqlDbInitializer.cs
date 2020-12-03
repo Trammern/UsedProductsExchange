@@ -32,30 +32,6 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 // Re-create the database
                 context.Database.EnsureCreated();
             }
-            
-            // Create two users with hashed and salted passwords
-            const string password = "passw0rd";
-            _loginService.CreatePasswordHash(password, out var adminPassHash, out var adminPassSalt);
-            _loginService.CreatePasswordHash(password, out var userPassHash, out var userPassSalt);
-
-            // Add some users
-            var users = new List<User>
-            {
-                new User
-                {
-                    UserId = 1,
-                    Name = "Tommy",
-                    Username = "Admin",
-                    PasswordHash = adminPassHash,
-                    PasswordSalt = adminPassSalt,
-                    IsAdmin = true,
-                    Address = "Anotherstreet1",
-                    Email = "tommy@hotmail.com",
-                }
-            };
-            
-            context.Users.AddRange(users);
-            context.SaveChanges();
         }
     }
 }
