@@ -70,7 +70,7 @@ namespace UsedProductExchange.UI
                 services.AddDbContext<UsedProductExchangeContext>(opt =>
                     opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
                 // Register SQL Server database initializer for dependency injection.
-                //services.AddTransient<IDbInitializer, DbInitializer>();
+                services.AddTransient<IDbInitializer, SqlDbInitializer>();
             }
             
             services.Configure<FormOptions>(o => {
@@ -117,24 +117,33 @@ namespace UsedProductExchange.UI
         {
             if (env.IsDevelopment())
             {
-                
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
+    
+                    if (context != null)
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    }
+    
+                    var services = scope.ServiceProvider;
+                    var dbInitializer = services.GetService<IDbInitializer>();
+                    dbInitializer.Initialize(context);
+    
+                }
 
                 app.UseDeveloperExceptionPage();
             }
+            
+            // Initialize the database.
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
-
-                if (context != null)
-                {
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
-                }
-
+                // Initialize the database
                 var services = scope.ServiceProvider;
+                var dbContext = services.GetService<UsedProductExchangeContext>();
                 var dbInitializer = services.GetService<IDbInitializer>();
-                dbInitializer.Initialize(context);
-
+                dbInitializer.Initialize(dbContext);
             }
 
             app.UseHttpsRedirection();
