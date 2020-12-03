@@ -8,13 +8,6 @@ import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
 import {Product} from '../_models/product';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    Authorization: 'my-auth-token'
-  })
-};
-
 @Injectable()
 export class CategoriesService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
@@ -34,29 +27,28 @@ export class CategoriesService {
     return this.http.get<FilteredList<Category>>(url);
   }
 
-  getItem(id: number): Observable<Category> {
-<<<<<<< Updated upstream
-    // add authorization header with jwt token
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
+  getAllItems(): Observable<Category[]> {
+    const url = environment.apiUrl + '/categories';
+    return this.http.get<Category[]>(url);
+  }
 
-=======
->>>>>>> Stashed changes
+  getItem(id: number): Observable<Category> {
     // get categories from api
-    return this.http.get<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+    return this.http.get<Category>(environment.apiUrl + '/categories/' + id);
+    // return this.http.get<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+  }
+
+  add(category: Category): Observable<Category> {
+    return this.http.post<Category>(environment.apiUrl + '/categories', category);
   }
 
   updateCategory(categoryUpdated: Category): Observable<Category> {
-    return this.http.put<Category>(environment.apiUrl + '/categories/' + categoryUpdated.id, categoryUpdated);
+    return this.http.put<Category>(environment.apiUrl + '/categories/' + categoryUpdated.categoryId, categoryUpdated);
   }
 
   Remove(id: number): Observable<Category> {
-    // add authorization header with jwt token
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-
     // get categories from api
-    return this.http.delete<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
+    return this.http.delete<Category>(environment.apiUrl + '/categories/' + id);
   }
   //POST
   Post(category: Category): Observable<Category>{
