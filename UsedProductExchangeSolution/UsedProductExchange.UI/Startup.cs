@@ -152,6 +152,8 @@ namespace UsedProductExchange.UI
             
             app.UseStaticFiles();
             
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"Resources"));  
+            
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
