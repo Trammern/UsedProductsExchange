@@ -35,10 +35,13 @@ export class CategoriesService {
   }
 
   getItem(id: number): Observable<Category> {
+<<<<<<< Updated upstream
     // add authorization header with jwt token
     httpOptions.headers =
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
 
+=======
+>>>>>>> Stashed changes
     // get categories from api
     return this.http.get<Category>(environment.apiUrl + '/categories/' + id, httpOptions);
   }
@@ -57,9 +60,6 @@ export class CategoriesService {
   }
   //POST
   Post(category: Category): Observable<Category>{
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer' + this.authenticationService.getToken());
-
-    return this.http.post<Category>(environment.apiUrl, category, httpOptions);
+    return this.http.post<Category>(environment.apiUrl, category);
   }
 }
