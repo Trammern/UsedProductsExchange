@@ -41,7 +41,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public Category Get(int id)
         {
-            return _ctx.Categories.Include(p => p.Products).AsNoTracking().FirstOrDefault(x => x.CategoryId == id);
+            return _ctx.Categories
+                .Include(p => p.Products)
+                .ThenInclude(b => b.Bids)
+                .ThenInclude(u => u.User)
+                .AsNoTracking()
+                .FirstOrDefault(x => x.CategoryId == id);
         }
 
         public Category Add(Category entity)
