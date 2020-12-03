@@ -1,0 +1,12 @@
+ul
+{
+  list-style-type: none;
+  font-size: 20px;
+}
+
+li
+{
+  top:40%;
+  margin: 20px;
+  line-height: 40px;
+}

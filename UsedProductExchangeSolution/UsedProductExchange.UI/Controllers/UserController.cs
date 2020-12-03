@@ -4,12 +4,11 @@ using UsedProductExchange.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System;
-using UsedProductExchange.Core.Filter;
 
 namespace UsedProductExchange.UI.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IService<User> _userService;
@@ -19,20 +18,15 @@ namespace UsedProductExchange.UI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<FilteredList<Category>> Get([FromQuery] Filter filter)
+        public ActionResult<IEnumerable<User>> Get()
         {
-            try
+            var userList = _userService.GetAll().ToList();
+            
+            if (userList.Count == 0)
             {
-                return Ok(_userService.GetAll(filter));
+                return NoContent();
             }
-            catch (NullReferenceException e)
-            {
-                return StatusCode(404, e.Message);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            return Ok(userList);
         }
 
         [HttpGet("{id}")]

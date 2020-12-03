@@ -1,37 +1,44 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthGuard } from './_guard/auth.guard';
-import { AuthenticationService } from './_services/authentication.service';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { CategoriesComponent } from './categories/categories.component';
-import { CategoryAddComponent } from './categories/category-add/category-add.component';
-import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
-import { RegisterComponent } from './register/register.component';
-import { CategoriesService } from './_services/categories.service';
-import { HomeComponent } from './home/home.component';
-import { ProductsService } from './_services/products.service';
-import { ProductsComponent } from './products/products.component';
-import { ProductAddComponent } from './products/product-add/product-add.component';
-import { ProductEditComponent } from './products/product-edit/product-edit.component';
-import {AuthInterceptor} from './_interceptors/auth.interceptor';
+import { LoginComponent } from './components/login/login.component';
+import {AppRoutingModule} from './app-routing.module';
+import {ReactiveFormsModule} from '@angular/forms';
+import {AuthGuard} from './_guard/auth.guard';
+import {AuthenticationService} from './_services/authentication.service';
+import {HttpClientModule} from '@angular/common/http';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { SearchbarComponent } from './components/searchbar/searchbar.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoryAddComponent } from './components/categories/category-add/category-add.component';
+import { CategoryEditComponent } from './components/categories/category-edit/category-edit.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterComponent } from './components/register/register.component';
+import {CategoriesService} from './_services/categories.service';
+import { AdBannerComponent } from './components/ad-banner/ad-banner.component';
+import { ProductListingComponent } from './components/product-listing/product-listing.component';
+import { CreateProductComponent } from './components/createProduct/createProduct.component'
+import {ProductsService} from './_services/products.service';
+import { DeleteProductComponent } from './components/deleteProduct/delete-product.component';
+import {UpdateProductComponent} from './components/updateProduct/update-product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LoginComponent,
-    RegisterComponent,
+    NavigationBarComponent,
+    SearchbarComponent,
     CategoriesComponent,
     CategoryAddComponent,
     CategoryEditComponent,
-    ProductsComponent,
-    ProductAddComponent,
-    ProductEditComponent,
+    HomeComponent,
+    RegisterComponent,
+    AdBannerComponent,
+    SearchbarComponent,
+    ProductListingComponent,
+    CreateProductComponent,
+    DeleteProductComponent,
+    UpdateProductComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +50,7 @@ import {AuthInterceptor} from './_interceptors/auth.interceptor';
     AuthGuard,
     AuthenticationService,
     CategoriesService,
-    ProductsService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
+    ProductsService
   ],
   bootstrap: [AppComponent]
 })

@@ -10,14 +10,15 @@ import {User} from './_models/user';
 export class AppComponent implements OnInit {
   title = 'Used Products Exchange';
   user: User = null;
-  profileOpened = false;
-
+  
   constructor(private authenticationService: AuthenticationService) {
     authenticationService.user.subscribe(user => this.setUser(user));
   }
 
   ngOnInit(): void {
+    console.log(this.user);
     this.user = this.authenticationService.getUser();
+    console.log(this.user);
   }
 
   setUser(user: User): void {
@@ -30,22 +31,5 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.authenticationService.logout();
-  }
-
-  acceptCookies(): void {
-    localStorage.setItem('acceptCookies', JSON.stringify({ accepted: true }));
-  }
-
-  getCookieStatus(): boolean {
-    const cookieStatus = JSON.parse(localStorage.getItem('acceptCookies'));
-    if (cookieStatus) {
-      return cookieStatus.accepted;
-    } else {
-      return null;
-    }
-  }
-
-  toggleProfile(): void {
-    this.profileOpened = !this.profileOpened;
   }
 }

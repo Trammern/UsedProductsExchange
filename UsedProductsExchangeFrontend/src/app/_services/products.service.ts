@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Category } from '../_models/category';
 import { AuthenticationService } from './authentication.service';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
-import { Product } from '../_models/product';
+import {Product} from '../_models/product';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,7 +24,7 @@ export class ProductsService {
   private deletedProduct: Observable<Product>;
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
-  // GET
+  //GET
   getItems(filter: Filter): Observable<FilteredList<Product>> {
     let url = environment.apiUrl + '/products' + '?';
     if (filter && filter.itemsPrPage > 0 && filter.currentPage > 0) {
@@ -38,7 +39,7 @@ export class ProductsService {
     }
     return this.http.get<FilteredList<Product>>(url);
   }
-  // GET
+  //GET
   getItem(id: number): Observable<Product> {
     // add authorization header with jwt token
     httpOptions.headers =
@@ -47,12 +48,12 @@ export class ProductsService {
     // get product from api
     return this.http.get<Product>(environment.apiUrl + '/products/' + id, httpOptions);
   }
-  // PUT
+  //PUT
   updateProduct(productUpdated: Product): Observable<Product> {
     return this.http.put<Product>(environment.apiUrl + '/Products/' + productUpdated.productId, productUpdated);
   }
 
-  // DELETE
+  //DELETE
   Remove(id: number): Observable<Product> {
     // add authorization header with jwt token
     httpOptions.headers =
@@ -67,7 +68,7 @@ export class ProductsService {
   createProduct(product: Product): Observable<Product>{
     httpOptions.headers =
       httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-    return this.http.post<Product>(environment.apiUrl, product, httpOptions);
+    return this.http.post<Product>(environment.apiUrl + '/products', product, httpOptions);
   }
 
   setCurrentProduct(product: Product){

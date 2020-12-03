@@ -1,13 +1,10 @@
-import { Bid } from '../_models/Bid';
-
-export class Product {
+export class Product{
   productId?: number;
-  userId: number;
+  userId?: number;
   name: string;
   description: string;
-  pictureUrl: string;
-  currentPrice: number;
-  expiration: any;
-  categoryId: number;
-  bids: Bid[];
+  pictureURL: string;
+  currentPrice?: number;
+  expiration?: any;
+  categoryId?: number;
 }

@@ -1,7 +1,4 @@
-import { Product } from '../_models/product.model';
-
 export class Category {
-  categoryId?: number;
+  id: number;
   name: string;
-  products?: Product[];
 }

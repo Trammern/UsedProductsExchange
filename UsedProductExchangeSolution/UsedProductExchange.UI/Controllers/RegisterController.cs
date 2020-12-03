@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using UsedProductExchange.Core.Application;
 using UsedProductExchange.Core.Entities;
 
@@ -19,32 +20,41 @@ namespace UsedProductExchange.UI.Controllers
         [HttpPost]
         public IActionResult Register([FromBody]RegisterInputModel model)
         {
-            _loginService.CreatePasswordHash(model.Password, out var passHash, out var passSalt);
+            try
+            {
+                _loginService.CreatePasswordHash(model.Password, out var passHash, out var passSalt);
 
-            var user = _userService.Add(new User
+                var user = _userService.Add(new User
+                {
+                    Name = model.Name,
+                    Username = model.Username,
+                    PasswordHash = passHash,
+                    PasswordSalt = passSalt,
+                    IsAdmin = model.IsAdmin,
+                    Address = model.Address,
+                    Email = model.Email,
+                });
+
+                return Ok(new
+                {
+                    //username = user.Username,
+                    account = new
+                    {
+                        user.UserId,
+                        user.Name,
+                        user.Username,
+                        user.IsAdmin,
+                        user.Address,
+                        user.Email
+                    },
+                    token = _loginService.GenerateToken(user)
+                });
+            }
+            catch (Exception e)
             {
-                Name = model.Name,
-                Username = model.Username,
-                PasswordHash = passHash,
-                PasswordSalt = passSalt,
-                IsAdmin = model.IsAdmin,
-                Address = model.Address,
-                Email = model.Email,
-            });
+                return BadRequest(e.Message);
+            }
             
-            return Ok(new
-            {
-                //username = user.Username,
-                account = new {
-                    user.UserId,
-                    user.Name,
-                    user.Username,
-                    user.IsAdmin,
-                    user.Address,
-                    user.Email
-                },
-                token = _loginService.GenerateToken(user)
-            });
         }
 
     }
