@@ -2,18 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Category } from '../_models/category';
 import { AuthenticationService } from './authentication.service';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
-import {Product} from '../_models/product';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    Authorization: 'my-auth-token'
-  })
-};
+import { Product } from '../_models/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +16,7 @@ export class ProductsService {
   private deletedProduct: Observable<Product>;
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
-  //GET
+  // GET
   getItems(filter: Filter): Observable<FilteredList<Product>> {
     let url = environment.apiUrl + '/products' + '?';
     if (filter && filter.itemsPrPage > 0 && filter.currentPage > 0) {
@@ -39,36 +31,26 @@ export class ProductsService {
     }
     return this.http.get<FilteredList<Product>>(url);
   }
-  //GET
+  // GET
   getItem(id: number): Observable<Product> {
-    // add authorization header with jwt token
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-
     // get product from api
-    return this.http.get<Product>(environment.apiUrl + '/products/' + id, httpOptions);
+    return this.http.get<Product>(environment.apiUrl + '/products/' + id);
   }
-  //PUT
+  // PUT
   updateProduct(productUpdated: Product): Observable<Product> {
     return this.http.put<Product>(environment.apiUrl + '/Products/' + productUpdated.productId, productUpdated);
   }
 
-  //DELETE
+  // DELETE
   Remove(id: number): Observable<Product> {
-    // add authorization header with jwt token
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-
     // get Products from api
-    this.deletedProduct = this.http.delete<Product>(environment.apiUrl + '/Products/' + id, httpOptions);
+    this.deletedProduct = this.http.delete<Product>(environment.apiUrl + '/Products/' + id);
     return this.deletedProduct;
   }
 
   // POST
   createProduct(product: Product): Observable<Product>{
-    httpOptions.headers =
-      httpOptions.headers.set('Authorization', 'Bearer ' + this.authenticationService.getToken());
-    return this.http.post<Product>(environment.apiUrl + '/products', product, httpOptions);
+    return this.http.post<Product>(environment.apiUrl, product);
   }
 
   setCurrentProduct(product: Product){
