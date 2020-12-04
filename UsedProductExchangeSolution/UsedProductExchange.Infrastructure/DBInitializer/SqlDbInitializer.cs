@@ -25,10 +25,10 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
             if (context.Users.Any() || context.Products.Any() || context.Categories.Any() || context.Bids.Any())
             {
                 // Make sure the tables are dropped
-                context.Database.ExecuteSqlRaw("DROP TABLE Users");
-                context.Database.ExecuteSqlRaw("DROP TABLE Products");
-                context.Database.ExecuteSqlRaw("DROP TABLE Categories");
-                context.Database.ExecuteSqlRaw("DROP TABLE Bids");
+                //context.Database.ExecuteSqlRaw("DROP TABLE Users");
+                //context.Database.ExecuteSqlRaw("DROP TABLE Products");
+                //context.Database.ExecuteSqlRaw("DROP TABLE Categories");
+                //context.Database.ExecuteSqlRaw("DROP TABLE Bids");
                 // Re-create the database
                 context.Database.EnsureCreated();
             }
