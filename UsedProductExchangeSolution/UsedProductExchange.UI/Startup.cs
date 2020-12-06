@@ -89,9 +89,7 @@ namespace UsedProductExchange.UI
             services.AddScoped<IRepository<Product>, ProductRepository>();
             
             services.AddSingleton<ILoginService>(new LoginService(secretBytes));
-          
-            services.AddControllers();
-            
+
             // Configure the default CORS policy.
             services.AddCors(options =>
                 options.AddDefaultPolicy(
@@ -110,6 +108,8 @@ namespace UsedProductExchange.UI
             
             services.AddDbContext<UsedProductExchangeContext>(opt => 
                     opt.UseSqlite("Data Source=UsedProductExchange.db"),ServiceLifetime.Transient);
+            
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -148,8 +148,6 @@ namespace UsedProductExchange.UI
 
             app.UseHttpsRedirection();
             
-            app.UseCors();
-            
             app.UseStaticFiles();
             
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"Resources"));  
@@ -161,6 +159,8 @@ namespace UsedProductExchange.UI
             });
             
             app.UseRouting();
+            
+            app.UseCors();
             
             app.UseAuthentication();
 
