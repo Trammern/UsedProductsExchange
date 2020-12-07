@@ -24,7 +24,7 @@
   </div>
   <ul *ngIf="listData$ | async else loading" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 pt-5">
     <li *ngFor="let category of categories" class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200 hover:bg-gray-100">
-      <a [routerLink]="['/products', category.categoryId]">
+      <a [routerLink]="['/categories', category.categoryId]">
       <div class="w-full flex items-center justify-between p-8 space-x-6">
         <div class="flex-1 truncate">
           <div class="flex items-center space-x-3">

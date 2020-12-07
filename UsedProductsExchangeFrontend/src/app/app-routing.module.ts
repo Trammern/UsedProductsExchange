@@ -11,6 +11,8 @@ import {ProductsComponent} from './products/products.component';
 import {ProductAddComponent} from './products/product-add/product-add.component';
 import {ProductEditComponent} from './products/product-edit/product-edit.component';
 import {AdminGuard} from './_guard/admin.guard';
+import {CategoryShowComponent} from './categories/category-show/category-show.component';
+import {ProductShowComponent} from './products/product-show/product-show.component';
 
 const routes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -18,9 +20,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'categories', component: CategoriesComponent },
+  { path: 'categories/:id', component: CategoryShowComponent },
   { path: 'categories/add', component: CategoryAddComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'categories/edit/:id', component: CategoryEditComponent, canActivate: [AuthGuard] },
-  { path: 'products/:id', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent },
+  { path: 'products/:id', component: ProductShowComponent },
   { path: 'products/add', component: ProductAddComponent, canActivate: [AuthGuard] },
   { path: 'products/edit/:id', component: ProductEditComponent, canActivate: [AuthGuard] },
 

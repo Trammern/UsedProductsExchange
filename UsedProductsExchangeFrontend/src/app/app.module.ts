@@ -18,6 +18,8 @@ import { ProductsComponent } from './products/products.component';
 import { ProductAddComponent } from './products/product-add/product-add.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import {AuthInterceptor} from './_interceptors/auth.interceptor';
+import { CategoryShowComponent } from './categories/category-show/category-show.component';
+import { ProductShowComponent } from './products/product-show/product-show.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {AuthInterceptor} from './_interceptors/auth.interceptor';
     ProductsComponent,
     ProductAddComponent,
     ProductEditComponent,
+    CategoryShowComponent,
+    ProductShowComponent,
   ],
   imports: [
     BrowserModule,
