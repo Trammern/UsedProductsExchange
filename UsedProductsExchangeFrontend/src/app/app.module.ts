@@ -18,8 +18,10 @@ import { ProductsComponent } from './products/products.component';
 import { ProductAddComponent } from './products/product-add/product-add.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import {AuthInterceptor} from './_interceptors/auth.interceptor';
+import { ProfileComponent } from './profiles/profile/profile.component';
 import { CategoryShowComponent } from './categories/category-show/category-show.component';
 import { ProductShowComponent } from './products/product-show/product-show.component';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { ProductShowComponent } from './products/product-show/product-show.compo
     ProductsComponent,
     ProductAddComponent,
     ProductEditComponent,
+    ProfileComponent,
     CategoryShowComponent,
     ProductShowComponent,
   ],

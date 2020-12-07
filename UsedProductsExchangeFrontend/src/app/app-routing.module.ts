@@ -10,9 +10,11 @@ import { CategoryEditComponent } from './categories/category-edit/category-edit.
 import {ProductsComponent} from './products/products.component';
 import {ProductAddComponent} from './products/product-add/product-add.component';
 import {ProductEditComponent} from './products/product-edit/product-edit.component';
+import {ProfileComponent} from "./profiles/profile/profile.component";
 import {AdminGuard} from './_guard/admin.guard';
 import {CategoryShowComponent} from './categories/category-show/category-show.component';
 import {ProductShowComponent} from './products/product-show/product-show.component';
+
 
 const routes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -24,9 +26,11 @@ const routes: Routes = [
   { path: 'categories/add', component: CategoryAddComponent, canActivate: [AuthGuard, AdminGuard] },
   { path: 'categories/edit/:id', component: CategoryEditComponent, canActivate: [AuthGuard] },
   { path: 'products', component: ProductsComponent },
+  { path: 'user/:id', component: ProfileComponent },
   { path: 'products/:id', component: ProductShowComponent },
   { path: 'products/add', component: ProductAddComponent, canActivate: [AuthGuard] },
   { path: 'products/edit/:id', component: ProductEditComponent, canActivate: [AuthGuard] },
+
 
   { path: '**', redirectTo: '' }
 ];
