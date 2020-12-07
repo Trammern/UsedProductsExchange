@@ -20,7 +20,7 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
         public void Initialize(UsedProductExchangeContext context)
         {
             // Delete the database, if it already exists.
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
 
             // Create the database, if it does not already exists.
             context.Database.EnsureCreated();
