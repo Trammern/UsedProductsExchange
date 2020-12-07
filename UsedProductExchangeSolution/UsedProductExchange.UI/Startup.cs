@@ -70,7 +70,7 @@ namespace UsedProductExchange.UI
                 services.AddDbContext<UsedProductExchangeContext>(opt =>
                     opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
                 // Register SQL Server database initializer for dependency injection.
-                //services.AddTransient<IDbInitializer, DbInitializer>();
+                services.AddTransient<IDbInitializer, SqlDbInitializer>();
             }
             
             services.Configure<FormOptions>(o => {
@@ -89,9 +89,7 @@ namespace UsedProductExchange.UI
             services.AddScoped<IRepository<Product>, ProductRepository>();
             
             services.AddSingleton<ILoginService>(new LoginService(secretBytes));
-          
-            services.AddControllers();
-            
+
             // Configure the default CORS policy.
             services.AddCors(options =>
                 options.AddDefaultPolicy(
@@ -110,6 +108,8 @@ namespace UsedProductExchange.UI
             
             services.AddDbContext<UsedProductExchangeContext>(opt => 
                     opt.UseSqlite("Data Source=UsedProductExchange.db"),ServiceLifetime.Transient);
+            
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -117,31 +117,40 @@ namespace UsedProductExchange.UI
         {
             if (env.IsDevelopment())
             {
-                
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
+    
+                    if (context != null)
+                    {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
+                    }
+    
+                    var services = scope.ServiceProvider;
+                    var dbInitializer = services.GetService<IDbInitializer>();
+                    dbInitializer.Initialize(context);
+    
+                }
 
                 app.UseDeveloperExceptionPage();
             }
+            
+            // Initialize the database.
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var context = scope.ServiceProvider.GetService<UsedProductExchangeContext>();
-
-                if (context != null)
-                {
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
-                }
-
+                // Initialize the database
                 var services = scope.ServiceProvider;
+                var dbContext = services.GetService<UsedProductExchangeContext>();
                 var dbInitializer = services.GetService<IDbInitializer>();
-                dbInitializer.Initialize(context);
-
+                dbInitializer.Initialize(dbContext);
             }
 
             app.UseHttpsRedirection();
             
-            app.UseCors();
-            
             app.UseStaticFiles();
+            
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"Resources"));  
             
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -150,6 +159,8 @@ namespace UsedProductExchange.UI
             });
             
             app.UseRouting();
+            
+            app.UseCors();
             
             app.UseAuthentication();
 

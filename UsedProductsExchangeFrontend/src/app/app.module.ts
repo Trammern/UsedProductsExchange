@@ -19,6 +19,9 @@ import { ProductAddComponent } from './products/product-add/product-add.componen
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import {AuthInterceptor} from './_interceptors/auth.interceptor';
 import { ProfileComponent } from './profiles/profile/profile.component';
+import { CategoryShowComponent } from './categories/category-show/category-show.component';
+import { ProductShowComponent } from './products/product-show/product-show.component';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import { ProfileComponent } from './profiles/profile/profile.component';
     ProductAddComponent,
     ProductEditComponent,
     ProfileComponent,
+    CategoryShowComponent,
+    ProductShowComponent,
   ],
   imports: [
     BrowserModule,
