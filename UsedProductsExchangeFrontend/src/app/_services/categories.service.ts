@@ -42,7 +42,7 @@ export class CategoriesService {
     return this.http.post<Category>(environment.apiUrl + '/categories', category);
   }
 
-  updateCategory(categoryUpdated: Category): Observable<Category> {
+  update(categoryUpdated: Category): Observable<Category> {
     return this.http.put<Category>(environment.apiUrl + '/categories/' + categoryUpdated.categoryId, categoryUpdated);
   }
 

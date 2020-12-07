@@ -47,17 +47,10 @@
   <div class="pt-8 flex">
     <div class="w-64">
       <nav class="space-y-1" aria-label="Sidebar">
-        <a href="#" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100" aria-current="page">
-          <svg class="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-          </svg>
-          <span class="truncate"> Category 1 </span>
-          <span class="ml-auto inline-block py-0.5 px-3 text-xs rounded-full bg-white"> 5 </span>
-        </a>
         <div *ngIf="!err">
           <div [formGroup]="filterForm">
             <div *ngIf="listData$ | async else loading">
-              <a href="#" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50" *ngFor="let category of categories">
+              <a [routerLink]="['/products', category.categoryId]" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50" *ngFor="let category of categories">
                 <svg class="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                 </svg>
