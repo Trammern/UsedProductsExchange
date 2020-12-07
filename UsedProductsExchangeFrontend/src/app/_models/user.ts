@@ -1,3 +1,6 @@
+import {Product} from './product';
+import {Bid} from './bid';
+
 export class User {
   userId?: number;
   name: string;
@@ -6,4 +9,6 @@ export class User {
   isAdmin: boolean;
   address?: string;
   email: string;
+  products: Product[];
+  bids: Bid[];
 }

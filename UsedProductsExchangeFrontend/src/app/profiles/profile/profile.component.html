@@ -1,9 +1,32 @@
-<h2>User Profile</h2>
+<h1>User Profile</h1>
 <h3>{{user.name}}'s profile</h3>
 <h3>Username: {{user.username}}</h3>
 <h3>Address: {{user.address}}</h3>
 <h3>Email: {{user.email}}</h3>
 
+<h4>{{user.username}}'s products:</h4>
+<ul *ngIf="products">
+  <li *ngFor="let product of products">
+    {{product.name}}
+  </li>
+</ul>
+<h4 *ngIf="products.length==0"><i>No products for sale found</i></h4>
 
-<h4>Show your products for sale here</h4>
-<h4>Show your bids for other products here</h4>
+<h4>{{user.username}}'s bids:</h4>
+<ul *ngIf="bids">
+  <li *ngFor="let bid of bids">
+    Product: {{bid.product.productId}} - {{bid.product.name}}
+    Bid: {{bid.price}}
+  </li>
+</ul>
+<h4 *ngIf="bids.length==0"><i>No active bids found</i></h4>
+
+
+<div *ngIf=isLoggedIn()>
+  <a>Test: This is your profile</a>
+</div>
+
+
+
+
+
