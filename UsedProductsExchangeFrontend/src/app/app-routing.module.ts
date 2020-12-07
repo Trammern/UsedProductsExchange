@@ -10,6 +10,7 @@ import { CategoryEditComponent } from './categories/category-edit/category-edit.
 import {ProductsComponent} from './products/products.component';
 import {ProductAddComponent} from './products/product-add/product-add.component';
 import {ProductEditComponent} from './products/product-edit/product-edit.component';
+import {AdminGuard} from './_guard/admin.guard';
 
 const routes: Routes = [
   // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -17,12 +18,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'categories', component: CategoriesComponent },
-  { path: 'categories/add', component: CategoryAddComponent },
-  { path: 'categories/edit/:id', component: CategoryEditComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'categories/add', component: CategoryAddComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'categories/edit/:id', component: CategoryEditComponent, canActivate: [AuthGuard] },
   { path: 'products/:id', component: ProductsComponent },
-  { path: 'products/add', component: ProductAddComponent },
-  { path: 'products/edit/:id', component: ProductEditComponent },
+  { path: 'products/add', component: ProductAddComponent, canActivate: [AuthGuard] },
+  { path: 'products/edit/:id', component: ProductEditComponent, canActivate: [AuthGuard] },
 
   { path: '**', redirectTo: '' }
 ];
