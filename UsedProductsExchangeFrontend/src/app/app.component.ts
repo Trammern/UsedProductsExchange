@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from './_services/authentication.service';
 import {User} from './_models/user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   user: User = null;
   profileOpened = false;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     authenticationService.user.subscribe(user => this.setUser(user));
   }
 
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
+    this.profileOpened = false;
     this.authenticationService.logout();
   }
 

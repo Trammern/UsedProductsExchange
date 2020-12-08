@@ -20,6 +20,7 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
 import {AuthInterceptor} from './_interceptors/auth.interceptor';
 import { CategoryShowComponent } from './categories/category-show/category-show.component';
 import { ProductShowComponent } from './products/product-show/product-show.component';
+import {AdminGuard} from './_guard/admin.guard';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ProductShowComponent } from './products/product-show/product-show.compo
   ],
   providers: [
     AuthGuard,
+    AdminGuard,
     AuthenticationService,
     CategoriesService,
     ProductsService,

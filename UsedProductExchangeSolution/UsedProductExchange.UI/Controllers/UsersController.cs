@@ -9,16 +9,16 @@ namespace UsedProductExchange.UI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IService<User> _userService;
-        public UserController(IService<User> userService)
+        public UsersController(IService<User> userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<User>> Get()
+        public ActionResult<IEnumerable<User>> GetAll()
         {
             var userList = _userService.GetAll().ToList();
             
@@ -30,7 +30,7 @@ namespace UsedProductExchange.UI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public ActionResult<User> Get(int id)
         {
             var result = _userService.Get(id);
             
@@ -40,18 +40,7 @@ namespace UsedProductExchange.UI.Controllers
             }
             return Ok(result);
         }
-
-        [HttpDelete("{id}")]
-        public ActionResult<User> Delete(int id)
-        {
-            var result = _userService.Delete(id);
-            
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return result;
-        }
+        
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)
         {
@@ -65,7 +54,7 @@ namespace UsedProductExchange.UI.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] User user)
         {
@@ -78,6 +67,18 @@ namespace UsedProductExchange.UI.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<User> Delete(int id)
+        {
+            var result = _userService.Delete(id);
+            
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return result;
         }
     }
 }

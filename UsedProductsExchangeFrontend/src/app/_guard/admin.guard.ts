@@ -7,7 +7,7 @@ export class AdminGuard implements CanActivate {
 
   constructor(private router: Router, private authService: AuthenticationService) { }
     canActivate() {
-      // Check if user is logged in
+      // Check if user is admin
       if (this.authService.getUser().isAdmin) {
           return true;
       }

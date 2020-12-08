@@ -20,13 +20,13 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'categories', component: CategoriesComponent },
-  { path: 'categories/:id', component: CategoryShowComponent },
   { path: 'categories/add', component: CategoryAddComponent, canActivate: [AuthGuard, AdminGuard] },
-  { path: 'categories/edit/:id', component: CategoryEditComponent, canActivate: [AuthGuard] },
+  { path: 'categories/edit/:id', component: CategoryEditComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'categories/:id', component: CategoryShowComponent },
   { path: 'products', component: ProductsComponent },
-  { path: 'products/:id', component: ProductShowComponent },
   { path: 'products/add', component: ProductAddComponent, canActivate: [AuthGuard] },
   { path: 'products/edit/:id', component: ProductEditComponent, canActivate: [AuthGuard] },
+  { path: 'products/:id', component: ProductShowComponent },
 
   { path: '**', redirectTo: '' }
 ];

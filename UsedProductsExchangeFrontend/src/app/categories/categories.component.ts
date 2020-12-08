@@ -24,6 +24,7 @@ export class CategoriesComponent implements OnInit {
   };
   count: number;
   err: any;
+
   constructor(private categoriesService: CategoriesService, private fb: FormBuilder, private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
