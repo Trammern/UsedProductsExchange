@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.register(this.name.value, this.username.value, this.password.value, this.address.value, this.email.value)
       .subscribe(
         success => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/products']);
         },
         error => {
           this.errormessage = error.message;
