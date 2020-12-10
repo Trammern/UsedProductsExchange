@@ -38,19 +38,19 @@ export class ProductsService {
   }
   // PUT
   updateProduct(productUpdated: Product): Observable<Product> {
-    return this.http.put<Product>(environment.apiUrl + '/Products/' + productUpdated.productId, productUpdated);
+    return this.http.put<Product>(environment.apiUrl + '/products/' + productUpdated.productId, productUpdated);
   }
 
   // DELETE
   Remove(id: number): Observable<Product> {
     // get Products from api
-    this.deletedProduct = this.http.delete<Product>(environment.apiUrl + '/Products/' + id);
+    this.deletedProduct = this.http.delete<Product>(environment.apiUrl + '/products/' + id);
     return this.deletedProduct;
   }
 
   // POST
-  createProduct(product: Product): Observable<Product>{
-    return this.http.post<Product>(environment.apiUrl, product);
+  add(product: Product): Observable<Product>{
+    return this.http.post<Product>(environment.apiUrl + '/products', product);
   }
 
   setCurrentProduct(product: Product){

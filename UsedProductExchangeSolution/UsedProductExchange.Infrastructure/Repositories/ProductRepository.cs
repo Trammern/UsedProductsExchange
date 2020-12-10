@@ -27,7 +27,8 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
             IEnumerable<Product> filtering = _ctx.Products
                 .Include(c => c.Category)
-                .Include(b => b.Bids);
+                .Include(b => b.Bids)
+                .ThenInclude(u => u.User);
 
             
             if (!string.IsNullOrEmpty(filter.SearchText))
@@ -65,7 +66,8 @@ namespace UsedProductExchange.Infrastructure.Repositories
         {
             return _ctx.Products
                 .Include(c => c.Category)
-                .Include(b => b.Bids);
+                .Include(b => b.Bids)
+                .ThenInclude(u => u.User);
         }
 
         public Product Get(int id)
@@ -73,6 +75,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
             var product = _ctx.Products
                 .Include(c => c.Category)
                 .Include(b => b.Bids)
+                .ThenInclude(u => u.User)
                 .FirstOrDefault(p => p.ProductId == id);
 
             return product;
