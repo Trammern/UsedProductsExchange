@@ -33,8 +33,9 @@
   <main class="relative -mt-32">
     <div class="max-w-screen-xl mx-auto pb-6 px-4 sm:px-6 lg:pb-16 lg:px-8">
       <div class="bg-white rounded-lg shadow overflow-hidden">
+        <form [formGroup]="profileForm">
         <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
-          <form class="divide-y divide-gray-200 lg:col-span-9" action="#" method="POST">
+          <div class="divide-y divide-gray-200 lg:col-span-9">
             <!-- Profile section -->
             <div class="py-6 px-4 sm:p-6 lg:pb-8">
               <div>
@@ -51,20 +52,17 @@
                       Username
                     </label>
                     <div class="mt-1 rounded-md shadow-sm flex">
-                      <input type="text" name="username" id="username" autocomplete="username" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" value="lisamarie">
+                      <input type="text" formControlName="username" name="username" id="username" autocomplete="username" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" value="{{user?.username}}">
                     </div>
                   </div>
 
                   <div>
-                    <label for="about" class="block text-sm font-medium text-gray-700">
-                      About
+                    <label for="username" class="block text-sm font-medium text-gray-700">
+                      Email
                     </label>
-                    <div class="mt-1">
-                      <textarea id="about" name="about" rows="3" class="shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                    <div class="mt-1 rounded-md shadow-sm flex">
+                      <input type="text" formControlName="email" id="email" autocomplete="email" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" value="{{user?.email}}">
                     </div>
-                    <p class="mt-2 text-sm text-gray-500">
-                      Brief description for your profile. URLs are hyperlinked.
-                    </p>
                   </div>
                 </div>
 
@@ -102,13 +100,13 @@
 
               <div class="mt-6 grid grid-cols-12 gap-6">
                 <div class="col-span-12 sm:col-span-6">
-                  <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-                  <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
+                  <label for="name" class="block text-sm font-medium text-gray-700">First name</label>
+                  <input type="text" formControlName="name" id="name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value="{{user?.name}}">
                 </div>
 
                 <div class="col-span-12 sm:col-span-6">
-                  <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-                  <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
+                  <label for="address" class="block text-sm font-medium text-gray-700">Last name</label>
+                  <input type="text" formControlName="address" id="address" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value="{{user?.address}}">
                 </div>
               </div>
             </div>
@@ -177,13 +175,15 @@
                 <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500">
                   Cancel
                 </button>
-                <button type="submit" class="ml-5 bg-light-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500">
-                  Save
+                <button (click)="put()" class="ml-5 bg-light-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500" type="submit"
+                        value="Save" >
+
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
+        </form>
       </div>
     </div>
   </main>

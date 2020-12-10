@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/usedproductexchangedb/databases/UsedProductExchangeDB",
+      "type": "mssql.azure",
+      "connectionId": "defaultConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

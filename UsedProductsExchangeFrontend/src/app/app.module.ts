@@ -37,6 +37,7 @@ import { EditProfileComponent } from './profiles/edit-profile/edit-profile.compo
     ProductAddComponent,
     ProductEditComponent,
     ProfileComponent,
+    EditProfileComponent,
     CategoryShowComponent,
     ProductShowComponent,
   ],
