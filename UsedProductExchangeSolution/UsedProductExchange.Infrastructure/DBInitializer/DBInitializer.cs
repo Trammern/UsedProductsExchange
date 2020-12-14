@@ -45,6 +45,18 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                     Address = "Anotherstreet1",
                     Email = "tommy@hotmail.com",
                 },
+
+                   new User
+                {
+                    UserId = 552,
+                    Name = "Tommy",
+                    Username = "Admin",
+                    PasswordHash = adminPassHash,
+                    PasswordSalt = adminPassSalt,
+                    IsAdmin = true,
+                    Address = "Anotherstreet1",
+                    Email = "tommy@hotmail.com",
+                },
                 new User
                 {
                     UserId = 2,
