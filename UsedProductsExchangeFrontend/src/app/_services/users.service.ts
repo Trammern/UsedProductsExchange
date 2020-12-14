@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 import {User} from '../_models/user';
 import {getEntryPointInfo} from '@angular/compiler-cli/ngcc/src/packages/entry_point';
 import {Product} from '../_models/product.model';
-import {catchError} from 'rxjs/operators';
+import {catchError, first} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,11 @@ import {catchError} from 'rxjs/operators';
 export class UsersService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
+  usersApiUrl = environment.apiUrl + '/user'
+  private currentUser: User;
+
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(environment.apiUrl + '/user/' + id);
+    return this.http.get<User>(this.usersApiUrl + '/' + id).pipe(first());
   }
 
   getAllUsers(): Observable<User[]> {
@@ -25,7 +28,15 @@ export class UsersService {
 
 
   put(updatedUser: User) {
-    return this.http.put<User>(environment.apiUrl + '/user/' + updatedUser.userId, updatedUser).pipe();
+    return this.http.put<User>(this.usersApiUrl + '/' + updatedUser.userId, updatedUser).pipe();
+  }
+
+  getCurrentUser(): User{
+    return this.currentUser;
+  }
+
+  setCurrentUser(user: User){
+    this.currentUser = user;
   }
 }
 

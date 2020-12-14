@@ -1,30 +1,4 @@
-<!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  const colors = require('tailwindcss/colors')
-
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        colors: {
-          'light-blue': colors.lightBlue,
-          teal: colors.teal,
-        }
-      }
-    },
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ]
-  }
-  ```
--->
-<div>
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
   <div class="relative pb-32 overflow-hidden">
     <header class="relative py-10">
     </header>
@@ -33,10 +7,9 @@
   <main class="relative -mt-32">
     <div class="max-w-screen-xl mx-auto pb-6 px-4 sm:px-6 lg:pb-16 lg:px-8">
       <div class="bg-white rounded-lg shadow overflow-hidden">
-        <form [formGroup]="profileForm">
+        <form [formGroup]="userUpdateForm">
         <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
           <div class="divide-y divide-gray-200 lg:col-span-9">
-            <!-- Profile section -->
             <div class="py-6 px-4 sm:p-6 lg:pb-8">
               <div>
                 <h2 class="text-lg leading-6 font-medium text-gray-900">Profile</h2>
@@ -44,7 +17,6 @@
                   This information will be displayed publicly so be careful what you share.
                 </p>
               </div>
-
               <div class="mt-6 flex flex-col lg:flex-row">
                 <div class="flex-grow space-y-6">
                   <div>
@@ -55,17 +27,15 @@
                       <input type="text" formControlName="username" name="username" id="username" autocomplete="username" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" value="{{user?.username}}">
                     </div>
                   </div>
-
                   <div>
                     <label for="username" class="block text-sm font-medium text-gray-700">
                       Email
                     </label>
                     <div class="mt-1 rounded-md shadow-sm flex">
-                      <input type="text" formControlName="email" id="email" autocomplete="email" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" value="{{user?.email}}">
+                      <input type="text" formControlName="email" id="email" autocomplete="email" class="focus:ring-light-blue-500 focus:border-light-blue-500 flex-grow block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                     </div>
                   </div>
                 </div>
-
                 <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">
                   <p class="text-sm font-medium text-gray-700" aria-hidden="true">
                     Photo
@@ -86,7 +56,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="hidden relative rounded-full overflow-hidden lg:block">
                     <img class="relative rounded-full w-40 h-40" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80" alt="">
                     <label for="user-photo" class="absolute inset-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center text-sm font-medium text-white opacity-0 hover:opacity-100 focus-within:opacity-100">
@@ -97,27 +66,24 @@
                   </div>
                 </div>
               </div>
-
               <div class="mt-6 grid grid-cols-12 gap-6">
                 <div class="col-span-12 sm:col-span-6">
                   <label for="name" class="block text-sm font-medium text-gray-700">First name</label>
                   <input type="text" formControlName="name" id="name" autocomplete="given-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value="{{user?.name}}">
                 </div>
-
                 <div class="col-span-12 sm:col-span-6">
                   <label for="address" class="block text-sm font-medium text-gray-700">Last name</label>
                   <input type="text" formControlName="address" id="address" autocomplete="family-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value="{{user?.address}}">
                 </div>
               </div>
             </div>
-
             <!-- Privacy section -->
             <div class="pt-6 divide-y divide-gray-200">
               <div class="px-4 sm:px-6">
                 <div>
                   <h2 class="text-lg leading-6 font-medium text-gray-900">Privacy</h2>
                   <p class="mt-1 text-sm text-gray-500">
-                    We at Used Products exchange value our customers right to privacy, please take a moment to decide your privacy needs
+                    We at Used Products exchange value our customers right to privacy, please take a moment to decide on your privacy needs
                   </p>
                 </div>
                 <ul class="mt-2 divide-y divide-gray-200">
@@ -159,7 +125,7 @@
                         Allow mentions
                       </p>
                       <p id="privacy-option-description-4" class="text-sm text-gray-500">
-                        Adipiscing est venenatis enim molestie commodo eu gravid
+                        Allow mentions of other products on your products
                       </p>
                     </div>
                     <!-- On: "bg-teal-500", Off: "bg-gray-200" -->
@@ -175,7 +141,7 @@
                 <button type="button" class="bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500">
                   Cancel
                 </button>
-                <button (click)="put()" class="ml-5 bg-light-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500" type="submit"
+                <button (click)="update()" class="ml-5 bg-light-blue-700 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-light-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500" type="submit"
                         value="Save" >
 
                 </button>

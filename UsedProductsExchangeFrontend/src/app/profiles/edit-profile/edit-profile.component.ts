@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../../_models/user';
 import {AuthenticationService} from '../../_services/authentication.service';
 import {UsersService} from '../../_services/users.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {catchError, first, switchMap, take, tap} from 'rxjs/operators';
+import {Product} from '../../_models/product';
+import {Bid} from '../../_models/bid';
+import {ProductsService} from '../../_services/products.service';
+import {Observable, of, pipe} from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,42 +18,57 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class EditProfileComponent implements OnInit {
 
-  user:User;
-  updatedUser: User;
-  profileForm = new FormGroup({
-  name: new FormControl(''),
-  address: new FormControl(''),
-  username: new FormControl(''),
-  email: new FormControl('')
-});
+  currentUser: User;
 
-  constructor(private userService: UsersService,
+  userUpdateForm: FormGroup;
+  updateObservable$: Observable<any>;
+  errString: string;
+  err: any;
+  products: Product[];
+  bids: Bid[];
+  user: User;
+
+  constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
-              private loginStatus: AppComponent) {
-    this.user = new User();
+              private router: Router,
+              private userService: UsersService,
+              private productService: ProductsService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
 
-    this.userService.getUser(id).subscribe(userFromApi => {
-    this.user = userFromApi;
+    this.user = this.authenticationService.getUser()
+
+
+
+    this.userUpdateForm = this.fb.group({
+      name: [this.user.name],
+      username:[this.user.username],
+      email: [this.user.email],
+      address:[this.user.address]
     });
-  }
 
-  setUser(user: User): void {
-    this.user = user;
-  }
+    }
 
-  put() {
+  update() {
 
-    this.user.name = this.profileForm.get('name').value;
-    this.user.username = this.profileForm.get('username').value;
-    this.user.address = this.profileForm.get('address').value;
-    this.user.email = this.profileForm.get('email').value;
+    this.errString = '';
+    this.user.name = this.userUpdateForm.get('name').value;
+    this.user.address = this.userUpdateForm.get('address').value;
+    this.user.email = this.userUpdateForm.get('email').value;
+    this.user.username = this.userUpdateForm.get('username').value;
+    console.log('I was pressed');
 
 
-    this.userService.put(this.user).subscribe();
-
+    this.userService.put(this.user).pipe(
+      catchError(err => {
+        this.errString = err.error ?? err.message;
+        return of()
+      })
+    )
+      .subscribe(user => {
+        console.log('user' ,user);
+      });
   }
 }
