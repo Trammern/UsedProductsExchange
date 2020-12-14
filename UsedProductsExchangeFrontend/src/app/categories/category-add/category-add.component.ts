@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { CategoriesService } from '../../_services/categories.service';
 import {Category} from '../../_models/category';
 import {catchError} from 'rxjs/operators';
+import {HttpClient, HttpEventType} from '@angular/common/http';
 
 @Component({
   selector: 'app-category-add',
@@ -15,8 +16,11 @@ export class CategoryAddComponent implements OnInit {
   submitted = false;
   loading = false;
   errormessage = '';
+  @Output() public onUploadFinished = new EventEmitter();
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private categoryService: CategoriesService) { }
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private categoryService: CategoriesService) { }
 
   ngOnInit(): void {
     //  Initialize the form group

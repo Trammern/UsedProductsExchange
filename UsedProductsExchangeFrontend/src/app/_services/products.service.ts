@@ -53,12 +53,11 @@ export class ProductsService {
     return this.http.post<Product>(environment.apiUrl + '/products', product);
   }
 
-  setCurrentProduct(product: Product){
+  setCurrentProduct(product: Product) {
     this.currentProduct = product;
   }
 
-  GetCurrentProduct(): Product
-  {
+  GetCurrentProduct(): Product {
     return this.currentProduct;
   }
 }
