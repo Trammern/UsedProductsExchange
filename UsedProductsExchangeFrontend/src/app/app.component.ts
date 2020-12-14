@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from './_services/authentication.service';
 import {User} from './_models/user';
+import {UsersService} from './_services/users.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   user: User = null;
   profileOpened = false;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private userService: UsersService) {
     authenticationService.user.subscribe(user => this.setUser(user));
   }
 

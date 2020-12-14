@@ -18,20 +18,8 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
         
         public void Initialize(UsedProductExchangeContext context)
         {
-            // Create the database, if it does not already exists.
-            context.Database.EnsureCreated();
+             context.Database.EnsureCreated();
 
-            // Check if there is any Pets, Owners or Users in the database
-            if (context.Users.Any() || context.Products.Any() || context.Categories.Any() || context.Bids.Any())
-            {
-                // Make sure the tables are dropped
-                //context.Database.ExecuteSqlRaw("DROP TABLE Users");
-                //context.Database.ExecuteSqlRaw("DROP TABLE Products");
-                //context.Database.ExecuteSqlRaw("DROP TABLE Categories");
-                //context.Database.ExecuteSqlRaw("DROP TABLE Bids");
-                // Re-create the database
-                context.Database.EnsureCreated();
-            }
         }
     }
 }

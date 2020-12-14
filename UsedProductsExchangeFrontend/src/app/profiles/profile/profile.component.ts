@@ -19,7 +19,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UsersService,
               private route: ActivatedRoute,
-              private loginStatus: AppComponent) { }
+              private loginStatus: AppComponent) {
+  }
 
   ngOnInit(): void {
     const id = +this.route.snapshot.paramMap.get('id');
