@@ -18,6 +18,7 @@ namespace UsedProductExchange.Core.Application.Implementation
             _userRepository = userRepository ?? throw new ArgumentException("Repository is missing");
         }
 
+
         private void UserValidationCheck(User user)
         {
             // Null or empty checks
