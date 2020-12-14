@@ -34,7 +34,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public User Get(int id)
         {
-            return _ctx.Users.FirstOrDefault(u => u.UserId == id);
+            return _ctx.Users
+                .Include(u => u.Products)
+                .Include(us => us.Bids)
+                .ThenInclude(b => b.Product)
+                .AsNoTracking()
+                .FirstOrDefault(use => use.UserId == id);
         }
 
         public FilteredList<User> GetAll(Filter filter)

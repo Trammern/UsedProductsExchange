@@ -1,0 +1,26 @@
+.container .box {
+  width:540px;
+  margin:50px;
+  display:table;
+}
+.container .box .box-row {
+  display:table-row;
+}
+.container .box .box-cell {
+  display:table-cell;
+  width:33%;
+  padding:10px;
+}
+.container .box .box-cell.box1 {
+  background:green;
+  color:white;
+  text-align:justify;
+}
+.container .box .box-cell.box2 {
+  background:lightgreen;
+  text-align:justify
+}
+.container .box .box-cell.box3 {
+  background:lime;
+  text-align:justify;
+}

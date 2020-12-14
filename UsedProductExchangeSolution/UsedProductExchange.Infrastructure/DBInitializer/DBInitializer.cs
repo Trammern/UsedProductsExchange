@@ -39,7 +39,19 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
             {
                 new User
                 {
-                    UserId = 1,
+                    UserId = 3,
+                    Name = "Tommy",
+                    Username = "Admin",
+                    PasswordHash = adminPassHash,
+                    PasswordSalt = adminPassSalt,
+                    IsAdmin = true,
+                    Address = "Anotherstreet1",
+                    Email = "tommy@hotmail.com",
+                },
+
+                   new User
+                {
+                    UserId = 2,
                     Name = "Tommy",
                     Username = "Admin",
                     PasswordHash = adminPassHash,
@@ -50,7 +62,7 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
                 new User
                 {
-                    UserId = 2,
+                    UserId = 1,
                     Name = "Carl",
                     Username = "User",
                     PasswordHash = userPassHash,

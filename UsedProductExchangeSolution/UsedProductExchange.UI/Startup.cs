@@ -79,6 +79,17 @@ namespace UsedProductExchange.UI
                 o.MemoryBufferThreshold = int.MaxValue;
             });
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Swagger UPE",
+                        Description = "Swagger for UsedProductExchange",
+                    });
+            });
+
+           
             services.AddScoped<IService<Category>, CategoryService>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
 
@@ -169,6 +180,13 @@ namespace UsedProductExchange.UI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo");
             });
         }
     }
