@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ProductsService} from '../../_services/products.service';
 import {Product} from '../../_models/product.model';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {AuthenticationService} from '../../_services/authentication.service';
 import {Observable} from 'rxjs';
 import {FilteredList} from '../../_models/filtered-list';
@@ -32,9 +32,8 @@ export class ProductAddComponent implements OnInit {
     itemsPrPage: 5,
     currentPage: 1
   };
-  public progress: number;
-  public message: string;
-  @Output() public onUploadFinished = new EventEmitter();
+  public product: Product;
+  public response: {dbPath: ''};
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
@@ -57,20 +56,13 @@ export class ProductAddComponent implements OnInit {
       name: ['', Validators.required],
       expiration: ['', Validators.required],
       categoryId: ['', Validators.required],
-      photo: [],
       price: ['', Validators.required],
       description: [''],
     });
   }
 
-  get name() { return this.addProductForm.get('name'); }
-  get description() { return this.addProductForm.get('description'); }
-  get categoryId() { return this.addProductForm.get('categoryId'); }
-  get expiration() { return this.addProductForm.get('expiration'); }
-  get photo() { return this.addProductForm.get('photo'); }
-  get price() { return this.addProductForm.get('price'); }
-
   onSubmit(): void {
+    console.log('Submitted');
     this.submitted = true;
 
     // stop here if form is invalid
@@ -78,16 +70,19 @@ export class ProductAddComponent implements OnInit {
       return;
     }
 
+    console.log('Form passed');
+
     this.loading = true;
 
-    const nameValue = this.name.value;
-    const descriptionValue = this.description.value;
-    const categoryValue = this.categoryId.value;
-    const expirationValue = this.expiration.value;
-    const photoValue = this.photo.value;
-    const priceValue = this.price.value;
+    const nameValue = this.addProductForm.get('name').value;
+    const descriptionValue = this.addProductForm.get('description').value;
+    const categoryValue = this.addProductForm.get('categoryId').value;
+    const expirationValue = this.addProductForm.get('expiration').value;
+    const photoValue = this.response.dbPath;
+    console.log(photoValue);
+    const priceValue = this.addProductForm.get('price').value;
 
-    const product: Product = {
+    this.product = {
       name: nameValue,
       bids: [],
       categoryId: categoryValue,
@@ -98,7 +93,11 @@ export class ProductAddComponent implements OnInit {
       userId: this.authenticationService.getUser().id,
     };
 
-    this.productsService.add(product)
+    this.productsService.add(this.product)
+      .pipe(map(response => {
+        const product: Product = response;
+        this.router.navigateByUrl('/products/' + product.productId);
+      }))
       .pipe(
         catchError(err => {
           this.loading = false;
@@ -106,8 +105,8 @@ export class ProductAddComponent implements OnInit {
           return err;
         })
       )
-      .subscribe(city => {
-        this.name.reset();
+      .subscribe(() => {
+        this.addProductForm.reset();
         this.loading = false;
         this.errormessage = '';
       });
@@ -133,23 +132,11 @@ export class ProductAddComponent implements OnInit {
     );
   }
 
-  public uploadFile(files): void {
-    if (files.length === 0) {
-      return;
-    }
-    const fileToUpload = files[0] as File;
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    console.log(formData.getAll('file'));
-    this.http.post(environment.apiUrl + '/upload', formData, { reportProgress: true, observe: 'events' })
-      .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress = Math.round(100 * event.loaded / event.total);
-        }
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
-        }
-      });
+  uploadFinished($event: any): void {
+    this.response = $event;
+  }
+
+  public createImgPath = (serverPath: string) => {
+    return environment.url + '/' + serverPath;
   }
 }

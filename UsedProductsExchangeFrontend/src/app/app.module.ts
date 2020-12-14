@@ -21,6 +21,7 @@ import {AuthInterceptor} from './_interceptors/auth.interceptor';
 import { CategoryShowComponent } from './categories/category-show/category-show.component';
 import { ProductShowComponent } from './products/product-show/product-show.component';
 import {AdminGuard} from './_guard/admin.guard';
+import { UploadComponent } from './_components/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {AdminGuard} from './_guard/admin.guard';
     ProductEditComponent,
     CategoryShowComponent,
     ProductShowComponent,
+    UploadComponent,
   ],
   imports: [
     BrowserModule,

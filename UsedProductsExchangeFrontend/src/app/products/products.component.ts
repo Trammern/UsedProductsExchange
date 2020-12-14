@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {FilteredList} from '../_models/filtered-list';
 import {ActivatedRoute} from '@angular/router';
 import {Product} from '../_models/product.model';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-products',

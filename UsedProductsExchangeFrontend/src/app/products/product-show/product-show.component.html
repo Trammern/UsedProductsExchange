@@ -4,7 +4,7 @@
 
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen flex pt-10" *ngIf="chosenProduct$ | async as product else loading">
   <div class="flex-auto w-2/6">
-    <img src="https://www.elgiganten.dk/image/dv_web_D180001002550137/234579/iphone-12-pro-max-5g-smartphone-128gb-guld.jpg?$prod_all4one$" alt="Product Image">
+    <img [src]="createImgPath(product.pictureUrl)" alt="Product Image" class="w-11/12">
   </div>
   <div class="flex-auto w-4/6">
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -54,7 +54,7 @@
             </dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                $120,000
+                {{ formatCurrency(product.currentPrice, 'en', '$') }}
               </span>
             </dd>
           </div>
