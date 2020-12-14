@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -9,17 +10,25 @@ namespace UsedProductExchange.UI.Controllers
     {
         [Route("/api/upload")]
         [HttpPost, DisableRequestSizeLimit]
-        public IActionResult Upload()
+        public IActionResult Upload(IFormCollection data, IFormFile imageFile)
         {
             try
             {
+                var folder = "";
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine("Resources", "Images");
+                folder = Request.Form["folder"];
+                if (folder == "")
+                {
+                    folder = "Products";
+                }
+                //var file = imageFile;
+                var folderName = Path.Combine("Resources", "Images", folder);
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 if (file.Length > 0)
                 {
                     char[] charsToTrim = { '"', '*', ' ', '\''};
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    // var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.ContentDisposition);
                     var trim = fileName.ToString().Trim(charsToTrim);
                     var fullPath = Path.Combine(pathToSave, trim);
                     var dbPath = Path.Combine(folderName, trim);

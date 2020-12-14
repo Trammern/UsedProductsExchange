@@ -21,6 +21,8 @@ import {AuthInterceptor} from './_interceptors/auth.interceptor';
 import { ProfileComponent } from './profiles/profile/profile.component';
 import { CategoryShowComponent } from './categories/category-show/category-show.component';
 import { ProductShowComponent } from './products/product-show/product-show.component';
+import {AdminGuard} from './_guard/admin.guard';
+import { UploadComponent } from './_components/upload/upload.component';
 import { EditProfileComponent } from './profiles/edit-profile/edit-profile.component';
 
 
@@ -40,6 +42,7 @@ import { EditProfileComponent } from './profiles/edit-profile/edit-profile.compo
     EditProfileComponent,
     CategoryShowComponent,
     ProductShowComponent,
+    UploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { EditProfileComponent } from './profiles/edit-profile/edit-profile.compo
   ],
   providers: [
     AuthGuard,
+    AdminGuard,
     AuthenticationService,
     CategoriesService,
     ProductsService,

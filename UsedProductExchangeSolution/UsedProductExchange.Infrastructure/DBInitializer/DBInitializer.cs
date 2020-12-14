@@ -29,6 +29,9 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
             const string password = "passw0rd";
             _loginService.CreatePasswordHash(password, out var adminPassHash, out var adminPassSalt);
             _loginService.CreatePasswordHash(password, out var userPassHash, out var userPassSalt);
+            
+            Console.WriteLine("Hash: " + adminPassHash);
+            Console.WriteLine("Salt: " + adminPassSalt);
 
             
             // Add some users
