@@ -48,7 +48,7 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
 
                    new User
                 {
-                    UserId = 1552,
+                    UserId = 2,
                     Name = "Tommy",
                     Username = "Admin",
                     PasswordHash = adminPassHash,
@@ -59,7 +59,7 @@ namespace UsedProductExchange.Infrastructure.DBInitializer
                 },
                 new User
                 {
-                    UserId = 42,
+                    UserId = 1,
                     Name = "Carl",
                     Username = "User",
                     PasswordHash = userPassHash,
