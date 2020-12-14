@@ -90,7 +90,7 @@ export class ProductAddComponent implements OnInit {
       description: descriptionValue,
       expiration: expirationValue,
       pictureUrl: photoValue,
-      userId: this.authenticationService.getUser().id,
+      userId: this.authenticationService.getUser().userId,
     };
 
     this.productsService.add(this.product)
