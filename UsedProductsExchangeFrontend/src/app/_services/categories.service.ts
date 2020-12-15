@@ -6,7 +6,7 @@ import { Category } from '../_models/category';
 import { AuthenticationService } from './authentication.service';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
-import {Product} from '../_models/product';
+import {Product} from '../_models/product.model';
 
 @Injectable()
 export class CategoriesService {
@@ -49,9 +49,5 @@ export class CategoriesService {
   Remove(id: number): Observable<Category> {
     // get categories from api
     return this.http.delete<Category>(environment.apiUrl + '/categories/' + id);
-  }
-  //POST
-  Post(category: Category): Observable<Category>{
-    return this.http.post<Category>(environment.apiUrl, category);
   }
 }

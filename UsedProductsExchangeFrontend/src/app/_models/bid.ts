@@ -1,5 +1,5 @@
 import {User} from './user';
-import {Product} from './product';
+import {Product} from './product.model';
 
 export class Bid {
   bidId: number;

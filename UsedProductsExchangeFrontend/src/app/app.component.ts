@@ -51,4 +51,8 @@ export class AppComponent implements OnInit {
   toggleProfile(): void {
     this.profileOpened = !this.profileOpened;
   }
+
+  closeProfilePopup(): void {
+    this.profileOpened = false;
+  }
 }

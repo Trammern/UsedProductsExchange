@@ -15,28 +15,16 @@ import {catchError, first} from 'rxjs/operators';
 export class UsersService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
 
-  usersApiUrl = environment.apiUrl + '/user'
   private currentUser: User;
 
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(this.usersApiUrl + '/' + id).pipe(first());
+  // GET
+  getItem(id: number): Observable<User> {
+    // get product from api
+    return this.http.get<User>(environment.apiUrl + '/users/' + id);
   }
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.apiUrl);
-  }
-
-
-  put(updatedUser: User) {
-    return this.http.put<User>(this.usersApiUrl + '/' + updatedUser.userId, updatedUser).pipe();
-  }
-
-  getCurrentUser(): User{
-    return this.currentUser;
-  }
-
-  setCurrentUser(user: User){
-    this.currentUser = user;
+  update(userUpdated: User): Observable<User> {
+    return this.http.put<User>(environment.apiUrl + '/users/' + userUpdated.userId, userUpdated);
   }
 }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {UsersService} from "../../_services/users.service";
-import {User} from "../../_models/user";
-import {ActivatedRoute} from "@angular/router";
-import {AppComponent} from "../../app.component";
-import {Product} from '../../_models/product';
-import {Bid} from "../../_models/bid";
+import {User} from '../../_models/user';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
+import {UsersService} from '../../_services/users.service';
+import { formatCurrency } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -12,30 +12,23 @@ import {Bid} from "../../_models/bid";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  err: any;
+  chosenUser$: Observable<User>;
 
-  user: User;
-  products: Product[];
-  bids: Bid[];
-
-  constructor(private userService: UsersService,
-              private route: ActivatedRoute,
-              private loginStatus: AppComponent) {
-  }
+  constructor(private usersService: UsersService, private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.userService.getUser(id).subscribe(userFromApi => {
-      this.user = userFromApi;
-      this.products = userFromApi.products;
-      this.bids = userFromApi.bids;
+    this.activeRoute.params.subscribe(routeParams => {
+      this.chosenUser$ = this.usersService.getItem(routeParams.id);
+      console.log(this.chosenUser$);
     });
   }
 
-  isLoggedIn(){
-    if (this.user.userId === this.loginStatus.user.userId)
-    {
-      return true;
-    }
+  public createImgPath = (serverPath: string) => {
+    return environment.url + '/' + serverPath;
+  }
+  formatCurrency(price: number, locale: string, currency: string): string {
+    return formatCurrency(price, locale, currency);
   }
 
 }

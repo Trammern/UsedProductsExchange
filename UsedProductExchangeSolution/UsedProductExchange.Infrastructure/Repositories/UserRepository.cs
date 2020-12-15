@@ -37,7 +37,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
             return _ctx.Users
                 .Include(u => u.Products)
                 .Include(us => us.Bids)
-                .ThenInclude(b => b.Product)
                 .AsNoTracking()
                 .FirstOrDefault(use => use.UserId == id);
         }

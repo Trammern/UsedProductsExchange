@@ -14,7 +14,7 @@ namespace UsedProductExchange.Core.Entities
         public string Email { get; set; }
 
         public List<Product> Products { get; set; }
-        public virtual ICollection<Bid> Bids { get; set; }
+        public List<Bid> Bids { get; set; }
 
     }
 }

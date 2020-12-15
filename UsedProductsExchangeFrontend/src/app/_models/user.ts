@@ -1,4 +1,4 @@
-import {Product} from './product';
+import {Product} from './product.model';
 import {Bid} from './bid';
 
 export class User {

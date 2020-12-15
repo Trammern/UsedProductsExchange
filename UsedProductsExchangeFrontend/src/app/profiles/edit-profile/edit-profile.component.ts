@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AppComponent} from '../../app.component';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {catchError, first, switchMap, take, tap} from 'rxjs/operators';
-import {Product} from '../../_models/product';
+import {Product} from '../../_models/product.model';
 import {Bid} from '../../_models/bid';
 import {ProductsService} from '../../_services/products.service';
 import {Observable, of, pipe} from 'rxjs';
@@ -37,10 +37,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.user = this.authenticationService.getUser()
-
-
 
     this.userUpdateForm = this.fb.group({
       name: [this.user.name],
@@ -52,7 +49,6 @@ export class EditProfileComponent implements OnInit {
     }
 
   update() {
-
     this.errString = '';
     this.user.name = this.userUpdateForm.get('name').value;
     this.user.address = this.userUpdateForm.get('address').value;
@@ -61,14 +57,14 @@ export class EditProfileComponent implements OnInit {
     console.log('I was pressed');
 
 
-    this.userService.put(this.user).pipe(
+    this.userService.update(this.user).pipe(
       catchError(err => {
         this.errString = err.error ?? err.message;
-        return of()
+        return of();
       })
     )
       .subscribe(user => {
-        console.log('user' ,user);
+        console.log('user', user);
       });
   }
 }
