@@ -32,6 +32,10 @@ namespace UsedProductExchange.Core.Application.Implementation
 
         public FilteredList<Category> GetAll(Filter.Filter filter)
         {
+            if (!string.IsNullOrEmpty(filter.SearchText) && string.IsNullOrEmpty(filter.SearchField))
+            {
+                filter.SearchField = "name";
+            }
             return _categoryRepository.GetAll(filter);
         }
 
