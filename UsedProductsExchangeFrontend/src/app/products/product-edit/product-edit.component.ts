@@ -9,6 +9,7 @@ import {FilteredList} from '../../_models/filtered-list';
 import {Category} from '../../_models/category';
 import {Filter} from '../../_models/filter';
 import {CategoriesService} from '../../_services/categories.service';
+import {AuthenticationService} from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -32,14 +33,17 @@ export class ProductEditComponent implements OnInit {
   categories: Category[];
   product: Product;
   public response: {dbPath: ''};
+  public newImage: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private categoriesService: CategoriesService,
+              private authenticationService: AuthenticationService,
               private router: Router,
               private productsService: ProductsService,
               private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.response = {dbPath: ''};
     this.filterForm = this.formBuilder.group({
       itemsPrPage: [''],
       currentPage: [''],
@@ -67,6 +71,8 @@ export class ProductEditComponent implements OnInit {
 
     //  Initialize the form group
     this.editProductForm = this.formBuilder.group({
+      productId: [''],
+      productIdAfter: [''],
       name: ['', Validators.required],
       expiration: ['', Validators.required],
       categoryId: ['', Validators.required],
@@ -86,12 +92,15 @@ export class ProductEditComponent implements OnInit {
     this.loading = true;
 
     const updatedProduct = this.editProductForm.value;
-    if (this.response.dbPath !== '') {
+    if (this.response.dbPath !== '' && this.response.dbPath !== undefined) {
       updatedProduct.pictureUrl = this.response.dbPath;
     } else {
       updatedProduct.pictureUrl = this.product.pictureUrl;
     }
     updatedProduct.productId = updatedProduct.productIdAfter;
+    updatedProduct.userId = this.authenticationService.getUser().userId;
+
+    console.log('product', updatedProduct);
 
     this.productsService.update(updatedProduct)
       .pipe(

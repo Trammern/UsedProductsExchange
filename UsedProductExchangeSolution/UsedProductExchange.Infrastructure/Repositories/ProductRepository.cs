@@ -67,7 +67,8 @@ namespace UsedProductExchange.Infrastructure.Repositories
             return _ctx.Products
                 .Include(c => c.Category)
                 .Include(b => b.Bids)
-                .ThenInclude(u => u.User);
+                .ThenInclude(u => u.User)
+                .AsNoTracking();
         }
 
         public Product Get(int id)
@@ -76,6 +77,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
                 .Include(c => c.Category)
                 .Include(b => b.Bids)
                 .ThenInclude(u => u.User)
+                .AsNoTracking()
                 .FirstOrDefault(p => p.ProductId == id);
 
             return product;
