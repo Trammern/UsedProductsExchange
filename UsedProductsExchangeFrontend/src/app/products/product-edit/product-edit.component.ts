@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductsService} from '../../_services/products.service';
-import {AuthenticationService} from '../../_services/authentication.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {catchError, switchMap, take, tap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
 import {Product} from '../../_models/product.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,48 +12,82 @@ import {Product} from '../../_models/product.model';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
-
-  currentProduct: Product;
-  productUpdateForm: FormGroup;
+  updateObservable$: Observable<Product[]>;
+  editProductForm: FormGroup;
+  submitted = false;
+  loading = false;
   errString: string;
   err: any;
+  product: Product;
+  public response: {dbPath: ''};
 
-  constructor(private productService: ProductsService,
-              private authService: AuthenticationService,
-              private fb: FormBuilder
-             ) { }
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private productsService: ProductsService,
+              private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.currentProduct = new Product();
-    this.currentProduct.name = 'test';
-    this.currentProduct.description = 'testdesc';
-    this.currentProduct.categoryId = 1;
-    this.currentProduct.pictureUrl = '';
+    this.updateObservable$ = this.activeRoute.paramMap
+      .pipe(
+        take(1),
+        switchMap(params => {
+          this.errString = '';
+          const id = +params.get('id');
+          return this.productsService.getItem(id);
+        }),
+        tap(product => {
+          this.product = product;
+          this.editProductForm.patchValue(product);
+          this.editProductForm.patchValue({
+            productIdAfter: product.productId
+          });
+        }),
+        catchError(this.err)
+      );
 
-    this.productUpdateForm = this.fb.group({
-      name: [this.currentProduct.name],
-      category: [this.currentProduct.categoryId],
-      description: [this.currentProduct.description],
-      picture: [this.currentProduct.pictureUrl]
+    //  Initialize the form group
+    this.editProductForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      expiration: ['', Validators.required],
+      categoryId: ['', Validators.required],
+      price: ['', Validators.required],
+      description: [''],
     });
   }
 
 
   onSubmit(): void{
-    this.errString ='';
-    this.currentProduct.name = this.productUpdateForm.get('name').value;
-    this.currentProduct.categoryId = this.productUpdateForm.get('category').value;
-    this.currentProduct.description = this.productUpdateForm.get('description').value;
-    this.currentProduct.pictureUrl = this.productUpdateForm.get('picture').value;
+    this.submitted = true;
 
-    this.productService.updateProduct(this.currentProduct).pipe(
-      catchError(err => {
-        this.errString = err.error ?? err.message;
-        return of();
-      })
-    )
-      .subscribe(product=>{
+    // stop here if form is invalid
+    if (this.editProductForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+
+    const updatedProduct = this.editProductForm.value;
+    if (this.response.dbPath !== '') {
+      updatedProduct.pictureUrl = this.response.dbPath;
+    } else {
+      updatedProduct.pictureUrl = this.product.pictureUrl;
+    }
+    updatedProduct.productId = updatedProduct.productIdAfter;
+
+    this.productsService.update(updatedProduct)
+      .pipe(
+        catchError(err => {
+          this.errString = err.error ?? err.message;
+          return of();
+        })
+      )
+      .subscribe(product => {
         console.log('product', product);
+        this.router.navigateByUrl('products');
       });
+  }
+
+  uploadFinished($event: any): void {
+    this.response = $event;
   }
 }

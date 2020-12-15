@@ -6,6 +6,7 @@ import { AuthenticationService } from './authentication.service';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
 import { Product } from '../_models/product.model';
+import {Category} from '../_models/category';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class ProductsService {
     // get product from api
     return this.http.get<Product>(environment.apiUrl + '/products/' + id);
   }
-  // PUT
-  updateProduct(productUpdated: Product): Observable<Product> {
+
+  update(productUpdated: Product): Observable<Product> {
     return this.http.put<Product>(environment.apiUrl + '/products/' + productUpdated.productId, productUpdated);
   }
 
