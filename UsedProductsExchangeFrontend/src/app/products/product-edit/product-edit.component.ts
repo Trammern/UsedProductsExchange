@@ -5,6 +5,10 @@ import {catchError, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Product} from '../../_models/product.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FilteredList} from '../../_models/filtered-list';
+import {Category} from '../../_models/category';
+import {Filter} from '../../_models/filter';
+import {CategoriesService} from '../../_services/categories.service';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,21 +16,37 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+  filterForm: FormGroup;
   updateObservable$: Observable<Product[]>;
   editProductForm: FormGroup;
+  filter: Filter = {
+    itemsPrPage: 5,
+    currentPage: 1
+  };
+  count: number;
   submitted = false;
   loading = false;
   errString: string;
   err: any;
+  listData$: Observable<FilteredList<Category>>;
+  categories: Category[];
   product: Product;
   public response: {dbPath: ''};
 
   constructor(private formBuilder: FormBuilder,
+              private categoriesService: CategoriesService,
               private router: Router,
               private productsService: ProductsService,
               private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.filterForm = this.formBuilder.group({
+      itemsPrPage: [''],
+      currentPage: [''],
+      searchText: ['']
+    });
+    this.filterForm.patchValue(this.filter);
+    this.getCategories();
     this.updateObservable$ = this.activeRoute.paramMap
       .pipe(
         take(1),
@@ -50,11 +70,10 @@ export class ProductEditComponent implements OnInit {
       name: ['', Validators.required],
       expiration: ['', Validators.required],
       categoryId: ['', Validators.required],
-      price: ['', Validators.required],
+      currentPrice: ['', Validators.required],
       description: [''],
     });
   }
-
 
   onSubmit(): void{
     this.submitted = true;
@@ -85,6 +104,26 @@ export class ProductEditComponent implements OnInit {
         console.log('product', product);
         this.router.navigateByUrl('products');
       });
+  }
+
+  getCategories(currentPage: number = 0): void {
+    if (currentPage > 0) {
+      this.filterForm.patchValue({ currentPage });
+    }
+    const filter = this.filterForm.value as Filter;
+    if (filter.currentPage <= 0) {
+      filter.currentPage = 1;
+    }
+    if (filter.searchText) {
+      filter.searchField = 'Name';
+    }
+    this.listData$ = this.categoriesService.getItems(filter).pipe(
+      tap(filteredList => {
+        this.count = filteredList.totalCount;
+        this.categories = filteredList.list;
+      }),
+      catchError(this.err)
+    );
   }
 
   uploadFinished($event: any): void {
