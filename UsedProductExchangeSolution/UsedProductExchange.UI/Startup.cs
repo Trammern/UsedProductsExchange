@@ -98,6 +98,9 @@ namespace UsedProductExchange.UI
             
             services.AddScoped<IService<Product>, ProductService>();
             services.AddScoped<IRepository<Product>, ProductRepository>();
+
+            services.AddScoped<IService<Bid>, BidService>();
+            services.AddScoped<IRepository<Bid>, BidRepository>();
             
             services.AddSingleton<ILoginService>(new LoginService(secretBytes));
 

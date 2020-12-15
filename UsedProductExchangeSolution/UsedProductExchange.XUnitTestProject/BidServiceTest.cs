@@ -135,6 +135,49 @@ namespace UsedProductExchange.XUnitTestProject
             _repoMock.Verify(repo => repo.Add(It.Is<Bid>(b => b == bid)), Times.Never);
         }
 
+        [Fact]
+        public void AddBidWithPriceLowerThanCurrentHighest_ExpectInvalidArgumentException()
+        {
+            
+
+            //ARRANGE
+            var bid1 = new Bid()
+            {
+                BidId = 1,
+                UserId = 1,
+                ProductId = 1,
+                Price = 2000,
+                CreatedAt = DateTime.Now
+            };
+
+            var bid2 = new Bid()
+            {
+                BidId = 2,
+                UserId = 2,
+                ProductId = 1,
+                Price = 200,
+                CreatedAt = DateTime.Now
+            };
+
+            _bids = new List<Bid>
+            {
+                bid1
+            };
+
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == bid1.BidId))).Returns(() => bid1);
+
+            var bs = new BidService(_repoMock.Object);
+
+
+            //ACT
+
+            var ex = Assert.Throws<InvalidOperationException>(() => bs.Add(bid2));
+
+            //ASSERT
+            Assert.Equal("Bid is lower than the current, highest bid", ex.Message);
+            _repoMock.Verify(repo => repo.Add(It.Is<Bid>(b => b == bid2)), Times.Never);
+        }
+
         #endregion
 
         #region DeleteBidTest
