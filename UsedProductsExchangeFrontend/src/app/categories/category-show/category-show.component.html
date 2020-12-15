@@ -31,6 +31,10 @@
     <div class="w-64">
       <nav class="space-y-1" aria-label="Sidebar">
         <div *ngIf="!err">
+          <label for="search" class="mt-2 block text-sm font-medium text-gray-700">Search</label>
+          <div class="my-1" [formGroup]="filterForm">
+            <input formControlName="searchText" type="text" name="search" id="search" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+          </div>
           <div [formGroup]="filterForm">
             <div *ngIf="listData$ | async else loading">
               <a [routerLink]="['/categories', category.categoryId]" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50" *ngFor="let category of categories">
