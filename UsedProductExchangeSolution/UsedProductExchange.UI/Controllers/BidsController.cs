@@ -75,7 +75,7 @@ namespace UsedProductExchange.UI.Controllers
             try
             {
                 var entityFromDb = _service.Add(entity);
-                return Created($"api/bids/{entityFromDb.BidId}", entityFromDb);
+                return Ok(entityFromDb);
             }
             catch (Exception e)
             {

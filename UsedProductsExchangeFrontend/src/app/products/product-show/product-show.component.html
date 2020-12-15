@@ -72,8 +72,18 @@
       </div>
     </div>
 
+
     <div class="flex pt-4">
-      <div class="flex-auto w-1/2"></div>
+      <div class="flex-auto w-1/2">
+        <form [formGroup]="addBidForm">
+          <div class="inline-flex">
+            <input type="number" name="price" id="price" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Enter your bid:" formControlName="price">
+            <button (click)="placeBid()" type="submit" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Bid
+            </button>
+          </div>
+        </form>
+      </div>
       <div class="flex-auto w-1/2 bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
         <div class="px-4 py-5 sm:px-6">
           <h2>Bids</h2>
@@ -99,11 +109,9 @@
                 </span>
               </div>
             </li>
-
           </ul>
         </div>
       </div>
-
     </div>
   </div>
 
