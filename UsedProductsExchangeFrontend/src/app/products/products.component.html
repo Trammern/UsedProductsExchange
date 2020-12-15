@@ -22,6 +22,12 @@
       </span>
     </div>
   </div>
+  <div [formGroup]="filterForm">
+    <label>
+      Search:
+      <input formControlName="searchText">
+    </label>
+  </div>
   <ul *ngIf="listData$ | async else loading" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 pt-5">
     <li *ngFor="let product of products" class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200 hover:bg-gray-100">
       <a [routerLink]="['/products', product.productId]">

@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
       filter.currentPage = 1;
     }
     if (filter.searchText) {
-      filter.searchField = 'Name';
+      filter.searchField = 'name';
     }
     this.listData$ = this.productsService.getItems(filter).pipe(
       tap(filteredList => {
