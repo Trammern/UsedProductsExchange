@@ -2,6 +2,8 @@
   <p>Loading data...</p>
 </ng-template>
 
+
+
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen flex pt-10" *ngIf="chosenProduct$ | async as product else loading">
   <div class="flex-auto w-2/6">
     <img [src]="createImgPath(product.pictureUrl)" alt="Product Image" class="w-11/12">

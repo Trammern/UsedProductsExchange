@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/products']);
         },
         error => {
-          this.errormessage = error.message;
+          this.errormessage = error.error;
           this.loading = false;
         });
   }
