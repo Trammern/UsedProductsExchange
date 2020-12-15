@@ -44,7 +44,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
                 }
             }
 
-
             if (!string.IsNullOrEmpty(filter.OrderDirection) && !string.IsNullOrEmpty(filter.OrderProperty))
             {
            
@@ -54,7 +53,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
                     filtering.OrderByDescending(o => prop.GetValue(o, null));
 
             }
-
             
             filteredList.List = filtering.ToList();
             filteredList.ResultsFound = filtering.Count();

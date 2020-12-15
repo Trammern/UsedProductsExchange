@@ -20,17 +20,36 @@ namespace UsedProductExchange.Infrastructure.Repositories
         
         public FilteredList<Category> GetAll(Filter filter)
         {
-            var filteredList = new FilteredList<Category>
+            var filteredList = new FilteredList<Category>();
+
+            filteredList.TotalCount = _ctx.Categories.Count();
+            filteredList.FilterUsed = filter;
+
+            IEnumerable<Category> filtering = _ctx.Categories
+                .Include(p => p.Products);
+
+            if (!string.IsNullOrEmpty(filter.SearchText))
             {
-                TotalCount = _ctx.Categories.Count(),
-                FilterUsed = filter,
-                List = _ctx.Categories.Include(p => p.Products).Select(c => new Category()
-                    {
-                        CategoryId = c.CategoryId, 
-                        Name = c.Name,
-                    })
-                    .ToList()
-            };
+                switch (filter.SearchField)
+                {
+                    case "name":
+                        filtering = filtering.Where(p => p.Name.ToLower().Contains(filter.SearchText.ToLower()));
+                        break;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(filter.OrderDirection) && !string.IsNullOrEmpty(filter.OrderProperty))
+            {
+
+                var prop = typeof(Product).GetProperty(filter.OrderProperty);
+                filtering = "ASC".Equals(filter.OrderDirection) ?
+                    filtering.OrderBy(o => prop.GetValue(o, null)) :
+                    filtering.OrderByDescending(o => prop.GetValue(o, null));
+            }
+
+            filteredList.List = filtering.ToList();
+            filteredList.ResultsFound = filtering.Count();
+
             return filteredList;
         }
 
