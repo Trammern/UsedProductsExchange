@@ -36,6 +36,10 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid product property: Picture");
             }
+            if (product.Expiration.CompareTo(DateTime.Now) != 1)
+            {
+                throw new ArgumentException("Auction end date must be after today");
+            }
         }
         
         public FilteredList<Product> GetAll(Filter.Filter filter)

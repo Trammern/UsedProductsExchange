@@ -34,7 +34,7 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             Assert.NotNull(service);
         }
-        
+
         [Fact]
         public void CreateBidService_InvalidRepository()
         {
@@ -66,9 +66,9 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = userid,
                 ProductId = productId,
                 Price = price,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now.AddDays(1)
             };
-            
+
             var bs = new BidService(_repoMock.Object);
 
             var bidList = new List<Bid>();
@@ -76,14 +76,14 @@ namespace UsedProductExchange.XUnitTestProject
             // ACT
             var newBid = bs.Add(bid);
             bidList.Add(bid);
-            
+
 
             // ASSERT
             _repoMock.Setup(b => b.Add(bid)).Returns(newBid);
             _repoMock.Verify(repo => repo.Add(bid), Times.Once);
             bidList.Should().Contain(bid);
         }
-        
+
         [Theory]
         [InlineData(null, 1, 100.00, "userId")] // UserId is null
         [InlineData(2, null, 200.00, "productId")] // ProductId is null
@@ -110,7 +110,7 @@ namespace UsedProductExchange.XUnitTestProject
             Assert.Equal($"Invalid bid property: {errorField}", ex.Message);
             _repoMock.Verify(repo => repo.Add(It.Is<Bid>(b => b == bid)), Times.Never);
         }
-        
+
         [Fact]
         public void AddBidThatExists_ExpectInvalidArgumentException()
         {
@@ -135,10 +135,12 @@ namespace UsedProductExchange.XUnitTestProject
             _repoMock.Verify(repo => repo.Add(It.Is<Bid>(b => b == bid)), Times.Never);
         }
 
-        [Fact]
-        public void AddBidWithPriceLowerThanCurrentHighest_ExpectInvalidArgumentException()
+        [Theory]
+        [InlineData(2, 1, 200)] //Lower than highest price
+        [InlineData(2, 1, 2000)] //Equal to higher price
+        public void AddBidWithPriceLowerThanCurrentHighest_ExpectInvalidArgumentException(int userId, int productId, double price)
         {
-            
+
 
             //ARRANGE
             var bid1 = new Bid()
@@ -153,9 +155,9 @@ namespace UsedProductExchange.XUnitTestProject
             var bid2 = new Bid()
             {
                 BidId = 2,
-                UserId = 2,
-                ProductId = 1,
-                Price = 200,
+                UserId = userId,
+                ProductId = productId,
+                Price = price,
                 CreatedAt = DateTime.Now
             };
 
@@ -168,15 +170,16 @@ namespace UsedProductExchange.XUnitTestProject
 
             var bs = new BidService(_repoMock.Object);
 
-
             //ACT
 
             var ex = Assert.Throws<InvalidOperationException>(() => bs.Add(bid2));
 
             //ASSERT
-            Assert.Equal("Bid is lower than the current, highest bid", ex.Message);
+            Assert.Equal("Bid is lower, or equal to, the current highest bid", ex.Message);
             _repoMock.Verify(repo => repo.Add(It.Is<Bid>(b => b == bid2)), Times.Never);
         }
+
+        
 
         #endregion
 
@@ -244,7 +247,7 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = userid,
                 ProductId = productId,
                 Price = price,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now.AddDays(1)
             };
 
             var bs = new BidService(_repoMock.Object);
@@ -268,7 +271,7 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 ProductId = 1,
                 Price = 1020,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now.AddDays(1)
             };
 
             var bs = new BidService(_repoMock.Object);
@@ -294,7 +297,7 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 ProductId = 1,
                 Price = 1020,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now.AddDays(1)
             };
             var bs = new BidService(_repoMock.Object);
 
@@ -377,6 +380,62 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             Assert.Equal(listOfBids.GetRange(0, listCount), bidsFound);
             _repoMock.Verify(repo => repo.GetAll(), Times.Once);
+        }
+        [Theory]
+        [InlineData(200, 400, 6000, 6000)]
+        [InlineData(200, 200, 200, 200)]
+        [InlineData(400, 200, 500, 500)]
+        public void GetCurrentHighestBid(double price1, double price2, double price3, double expected)
+        {
+            //ARRANGE
+
+            BidService bs = new BidService(_repoMock.Object);
+
+            _bids = new List<Bid>
+            {
+                new Bid()
+                {
+                    BidId = 1,
+                    ProductId = 1,
+                    Price = price1,
+                },
+                new Bid()
+                {
+                    BidId = 2,
+                    ProductId = 1,
+                    Price = price2
+                },
+                new Bid()
+                {
+                    BidId = 3,
+                    ProductId = 1,
+                    Price = price3
+                }
+            };
+
+            //ACT
+
+            Bid result = bs.GetHighestBid(new Bid { ProductId = 1 });
+
+            //ASSERT
+
+            Assert.Equal(result.Price, expected);
+            
+        }
+        [Fact]
+        public void GetCurrentHighestBidWhenDataBaseIsEmptyReturnsNull()
+        {
+            //ARRANGE
+
+            BidService bs = new BidService(_repoMock.Object);
+
+            //ACT
+
+            var result = bs.GetHighestBid(new Bid() { ProductId = 1 });
+
+            //ASSERT
+
+            Assert.Null(result);
         }
 
         #endregion
