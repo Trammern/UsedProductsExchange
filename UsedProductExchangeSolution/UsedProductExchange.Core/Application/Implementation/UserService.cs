@@ -73,6 +73,19 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Email is invalid");
             }
+
+            // Check if username or email is taken 
+            foreach (var user in _userRepository.GetAll())
+            {
+                if (entity.Username == user.Username)
+                {
+                    throw new InvalidOperationException("Username is taken");
+                }
+                if (entity.Email == user.Email)
+                {
+                    throw new InvalidOperationException("Email is taken");
+                }
+            }
             
             return _userRepository.Add(entity);
         }
