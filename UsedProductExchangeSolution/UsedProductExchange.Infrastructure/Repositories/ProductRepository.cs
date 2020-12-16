@@ -75,6 +75,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
                 .Include(c => c.Category)
                 .Include(b => b.Bids)
                 .ThenInclude(u => u.User)
+                .Include(u => u.User)
                 .AsNoTracking()
                 .FirstOrDefault(p => p.ProductId == id);
 

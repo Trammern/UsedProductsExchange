@@ -33,14 +33,14 @@
               Seller
             </dt>
             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              <a class="flex-shrink-0 group block">
+              <a [routerLink]="['/user', product.user.userId]" class="flex-shrink-0 group block">
                 <div class="flex items-center">
                   <div>
                     <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                   </div>
                   <div class="ml-3">
                     <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                      Tom Cook
+                      {{ product.user.name }}
                     </p>
                     <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
                       View profile
@@ -77,7 +77,7 @@
       <div class="flex-auto w-1/2">
         <form [formGroup]="addBidForm">
           <div class="inline-flex">
-            <input type="number" name="price" id="price" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Enter your bid:" formControlName="price">
+            <input type="number" name="price" id="price" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md pr-2" placeholder="Enter your bid:" formControlName="price">
             <button (click)="placeBid()" type="submit" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Bid
             </button>
