@@ -35,9 +35,13 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid bid property: price");
             }
-            if ((int)bid.Price < (int)GetHighestBid(bid))
+            if (GetHighestBid(bid)!=null && (int)bid.Price <= (int)GetHighestBid(bid).Price)
             {
-                throw new InvalidOperationException("Bid is lower than the current, highest bid");
+                throw new InvalidOperationException("Bid is lower, or equal to, the current highest bid");
+            }
+            if (bid.CreatedAt.CompareTo(DateTime.Now)!=1)
+            {
+                throw new InvalidOperationException("Auction end date must be after today");
             }
         }
         
@@ -57,15 +61,16 @@ namespace UsedProductExchange.Core.Application.Implementation
         }
 
         public Bid Add(Bid entity)
-        {
-            ValidationCheck(entity);
-            
+        {   
             // Check if already existing
             if (_bidRepository.Get(entity.BidId) != null)
             {
                 throw new InvalidOperationException("Bid already exists");
             }
-            
+
+            // Checks if the bid violates certain criteria
+            ValidationCheck(entity);
+
             return _bidRepository.Add(entity);
         }
 
@@ -91,24 +96,24 @@ namespace UsedProductExchange.Core.Application.Implementation
             return _bidRepository.Remove(id);
         }
 
-        private double GetHighestBid(Bid bid)
+        public Bid GetHighestBid(Bid bid)
         { 
             
             var currentList = _bidRepository.GetAll();
 
             if (currentList == null || currentList.Count() == 0)
             {
-                return 0;
+                return null;
             }
 
             var result = currentList.OrderBy(x => x.Price).Where(x => x.ProductId == bid.ProductId).Last();
 
             if (result == null)
             {
-                return 0;
+                return null;
             }
 
-            return result.Price;
+            return result;
         }
     }
 }

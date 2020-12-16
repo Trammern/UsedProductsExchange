@@ -59,6 +59,7 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfNewProductCreatedIsCalled(int id, int uid, string name, string desc, string pic, double price, DateTime experation, Category category)
         {
             // ARRANGE
+            experation = DateTime.Now.AddDays(1);
             _products = new List<Product>();
             Product product = new Product()
             {
@@ -86,6 +87,9 @@ namespace UsedProductExchange.XUnitTestProject
         public void TestIfCreatedProductIsTheSameAsTheInsertedProduct(int id, int uid, string name, string desc, string pic, double price, DateTime experation, Category category)
         {
             //ARRANGE
+
+            experation = DateTime.Now.AddDays(1);
+
             var insertedProduct = new Product()
             {
                 Category = category,
@@ -246,7 +250,7 @@ namespace UsedProductExchange.XUnitTestProject
                 Description = "Lavet af ler",
                 PictureUrl = "URLISGONE.PNG",
                 CurrentPrice = 1000.00,
-                Expiration = DateTime.Now,
+                Expiration = DateTime.Now.AddDays(1),
                 UserId = 1
             };
 
@@ -260,6 +264,43 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             Assert.Equal("Product already exists", ex.Message);
             _repoMock.Verify(repo => repo.Add(It.Is<Product>(p => p == product)), Times.Never);
+        }
+
+        [Theory]
+        [InlineData("2019-01-01")]
+        [InlineData("2020-01-01")]
+        [InlineData("2000-01-01")]
+        [InlineData("872-01-01")]
+        public void TestIfDateOnBidIsOlderThanCurrentDateWhenCreated(string time)
+        {
+            //ARRANGE
+
+            _products = new List<Product>();
+
+            ProductService ps = new ProductService(_repoMock.Object);
+
+            Product p = new Product()
+            {
+                ProductId = 1,
+                Name = "something",
+                CurrentPrice = 200,
+                IsSold = false,
+                Expiration = DateTime.Parse(time),
+                Description = "something",
+                UserId = 1,
+                CategoryId = 1,
+                Category = null,
+                Bids = null,
+                PictureUrl = "no"
+            };
+
+            //ACT
+
+            var ex = Assert.Throws<ArgumentException>(() => ps.Add(p));
+
+            //ASSERT
+
+            Assert.Equal("Auction end date must be after today", ex.Message);
         }
 
         [Theory]
