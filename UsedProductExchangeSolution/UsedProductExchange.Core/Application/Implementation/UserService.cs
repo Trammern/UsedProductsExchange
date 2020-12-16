@@ -41,6 +41,26 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid user property: username");
             }
+
+            // Check if valid email
+            var isEmail = Regex.IsMatch(user.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (!isEmail)
+            {
+                throw new ArgumentException("Email is invalid");
+            }
+
+            // Check if username or email is taken 
+            foreach (var users in _userRepository.GetAll())
+            {
+                if (user.Username == users.Username)
+                {
+                    throw new InvalidOperationException("Username is taken");
+                }
+                if (user.Email == users.Email)
+                {
+                    throw new InvalidOperationException("Email is taken");
+                }
+            }
         }
         
         public FilteredList<User> GetAll(Filter.Filter filter)
@@ -65,26 +85,6 @@ namespace UsedProductExchange.Core.Application.Implementation
             if (_userRepository.Get(entity.UserId) != null)
             {
                 throw new InvalidOperationException("User already exists");
-            }
-
-            // Check if valid email
-            var isEmail = Regex.IsMatch(entity.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-            if (!isEmail)
-            {
-                throw new ArgumentException("Email is invalid");
-            }
-
-            // Check if username or email is taken 
-            foreach (var user in _userRepository.GetAll())
-            {
-                if (entity.Username == user.Username)
-                {
-                    throw new InvalidOperationException("Username is taken");
-                }
-                if (entity.Email == user.Email)
-                {
-                    throw new InvalidOperationException("Email is taken");
-                }
             }
             
             return _userRepository.Add(entity);

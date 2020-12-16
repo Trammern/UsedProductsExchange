@@ -133,6 +133,7 @@ namespace UsedProductExchange.XUnitTestProject
             _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => user);
 
             UserService us = new UserService(_repoMock.Object);
+            _users = new List<User>();
 
             // ACT
             var ex = Assert.Throws<InvalidOperationException>(() => us.Add(user));
@@ -314,8 +315,8 @@ namespace UsedProductExchange.XUnitTestProject
         #region UpdateUserTest
 
         [Theory]
-        [InlineData(1, "some name", "some username", "some password", "some address", "some email", false)]
-        [InlineData(1, "some name", "some username", "some password", "some address", "updated email", false)]
+        [InlineData(1, "some name", "some username", "some password", "some address", "some@mail.com", false)]
+        [InlineData(1, "some name", "some username", "some password", "some address", "updated@mail.com", false)]
         public void UpdateValidUser(int id, string name, string username, string password, string address, string email, bool isAdmin)
         {
             // ARRANGE
@@ -330,6 +331,8 @@ namespace UsedProductExchange.XUnitTestProject
             };
 
             UserService us = new UserService(_repoMock.Object);
+
+            _users = new List<User>();
 
             // check if existing
             _repoMock.Setup(repo => repo.Get(It.Is<int>(z => z == user.UserId))).Returns(() => user);
@@ -356,6 +359,7 @@ namespace UsedProductExchange.XUnitTestProject
             };
 
             UserService us = new UserService(_repoMock.Object);
+            _users = new List<User>();
 
             // check if not existing
             _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user.UserId))).Returns(() => null);
@@ -383,6 +387,8 @@ namespace UsedProductExchange.XUnitTestProject
                 IsAdmin = false
             };
             UserService us = new UserService(_repoMock.Object);
+
+            _users = new List<User>();
 
             // check if user or id is not null
             _repoMock.Setup(u => u.Get(It.Is<int>(id => id == user.UserId))).Returns(() => user);
