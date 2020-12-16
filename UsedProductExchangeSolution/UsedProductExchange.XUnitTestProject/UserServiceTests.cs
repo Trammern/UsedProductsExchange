@@ -55,33 +55,33 @@ namespace UsedProductExchange.XUnitTestProject
 
 
         #region AddUserTest
-        [Theory]
-        [InlineData(1, "Jimmy", "jimster", "qaz123", "Storegade 1", "jimster@hotmail.com", true)]
-        public void TestIfNewUserIsCreated_ValidInput(int id, string name, string username, string password, string address, string email, bool isAdmin)
+        [Fact]
+        public void TestIfNewUserIsCreated_ValidInput()
         {
             // ARRANGE
             var user = new User()
             {
-                UserId = id,
-                Name = name,
-                Username = username,
-                Address = address,
-                Email = email,
-                IsAdmin = isAdmin
+                UserId = 1,
+                Name = "Jimmy",
+                Username = "jimster",
+                Address = "Storegade 1",
+                Email = "jimster@hotmail.com",
+                IsAdmin = false
             };
             UserService us = new UserService(_repoMock.Object);
 
-            var userList = new List<User>();
+            _users = new List<User>();
+
 
             // ACT
             var newUser = us.Add(user);
-            userList.Add(user);
+            _users.Add(user);
             
 
             // ASSERT
             _repoMock.Setup(u => u.Add(user)).Returns(newUser);
             _repoMock.Verify(repo => repo.Add(user), Times.Once);
-            userList.Should().Contain(user);
+            _users.Should().Contain(user);
         }
 
         [Theory]
@@ -165,6 +165,90 @@ namespace UsedProductExchange.XUnitTestProject
             // ASSERT
             Assert.Equal("Email is invalid", ex.Message);
             _repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user)), Times.Never);
+        }
+
+        [Fact]
+        public void AddUserWithTakenUsername_ExpectInvalidOperationException()
+        {
+            // ARRANGE
+            var user1 = new User()
+            {
+                UserId = 1,
+                Name = "Billy",
+                Username = "Billy",
+                Address = "Long beach city",
+                Email = "billy@hotmail.com",
+                IsAdmin = false
+            };
+
+            var user2 = new User()
+            {
+                UserId = 2,
+                Name = "Bill",
+                Username = "Billy",
+                Address = "Long beach city",
+                Email = "billy123@hotmail.com",
+                IsAdmin = false
+            };
+
+            UserService us = new UserService(_repoMock.Object);
+
+            _users = new List<User>
+            {
+                user1
+            };
+
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user1.UserId))).Returns(() => user1);
+
+
+            // ACT
+            var ex = Assert.Throws<InvalidOperationException>(() => us.Add(user2));
+
+            // ASSERT
+            Assert.Equal("Username is taken", ex.Message);
+            _repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user2)), Times.Never);
+        }
+
+        [Fact]
+        public void AddUserWithTakenEmail_ExpectInvalidArgumentException()
+        {
+            // ARRANGE
+            var user1 = new User()
+            {
+                UserId = 1,
+                Name = "Billy",
+                Username = "Billy",
+                Address = "Long beach city",
+                Email = "billy@hotmail.com",
+                IsAdmin = false
+            };
+
+            var user2 = new User()
+            {
+                UserId = 2,
+                Name = "Bill",
+                Username = "Billyboy",
+                Address = "Long beach city",
+                Email = "billy@hotmail.com",
+                IsAdmin = false
+            };
+
+            UserService us = new UserService(_repoMock.Object);
+
+            _users = new List<User>
+            {
+                user1
+            };
+
+            _repoMock.Setup(repo => repo.Get(It.Is<int>(x => x == user1.UserId))).Returns(() => user1);
+
+
+            // ACT
+            var ex = Assert.Throws<InvalidOperationException>(() => us.Add(user2));
+
+            // ASSERT
+            Assert.Equal("Email is taken", ex.Message);
+            _repoMock.Verify(repo => repo.Add(It.Is<User>(u => u == user2)), Times.Never);
 
         }
 
