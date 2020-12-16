@@ -53,7 +53,7 @@ export class CategoryShowComponent implements OnInit {
       filter.currentPage = 1;
     }
     if (filter.searchText) {
-      filter.searchField = 'Name';
+      filter.searchField = 'name';
     }
     this.listData$ = this.categoriesService.getItems(filter).pipe(
       tap(filteredList => {

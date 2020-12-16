@@ -51,6 +51,7 @@ export class ProductShowComponent implements OnInit {
     return environment.url + '/' + serverPath;
   }
 
+
   formatCurrency(price: number, locale: string, currency: string): string {
     return formatCurrency(price, locale, currency);
   }
