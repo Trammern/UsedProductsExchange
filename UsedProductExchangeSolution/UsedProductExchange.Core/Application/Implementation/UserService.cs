@@ -41,7 +41,10 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid user property: username");
             }
+        }
 
+        private void AddUserValidationCheck(User user)
+        {
             // Check if valid email
             var isEmail = Regex.IsMatch(user.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
             if (!isEmail)
@@ -80,6 +83,7 @@ namespace UsedProductExchange.Core.Application.Implementation
         public User Add(User entity)
         {
             UserValidationCheck(entity);
+            AddUserValidationCheck(entity);
             
             // Check if already existing
             if (_userRepository.Get(entity.UserId) != null)

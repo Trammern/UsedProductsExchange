@@ -34,11 +34,16 @@ export class EditProfileComponent implements OnInit {
       .pipe(
         take(1),
         switchMap(params => {
+          if (!(this.authenticationService.getUser().userId === +params.get('id') || this.authenticationService.getUser().isAdmin))
+          {
+            this.router.navigateByUrl('/');
+          }
           this.errString = '';
           const id = +params.get('id');
           return this.userService.getItem(id);
         }),
         tap(user => {
+          console.log(user.userId);
           this.userUpdateForm.patchValue(user);
           this.userUpdateForm.patchValue({
             userIdAfter: user.userId
@@ -48,6 +53,8 @@ export class EditProfileComponent implements OnInit {
       );
 
     this.userUpdateForm = this.fb.group({
+      userId: [''],
+      userIdAfter: [''],
       name: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', Validators.required],
@@ -69,6 +76,8 @@ export class EditProfileComponent implements OnInit {
 
     const updatedUser = this.userUpdateForm.value;
     updatedUser.userId = updatedUser.userIdAfter;
+
+    console.log(updatedUser.userIdAfter);
 
     this.userService.update(updatedUser)
       .pipe(

@@ -17,31 +17,30 @@ namespace UsedProductExchange.UI.Controllers
                 var folder = "";
                 var file = Request.Form.Files[0];
                 folder = Request.Form["folder"];
+                
                 if (folder == "")
                 {
                     folder = "Products";
                 }
-                //var file = imageFile;
+                
                 var folderName = Path.Combine("Resources", "Images", folder);
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                if (file.Length > 0)
+                
+                if (file.Length <= 0) return BadRequest();
+                
+                char[] charsToTrim = { '"', '*', ' ', '\''};
+                var fileName = Guid.NewGuid() + Path.GetExtension(file.ContentDisposition);
+                var trim = fileName.Trim(charsToTrim);
+                var fullPath = Path.Combine(pathToSave, trim);
+                var dbPath = Path.Combine(folderName, trim);
+                
+                using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    char[] charsToTrim = { '"', '*', ' ', '\''};
-                    // var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.ContentDisposition);
-                    var trim = fileName.ToString().Trim(charsToTrim);
-                    var fullPath = Path.Combine(pathToSave, trim);
-                    var dbPath = Path.Combine(folderName, trim);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    return Ok(new { dbPath });
+                    file.CopyTo(stream);
                 }
-                else
-                {
-                    return BadRequest();
-                }
+                
+                return Ok(new { dbPath });
+
             }
             catch (Exception ex)
             {
