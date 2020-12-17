@@ -23,11 +23,11 @@ namespace UsedProductExchange.UI.Controllers
             var user = _userService.GetAll().FirstOrDefault(u => u.Username == model.Username);
 
             // Check if the user is not null, and it exists.
-            if (user == null) return Unauthorized();
+            if (user == null) return StatusCode(401, "Account does not exist");
 
             // Check that the password is correct. If not we un-authorize the request.
             if (!_loginService.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
-                return Unauthorized();
+                return StatusCode(401, "Username or password is not correct");
 
             // The user exist and the password is correct
             // so we return the username and a token back.
