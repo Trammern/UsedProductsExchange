@@ -10,6 +10,7 @@ import {FilteredList} from '../_models/filtered-list';
 import {ActivatedRoute} from '@angular/router';
 import {Product} from '../_models/product.model';
 import {environment} from '../../environments/environment';
+import {AuthenticationService} from '../_services/authentication.service';
 
 @Component({
   selector: 'app-products',
@@ -28,7 +29,10 @@ export class ProductsComponent implements OnInit {
   count: number;
   err: any;
 
-  constructor(private productsService: ProductsService, private fb: FormBuilder, private activeRoute: ActivatedRoute) { }
+  constructor(private productsService: ProductsService,
+              public authenticationsService: AuthenticationService,
+              private fb: FormBuilder,
+              private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
