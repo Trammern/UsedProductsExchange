@@ -35,13 +35,10 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid bid property: price");
             }
-            if (GetHighestBid(bid)!=null && (int)bid.Price <= (int)GetHighestBid(bid).Price)
+
+            if (bid.Price <= bid.Product.CurrentPrice)
             {
-                throw new InvalidOperationException("Bid is lower, or equal to, the current highest bid");
-            }
-            if (bid.CreatedAt.CompareTo(DateTime.Now)!=1)
-            {
-                throw new InvalidOperationException("Auction end date must be after today");
+                throw new InvalidOperationException("Bid is lower than the starting price");
             }
         }
         
@@ -71,6 +68,8 @@ namespace UsedProductExchange.Core.Application.Implementation
             // Checks if the bid violates certain criteria
             ValidationCheck(entity);
 
+            entity.Product = null;
+
             return _bidRepository.Add(entity);
         }
 
@@ -97,8 +96,7 @@ namespace UsedProductExchange.Core.Application.Implementation
         }
 
         public Bid GetHighestBid(Bid bid)
-        { 
-            
+        {
             var currentList = _bidRepository.GetAll();
 
             if (currentList == null || currentList.Count() == 0)
@@ -106,12 +104,9 @@ namespace UsedProductExchange.Core.Application.Implementation
                 return null;
             }
 
-            var result = currentList.OrderBy(x => x.Price).Where(x => x.ProductId == bid.ProductId).Last();
-
-            if (result == null)
-            {
-                return null;
-            }
+            var result = currentList.OrderByDescending(x => x.Price).Where(x => x.ProductId == bid.ProductId).First();
+            
+            Console.WriteLine(result);
 
             return result;
         }

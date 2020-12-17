@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Product} from '../../_models/product.model';
 import {ProductsService} from '../../_services/products.service';
 import {environment} from '../../../environments/environment';
@@ -24,18 +24,19 @@ export class ProductShowComponent implements OnInit {
   chosenProduct$: Observable<Product>;
   potentialBid: Bid;
   addBidForm: FormGroup;
+  errormessage: string;
 
 
   constructor(private productsService: ProductsService,
               private activeRoute: ActivatedRoute,
+              private router: Router,
               private bidService: BidService,
               private authenticationSerivce: AuthenticationService,
               private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-
     this.addBidForm = this.formBuilder.group({
-      price: ['']
+      price: ['', Validators.required]
     });
 
     this.potentialBid = new Bid();
@@ -43,7 +44,9 @@ export class ProductShowComponent implements OnInit {
     this.activeRoute.params.subscribe(routeParams => {
       this.chosenProduct$ = this.productsService.getItem(routeParams.id);
       this.potentialBid.productId = routeParams.id;
-      this.potentialBid.userId = this.authenticationSerivce.getUser().userId;
+      if (this.authenticationSerivce.userIsLoggedIn()) {
+        this.potentialBid.userId = this.authenticationSerivce.getUser().userId;
+      }
     });
   }
 
@@ -55,11 +58,24 @@ export class ProductShowComponent implements OnInit {
     return formatCurrency(price, locale, currency);
   }
 
-  placeBid(){
-
+  placeBid(): void {
     this.potentialBid.price = this.addBidForm.get('price').value;
 
     this.bidService.add(this.potentialBid)
-      .subscribe();
+      .pipe(
+        catchError(err => {
+          this.errormessage = err.error;
+          return err;
+        })
+      )
+      .subscribe(bid => {
+        this.activeRoute.params.subscribe(routeParams => {
+          this.chosenProduct$ = this.productsService.getItem(routeParams.id);
+          this.potentialBid.productId = routeParams.id;
+          if (this.authenticationSerivce.userIsLoggedIn()) {
+            this.potentialBid.userId = this.authenticationSerivce.getUser().userId;
+          }
+        });
+      });
   }
 }

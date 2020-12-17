@@ -7,6 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Filter} from '../_models/filter';
 import {FilteredList} from '../_models/filtered-list';
 import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../_services/authentication.service';
 
 @Component({
   selector: 'app-categories',
@@ -25,7 +26,10 @@ export class CategoriesComponent implements OnInit {
   count: number;
   err: any;
 
-  constructor(private categoriesService: CategoriesService, private fb: FormBuilder, private activeRoute: ActivatedRoute) { }
+  constructor(private categoriesService: CategoriesService,
+              public authenticationsService: AuthenticationService,
+              private fb: FormBuilder,
+              private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -73,6 +77,7 @@ export class CategoriesComponent implements OnInit {
         })
       ).subscribe();
   }
+
   get itemsPrPage(): number { return (this.filterForm.value as Filter).itemsPrPage; }
   get currentPage(): number { return (this.filterForm.value as Filter).currentPage; }
   get maxPages(): number { return Math.ceil(this.count / this.itemsPrPage); }

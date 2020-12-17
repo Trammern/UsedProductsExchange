@@ -83,6 +83,12 @@ export class AuthenticationService {
     }
   }
 
+  userIsLoggedIn(): boolean {
+    if (this.getUser() !== null) return true;
+
+    return false;
+  }
+
   logout(): void {
     // remove user's token from local storage to log user out
     localStorage.removeItem('currentUser');

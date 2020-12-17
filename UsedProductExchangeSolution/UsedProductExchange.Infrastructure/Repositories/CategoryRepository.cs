@@ -12,10 +12,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
     public class CategoryRepository : IRepository<Category>
     {
         private readonly UsedProductExchangeContext _ctx;
+        private Mail mail;
 
         public CategoryRepository(UsedProductExchangeContext ctx)
         {
             _ctx = ctx;
+            mail = new Mail();
         }
         
         public FilteredList<Category> GetAll(Filter filter)
@@ -70,6 +72,7 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public Category Add(Category entity)
         {
+            mail.SendSimpleMessage("andreasbendorff@gmail.com", "New Category Created", "There were a new category added to the website.");
             var category = _ctx.Categories.Add(entity);
             _ctx.SaveChanges();
             return category.Entity;

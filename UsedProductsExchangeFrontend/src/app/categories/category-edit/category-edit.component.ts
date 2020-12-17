@@ -5,6 +5,7 @@ import {CategoriesService} from '../../_services/categories.service';
 import {Category} from '../../_models/category';
 import {catchError, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {AuthenticationService} from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-category-edit',

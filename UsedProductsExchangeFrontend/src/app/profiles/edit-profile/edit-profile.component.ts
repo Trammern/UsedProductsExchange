@@ -3,13 +3,11 @@ import {User} from '../../_models/user';
 import {AuthenticationService} from '../../_services/authentication.service';
 import {UsersService} from '../../_services/users.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AppComponent} from '../../app.component';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {catchError, first, switchMap, take, tap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {catchError, switchMap, take, tap} from 'rxjs/operators';
 import {Product} from '../../_models/product.model';
 import {Bid} from '../../_models/bid';
-import {ProductsService} from '../../_services/products.service';
-import {Observable, of, pipe} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,54 +15,71 @@ import {Observable, of, pipe} from 'rxjs';
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent implements OnInit {
-
-  currentUser: User;
-
+  updateObservable$: Observable<User[]>;
+  submitted = false;
+  loading = false;
   userUpdateForm: FormGroup;
-  updateObservable$: Observable<any>;
   errString: string;
   err: any;
-  products: Product[];
-  bids: Bid[];
   user: User;
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private userService: UsersService,
-              private productService: ProductsService,
-              private authenticationService: AuthenticationService) {
-  }
+              public authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.user = this.authenticationService.getUser()
+    this.updateObservable$ = this.route.paramMap
+      .pipe(
+        take(1),
+        switchMap(params => {
+          this.errString = '';
+          const id = +params.get('id');
+          return this.userService.getItem(id);
+        }),
+        tap(user => {
+          this.userUpdateForm.patchValue(user);
+          this.userUpdateForm.patchValue({
+            userIdAfter: user.userId
+          });
+        }),
+        catchError(this.err)
+      );
 
     this.userUpdateForm = this.fb.group({
-      name: [this.user.name],
-      username:[this.user.username],
-      email: [this.user.email],
-      address:[this.user.address]
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      address: [''],
+      isAdmin: ['']
     });
 
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.userUpdateForm.invalid) {
+      return;
     }
 
-  update() {
-    this.errString = '';
-    this.user.name = this.userUpdateForm.get('name').value;
-    this.user.address = this.userUpdateForm.get('address').value;
-    this.user.email = this.userUpdateForm.get('email').value;
-    this.user.username = this.userUpdateForm.get('username').value;
-    console.log('I was pressed');
+    this.loading = true;
 
+    const updatedUser = this.userUpdateForm.value;
+    updatedUser.userId = updatedUser.userIdAfter;
 
-    this.userService.update(this.user).pipe(
-      catchError(err => {
-        this.errString = err.error ?? err.message;
-        return of();
-      })
-    )
+    this.userService.update(updatedUser)
+      .pipe(
+        catchError(err => {
+          this.errString = err.error ?? err.message;
+          return of();
+        })
+      )
       .subscribe(user => {
         console.log('user', user);
+        // this.router.navigateByUrl('users');
       });
   }
 }

@@ -7,6 +7,7 @@ import {Filter} from '../../_models/filter';
 import {catchError, tap} from 'rxjs/operators';
 import {CategoriesService} from '../../_services/categories.service';
 import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-category-show',
@@ -25,7 +26,10 @@ export class CategoryShowComponent implements OnInit {
   err: any;
   chosenCategory$: Observable<Category>;
 
-  constructor(private categoriesService: CategoriesService, private fb: FormBuilder, private activeRoute: ActivatedRoute) { }
+  constructor(private categoriesService: CategoriesService,
+              public authenticationsService: AuthenticationService,
+              private fb: FormBuilder,
+              private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({

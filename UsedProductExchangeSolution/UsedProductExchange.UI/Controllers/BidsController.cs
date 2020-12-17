@@ -17,10 +17,12 @@ namespace UsedProductExchange.UI.Controllers
     public class BidsController : ControllerBase
     {
         private readonly IService<Bid> _service;
+        private readonly IService<Product> _productService;
 
-        public BidsController(IService<Bid> service)
+        public BidsController(IService<Bid> service, IService<Product> productService)
         {
             _service = service;
+            _productService = productService;
         }
 
         // GET: api/<ValuesController>
@@ -74,7 +76,13 @@ namespace UsedProductExchange.UI.Controllers
         {
             try
             {
+                var product = _productService.Get(entity.ProductId);
+                entity.Product = product;
                 var entityFromDb = _service.Add(entity);
+                
+                product.CurrentPrice = entityFromDb.Price;
+                _productService.Update(product);
+                
                 return Ok(entityFromDb);
             }
             catch (Exception e)

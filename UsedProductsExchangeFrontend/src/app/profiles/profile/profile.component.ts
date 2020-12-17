@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {UsersService} from '../../_services/users.service';
 import { formatCurrency } from '@angular/common';
+import {AuthenticationService} from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,9 @@ export class ProfileComponent implements OnInit {
   err: any;
   chosenUser$: Observable<User>;
 
-  constructor(private usersService: UsersService, private activeRoute: ActivatedRoute) { }
+  constructor(private usersService: UsersService,
+              private activeRoute: ActivatedRoute,
+              public authenticationsService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(routeParams => {

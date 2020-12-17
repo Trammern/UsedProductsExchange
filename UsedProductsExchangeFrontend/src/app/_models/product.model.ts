@@ -1,5 +1,6 @@
 import { Bid } from '../_models/bid';
 import {User} from './user';
+import {Category} from './category';
 
 export class Product {
   productId?: number;
@@ -12,4 +13,5 @@ export class Product {
   categoryId: number;
   bids: Bid[];
   user?: User;
+  category?: Category;
 }
