@@ -12,10 +12,12 @@ namespace UsedProductExchange.Infrastructure.Repositories
     public class BidRepository: IRepository<Bid>
     {
         private readonly UsedProductExchangeContext _ctx;
+        private Mail mail;
 
         public BidRepository(UsedProductExchangeContext ctx)
         {
             _ctx = ctx;
+            mail = new Mail();
         }
         
         public FilteredList<Bid> GetAll(Filter filter)
@@ -53,8 +55,16 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public Bid Add(Bid entity)
         {
+            // Add bid
             var bid = _ctx.Bids.Add(entity);
             _ctx.SaveChanges();
+            
+            // Send email to seller
+            mail.SendSimpleMessage(Get(bid.Entity.BidId).Product.User.Email, 
+                "Someone got a bid", 
+                bid.Entity.User.Name + " just bid " + bid.Entity.Price + " on your item.");
+            
+            // Return the bid
             return bid.Entity;
         }
 

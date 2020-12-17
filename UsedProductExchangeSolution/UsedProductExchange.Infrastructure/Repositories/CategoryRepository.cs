@@ -72,7 +72,6 @@ namespace UsedProductExchange.Infrastructure.Repositories
 
         public Category Add(Category entity)
         {
-            mail.SendSimpleMessage("andreasbendorff@gmail.com", "New Category Created", "There were a new category added to the website.");
             var category = _ctx.Categories.Add(entity);
             _ctx.SaveChanges();
             return category.Entity;
