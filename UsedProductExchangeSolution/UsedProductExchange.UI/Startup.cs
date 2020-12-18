@@ -109,7 +109,9 @@ namespace UsedProductExchange.UI
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                        builder.WithOrigins("http://www.ministuff.azurewebsites.net", "https://www.ministuff.azurewebsites.net")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                     })
             );
 
