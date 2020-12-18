@@ -69,7 +69,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   delete(category: Category): void {
-    this.categoriesService.Remove(category.categoryId)
+    this.categoriesService.remove(category.categoryId)
       .pipe(
         tap(() => this.getCategories()),
         catchError(err => {
