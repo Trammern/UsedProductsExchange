@@ -22,10 +22,5 @@
     <ProjectReference Include="..\UsedProductExchange.Infrastructure\UsedProductExchange.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\Images\Products" />
-    <Folder Include="Resources\Images\Users" />
-  </ItemGroup>
-
 
 </Project>

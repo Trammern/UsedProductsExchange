@@ -165,6 +165,8 @@ namespace UsedProductExchange.UI
             app.UseStaticFiles();
             
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"Resources"));  
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory() + "@Resources", "Images"));  
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory() + "@Resources/Images", "Products"));
             
             app.UseStaticFiles(new StaticFileOptions()
             {
