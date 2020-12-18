@@ -11,20 +11,22 @@
       </div>
     </div>
     <div class="mt-5 flex lg:mt-0 lg:ml-4" *ngIf="authenticationsService.userIsLoggedIn()">
-      <span class="sm:ml-3" *ngIf="chosenCategory$ | async as category else loading">
-        <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" [routerLink]="['/categories/edit', category.categoryId]">
-          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-          Edit Category
-        </button>
-      </span>
-      <span class="sm:ml-3">
-        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" routerLink="/categories/add">
-          <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Create
-        </button>
-      </span>
+      <div *ngIf="authenticationsService.getUser().isAdmin">
+        <span class="sm:ml-3" *ngIf="chosenCategory$ | async as category else loading">
+          <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" [routerLink]="['/categories/edit', category.categoryId]">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+            Edit Category
+          </button>
+        </span>
+        <span class="sm:ml-3">
+          <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" routerLink="/categories/add">
+            <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Create
+          </button>
+        </span>
+      </div>
     </div>
   </div>
   <div class="pt-8 flex">
@@ -60,7 +62,7 @@
           <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
             <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
               <div class="ml-4 mt-2">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">{{ product.name }}</h3>
+                <h3 class="text-lg leading-6 font-medium text-gray-900"><a [routerLink]="['/products/', product.productId]">{{ product.name }}</a></h3>
               </div>
             </div>
           </div>

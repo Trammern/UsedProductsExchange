@@ -81,4 +81,17 @@ export class CategoryEditComponent implements OnInit {
         this.router.navigateByUrl('categories');
       });
   }
+
+  deleteCategory(): void {
+    this.categoryService.remove(this.editCategoryForm.value.categoryId)
+      .pipe(
+        catchError(err => {
+          this.errString = err.error;
+          return err;
+        })
+      )
+      .subscribe(bid => {
+        this.router.navigateByUrl('/categories');
+      });
+  }
 }

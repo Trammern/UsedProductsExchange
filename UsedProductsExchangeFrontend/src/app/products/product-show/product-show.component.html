@@ -23,8 +23,10 @@
           <button *ngIf="product.userId == authenticationSerivce.getUser().userId || authenticationSerivce.getUser().isAdmin" [routerLink]="['/products/edit/', product.productId]" class="px-4 py-5 sm:px-6 h-8 mr-5 mt-6 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Edit
           </button>
+          <button *ngIf="product.userId == authenticationSerivce.getUser().userId || authenticationSerivce.getUser().isAdmin" (click)="deleteProduct(product)" class="px-4 py-5 sm:px-6 h-8 mr-5 mt-6 relative inline-flex items-center px-4 py-2 border border-red-700 shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Delete
+          </button>
         </div>
-
 
       </div>
 

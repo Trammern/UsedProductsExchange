@@ -79,4 +79,17 @@ export class ProductShowComponent implements OnInit {
         });
       });
   }
+
+  deleteProduct(product: Product): void {
+    this.productsService.remove(product.productId)
+      .pipe(
+        catchError(err => {
+          this.errormessage = err.error;
+          return err;
+        })
+      )
+      .subscribe(bid => {
+        this.router.navigateByUrl('/products');
+      });
+  }
 }

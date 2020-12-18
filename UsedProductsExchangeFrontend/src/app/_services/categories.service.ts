@@ -46,7 +46,7 @@ export class CategoriesService {
     return this.http.put<Category>(environment.apiUrl + '/categories/' + categoryUpdated.categoryId, categoryUpdated);
   }
 
-  Remove(id: number): Observable<Category> {
+  remove(id: number): Observable<Category> {
     // get categories from api
     return this.http.delete<Category>(environment.apiUrl + '/categories/' + id);
   }
