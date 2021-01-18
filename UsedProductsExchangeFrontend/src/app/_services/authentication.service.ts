@@ -72,12 +72,11 @@ export class AuthenticationService {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     // Check if there is a logged in user.
     if (currentUser) {
-      // tslint:disable-next-line:label-position no-shadowed-variable
       const user: User = currentUser.account;
       // There is a logged in user, so we return the requested username.
-      // tslint:disable-next-line:no-unused-expression
       return user;
-    } else {
+    }
+    else {
       // There is no logged in user, we return null.
       return null;
     }

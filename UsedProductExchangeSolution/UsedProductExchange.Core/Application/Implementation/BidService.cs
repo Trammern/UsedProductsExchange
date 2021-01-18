@@ -35,11 +35,16 @@ namespace UsedProductExchange.Core.Application.Implementation
             {
                 throw new ArgumentException("Invalid bid property: price");
             }
+            if (GetHighestBid(bid) != null && (int)bid.Price <= (int)GetHighestBid(bid).Price)
+            {
+                throw new InvalidOperationException("Bid is lower, or equal to, the current highest bid");
+            }
 
             if (bid.Price <= bid.Product.CurrentPrice)
             {
                 throw new InvalidOperationException("Bid is lower than the starting price");
             }
+
         }
         
         public FilteredList<Bid> GetAll(Filter.Filter filter)

@@ -66,7 +66,12 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = userid,
                 ProductId = productId,
                 Price = price,
-                CreatedAt = DateTime.Now.AddDays(1)
+                CreatedAt = DateTime.Now.AddDays(1),
+                Product = new Product()
+                {
+                    Name = "test"
+                }
+                
             };
 
             var bs = new BidService(_repoMock.Object);
@@ -247,7 +252,11 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = userid,
                 ProductId = productId,
                 Price = price,
-                CreatedAt = DateTime.Now.AddDays(1)
+                CreatedAt = DateTime.Now.AddDays(1),
+                Product = new Product()
+                {
+                    Name = "test"
+                }
             };
 
             var bs = new BidService(_repoMock.Object);
@@ -271,7 +280,11 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 ProductId = 1,
                 Price = 1020,
-                CreatedAt = DateTime.Now.AddDays(1)
+                CreatedAt = DateTime.Now.AddDays(1),
+                Product = new Product()
+                {
+                    Name = "test"
+                }
             };
 
             var bs = new BidService(_repoMock.Object);
@@ -297,7 +310,11 @@ namespace UsedProductExchange.XUnitTestProject
                 UserId = 1,
                 ProductId = 1,
                 Price = 1020,
-                CreatedAt = DateTime.Now.AddDays(1)
+                CreatedAt = DateTime.Now.AddDays(1),
+                Product = new Product()
+                {
+                    Name = "test"
+                }
             };
             var bs = new BidService(_repoMock.Object);
 
