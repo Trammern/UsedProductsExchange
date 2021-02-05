@@ -3,12 +3,12 @@ pipeline {
 	stages {
 		stage("Build") {
 			steps {
-				sh "dotnet build UsedProductExchangeSolution/UsedProductExchange.XUnitTestProject/UsedProductExchange.XUnitTestProject.csproj"
+				sh "dotnet build UsedProductExchangeSolution/UsedProductExchangeSolution.sln"
 			}
 		}
 		stage("Test"){
 			steps {
-				sh "dotnet test UsedProductExchangeSolution/UsedProductExchange.XUnitTestProject/UsedProductExchange.XUnitTestProject.csproj"
+				sh "dotnet test UsedProductExchangeSolution/UsedProductExchange.XUnitTestProject"
 			}
 		}
 	}
