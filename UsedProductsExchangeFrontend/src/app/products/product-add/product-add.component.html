@@ -1,0 +1,88 @@
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen pt-5">
+  <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()" class="space-y-8 divide-y divide-gray-200">
+    <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+      <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+        <div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Add a new Product
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            Please add a new product.
+          </p>
+        </div>
+        <div class="space-y-6 sm:space-y-5">
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+              Name
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <input type="text" formControlName="name" id="name" autocomplete="name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+            </div>
+          </div>
+          <br>
+        </div>
+
+        <app-upload [folder]="'Products'" (onUploadFinished)="uploadFinished($event)"></app-upload>
+
+        <div class="space-y-6 sm:space-y-5">
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+              Expiration
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <input type="datetime-local" id="start" formControlName="expiration"
+                     value="2020-12-10"
+                     min="2020-01-01"
+                     class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                     required>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #loading>
+          <p>Loading data...</p>
+        </ng-template>
+
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5" *ngIf="listData$ | async else loading">
+          <label for="category" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Category
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <select id="category" formControlName="categoryId" class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md" required>
+              <option [defaultSelected]="categories[0].categoryId == category.categoryId" *ngFor="let category of categories" value="{{ category.categoryId }}">{{ category.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            Price
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input type="text" formControlName="price" id="price" autocomplete="price" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+          </div>
+        </div>
+
+        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+          <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            About
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <textarea id="about" formControlName="description" rows="3" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"></textarea>
+            <p class="mt-2 text-sm text-gray-500">Write a few sentences about your product.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pt-5">
+      <div class="flex justify-end">
+        <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Save
+        </button>
+      </div>
+    </div>
+    <div *ngIf="errormessage" class="alert-danger">{{errormessage}}</div>
+  </form>
+</div>

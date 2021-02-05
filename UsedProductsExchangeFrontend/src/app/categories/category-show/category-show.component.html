@@ -1,0 +1,92 @@
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
+  <div class="lg:flex lg:items-center lg:justify-between pt-8 px-5">
+    <div class="flex-1 min-w-0" *ngIf="chosenCategory$ | async as category else loading">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">{{ category.name | titlecase }}</h2>
+      <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+        <div class="mt-2 flex items-center text-sm text-gray-500">
+          <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          <div *ngIf="category.products.length >= 2 || category.products.length == 0">This category contains {{ category.products.length }} products for sale</div>
+          <div *ngIf="category.products.length == 1">This category contains {{ category.products.length }} product for sale</div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5 flex lg:mt-0 lg:ml-4" *ngIf="authenticationsService.userIsLoggedIn()">
+      <div *ngIf="authenticationsService.getUser().isAdmin">
+        <span class="sm:ml-3" *ngIf="chosenCategory$ | async as category else loading">
+          <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" [routerLink]="['/categories/edit', category.categoryId]">
+            <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+            Edit Category
+          </button>
+        </span>
+        <span class="sm:ml-3">
+          <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" routerLink="/categories/add">
+            <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Create
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="pt-8 flex">
+    <div class="w-64">
+      <nav class="space-y-1" aria-label="Sidebar">
+        <div *ngIf="!err">
+          <label for="search" class="mt-2 block text-sm font-medium text-gray-700">Search</label>
+          <div class="my-1" [formGroup]="filterForm">
+            <input formControlName="searchText" type="text" name="search" id="search" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+          </div>
+          <div [formGroup]="filterForm">
+            <div *ngIf="listData$ | async else loading">
+              <a [routerLink]="['/categories', category.categoryId]" class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50" *ngFor="let category of categories">
+                <svg class="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <span class="truncate"> {{ category.name }} </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="err">
+          {{err.error != undefined ? err.error : err.message}}
+        </div>
+        <ng-template #loading>
+          <p>Loading data...</p>
+        </ng-template>
+      </nav>
+    </div>
+    <div class="w-full pl-5" *ngIf="chosenCategory$ | async as category else loading">
+      <div class="max-w-none mx-auto pb-5" *ngFor="let product of category.products">
+        <div class="bg-white overflow-hidden sm:rounded-lg sm:shadow">
+          <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+            <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+              <div class="ml-4 mt-2">
+                <h3 class="text-lg leading-6 font-medium text-gray-900"><a [routerLink]="['/products/', product.productId]">{{ product.name }}</a></h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="pl-5 pt-5 opacity-75">{{ product.description }}</div>
+
+          <div class="pl-5 pt-5 text-sm">Bids:</div>
+
+          <ul class="divide-y divide-gray-300 opacity-50" aria-disabled="true">
+            <li *ngFor="let bid of product.bids">
+              <a href="#" class="block hover:bg-gray-50">
+                <div class="px-4 py-4 sm:px-6">
+                  <div class="flex items-center justify-between pt-2">
+                    <div class="text-sm font-medium text-indigo-600 truncate">{{ bid.user.name }}</div>
+                    <div class="ml-2 flex-shrink-0 flex">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"> {{ bid.price }} DKK</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

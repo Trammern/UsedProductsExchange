@@ -1,0 +1,155 @@
+<ng-template #loading>
+  <p>Loading data...</p>
+</ng-template>
+
+
+
+<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen flex pt-10" *ngIf="chosenProduct$ | async as product else loading">
+  <div class="flex-auto w-2/6">
+    <img [src]="createImgPath(product.pictureUrl)" alt="Product Image" class="w-11/12">
+  </div>
+  <div class="flex-auto w-4/6">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="flex">
+        <div class="px-4 py-5 sm:px-6 flex-auto">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            Product Information
+          </h3>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            Details about this product
+          </p>
+        </div>
+        <div *ngIf="authenticationSerivce.userIsLoggedIn()">
+          <button *ngIf="product.userId == authenticationSerivce.getUser().userId || authenticationSerivce.getUser().isAdmin" [routerLink]="['/products/edit/', product.productId]" class="px-4 py-5 sm:px-6 h-8 mr-5 mt-6 relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Edit
+          </button>
+          <button *ngIf="product.userId == authenticationSerivce.getUser().userId || authenticationSerivce.getUser().isAdmin" (click)="deleteProduct(product)" class="px-4 py-5 sm:px-6 h-8 mr-5 mt-6 relative inline-flex items-center px-4 py-2 border border-red-700 shadow-sm text-sm font-medium rounded-md text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Delete
+          </button>
+        </div>
+
+      </div>
+
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="sm:divide-y sm:divide-gray-200">
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              Name
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ product.name }}
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              Category
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <a [routerLink]="['/categories/', product.categoryId]">
+                {{ product.category.name }}
+              </a>
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              Seller
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <a [routerLink]="['/user', product.user.userId]" class="flex-shrink-0 group block">
+                <div class="flex items-center">
+                  <div>
+                    <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      {{ product.user.name }}
+                    </p>
+                    <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                      View profile
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              Current Highest Bid
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                {{ formatCurrency(product.currentPrice, 'en', '$') }}
+              </span>
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              About
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ product.description }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+
+    <div class="flex pt-4">
+      <div class="flex-auto w-1/2">
+        <div *ngIf="authenticationSerivce.userIsLoggedIn()">
+          <div class="h-64 bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 mr-2" *ngIf="product.userId !== authenticationSerivce.getUser().userId">
+            <div class="px-4 py-5 sm:px-6">
+              <h2>Place a bid</h2>
+            </div>
+            <div class="px-4">
+              <form class="pt-4" [formGroup]="addBidForm" (ngSubmit)="placeBid()">
+                <label for="bidPrice" class="block text-sm font-medium text-gray-700 pb-1">How much do you want to bid?</label>
+                <input type="number" formControlName="price" id="bidPrice" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md w-1/2">
+                <div class="pb-2"></div>
+                <button class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" type="submit" [disabled]="product.userId == authenticationSerivce.getUser().userId">
+                  Place bid
+                </button>
+                <p class="pt-2 text-red-500">{{ errormessage }}</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-auto w-1/2 bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 ml-2">
+        <div class="px-4 py-5 sm:px-6">
+          <h2>Bids</h2>
+        </div>
+        <div class="px-4">
+          <ul class="divide-y divide-gray-200 pt-2 overflow-y-auto h-40 pr-2">
+            <p class="py-2" *ngIf="product.bids.length == 0">There are no bids</p>
+            <li class="py-4 flex justify-between" *ngFor="let bid of product.bids" [routerLink]="['/user/', bid.userId]">
+              <div class="flex">
+                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="">
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                    {{ bid.user.name }}
+                  </p>
+                  <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                    View profile
+                  </p>
+                </div>
+              </div>
+              <div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                  {{ formatCurrency(bid.price, 'en', '$') }}
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+

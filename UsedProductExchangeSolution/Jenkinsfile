@@ -1,0 +1,18 @@
+pipeline {
+	agent any
+	trigger {
+		cron("* */1 * * *") //Make it build every hour
+	}
+	stages {
+		stage("Build") {
+			steps {
+				sh "dotnet build UsedProductExchangeBackend/UsedProductExchangeSolution.sln"
+			}
+		}
+		stage("Test"){
+			steps {
+				sh "dotnet test UsedProductExchangeBackend/UsedProductExchangeSolution.sln"
+			}
+		}
+	}
+}

@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "UsedProductsExchangeFrontend"
+  "defaultProject": "UsedProductsExchangeFrontend",
+  "cli": {
+    "analytics": false
+  }
 }

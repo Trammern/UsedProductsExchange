@@ -460,3 +460,16 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,webstorm
+*.db
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/workspace.xml
+.DS_Store
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/codeStyles/codeStyleConfig.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/contentModel.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/encodings.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/indexLayout.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/modules.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/projectSettingsUpdater.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/.idea/vcs.xml
+UsedProductExchangeSolution/.idea/.idea.UsedProductExchangeSolution/riderModule.iml
+.DS_Store
+UsedProductsExchangeFrontend/src/environments/environment.ts
