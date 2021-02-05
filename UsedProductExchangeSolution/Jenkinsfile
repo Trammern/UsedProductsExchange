@@ -8,7 +8,7 @@ pipeline {
 		}
 		stage("Test"){
 			steps {
-				sh "dotnet test UsedProductExchangeSolution/UsedProductExchangeSolution.sln"
+				sh "dotnet test UsedProductExchangeSolution/UsedProductExchange.XUnitTestProject/UsedProductExchange.XUnitTestProject.csproj"
 			}
 		}
 	}
