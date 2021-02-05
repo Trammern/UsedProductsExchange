@@ -1,7 +1,7 @@
 pipeline {
 	agent any
 	trigger {
-		cron("* */1 * * *") //Make it build every hour
+		cron("* */1 * * *")
 	}
 	stages {
 		stage("Build") {
